@@ -21,6 +21,7 @@ corner==2.2.1
 coverage==6.4.1
 cryptography==37.0.2
 cycler==0.11.0
+data==0.4
 debugpy==1.6.0
 decorator==5.1.1
 defusedxml==0.7.1
@@ -32,6 +33,7 @@ executing==0.8.3
 extension-helpers==1.0.0
 fastjsonschema==2.15.3
 fonttools==4.33.3
+funcsigs==1.0.2
 future==0.18.2
 h5py==3.7.0
 html5lib==1.1
@@ -55,6 +57,7 @@ jupyterlab-pygments==0.2.2
 jupyterlab-widgets==1.1.0
 keyring==23.5.1
 kiwisolver==1.4.2
+latex==0.7.0
 llvmlite==0.38.1
 MarkupSafe==2.1.1
 matplotlib==3.5.2
@@ -80,6 +83,7 @@ pexpect==4.8.0
 pickleshare==0.7.5
 Pillow==9.1.1
 pluggy==1.0.0
+progressbar==2.5
 prometheus-client==0.14.1
 prompt-toolkit==3.0.29
 psutil==5.9.1
@@ -105,12 +109,14 @@ requests==2.27.1
 scipy==1.8.1
 SecretStorage==3.3.2
 Send2Trash==1.8.0
+shutilwhich==1.1.0
 six==1.16.0
 soupsieve==2.3.2.post1
 speclite==0.15
 stack-data==0.2.0
 statsmodels==0.13.2
 tables==3.7.0
+tempdir==0.7.1
 Tempita==0.5.2
 terminado==0.15.0
 threeML==2.3.0
