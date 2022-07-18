@@ -202,7 +202,11 @@ class IntegralQuery:
         if not return_coordinates:
             return new_table["SCW_ID"].to_numpy()
         else:
-            return new_table[["SCW_ID","RA_X","DEC_X","START_DATE"]].to_numpy() #############################################################
+            # print(type(new_table["START_DATE"].iloc[1]))
+            # new_table["START_DATE"] = new_table["START_DATE"].dt.to_pydatetime() ################################################
+            # print(type(new_table["START_DATE"].iloc[1]))
+            return np.concatenate((new_table[["SCW_ID","RA_X","DEC_X"]].to_numpy(), 
+                                   np.array([new_table["START_DATE"].dt.to_pydatetime()]).T), axis=1) #############################################################
     
     @property
     def table(self):
