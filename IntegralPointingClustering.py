@@ -6,11 +6,12 @@ import astropy.units as u
 from astropy.coordinates import SkyCoord, SkyOffsetFrame
 from datetime import datetime
 from numba import njit
+from time import time
 
 
 
 @njit
-def calculate_distance_matrix(quick_list, angle_weight, time_weight, max_distance):
+def calculate_distance_matrix(quick_list, angle_weight, time_weight, max_distance, min_ang_distance):
     l = len(quick_list)
     distances = np.full((l,l), 2*max_distance)
     
@@ -25,17 +26,20 @@ def calculate_distance_matrix(quick_list, angle_weight, time_weight, max_distanc
 
             for k in range(j+1, partitions[i+1]):
                 distances[j,k] = distances[k,j] = calculate_distance(quick_list[j],quick_list[k],
-                                                                     angle_weight,time_weight)
+                                                                     angle_weight,time_weight,
+                                                                     min_ang_distance, max_distance)
                 
     np.fill_diagonal(distances,0.)
             
     return np.array(partitions), distances
 
 @njit
-def calculate_distance(point1, point2, angle_weight, time_weight): #include minimum distance ################################################
+def calculate_distance(point1, point2, angle_weight, time_weight, min_ang_distance, max_distance):
     ang_dis = np.arccos( np.clip(np.array([np.sin(point1[1])*np.sin(point2[1]) 
                                            + np.cos(point1[1])*np.cos(point2[1]) 
                                            * np.cos(point1[0] - point2[0])]), -1., 1.) )[0]
+    if ang_dis < min_ang_distance:
+        return 2.*max_distance
     time_dis = abs(point1[2] - point2[2])
     return ( (angle_weight*ang_dis)**2 + (time_weight*time_dis)**2 )**0.5
 
@@ -91,7 +95,7 @@ class Cluster:
         if self.num_pointings < self.query._cluster_size_range[1]:
             if self.find_new_max_dist(pointing) < self.query._max_distance:
                 if self.num_pointings >= self.query._cluster_size_range[0]:
-                    if (self.calc_new_avg_dist(pointing)/self.avg_distance ################## make sigmoid? why make sigmoid?
+                    if (self.calc_new_avg_dist(pointing)/self.avg_distance
                         < self.query._cluster_size_preference_threshold[self.num_pointings
                                                                         - self.query._cluster_size_range[0]]):
                         return True
@@ -99,12 +103,8 @@ class Cluster:
                     return True
         return False
     
-        
-    def dissolve_cluster(self): ################################
-        for p in self.pointings:
-            p.cluster = None
             
-    def finalize_cluster(self): #######################################
+    def finalize_cluster(self):
         for p in self.pointings:
             p.cluster = self
             
@@ -137,9 +137,9 @@ class Pointing:
     cluster: Cluster = None
     # delete unnecessary clusters and regions ##############################################
     
-    def distance_calculator(self, pointing2, angle_weight: float, time_weight: float): #####################################################
-        return ( (angle_weight * self.sky_coords.separation(pointing2.sky_coords).deg)**2
-                + (time_weight * abs( (self.start_time - pointing2.start_time).total_seconds()/86400 ) )**2 )**0.5
+    # def distance_calculator(self, pointing2, angle_weight: float, time_weight: float): #####################################################
+    #     return ( (angle_weight * self.sky_coords.separation(pointing2.sky_coords).deg)**2
+    #             + (time_weight * abs( (self.start_time - pointing2.start_time).total_seconds()/86400 ) )**2 )**0.5
         
     def angle_between_three_pointings(self, pointing2, pointing3, angle_weight, time_weight):
         origin = SkyCoord(self.sky_coords.ra.deg, (self.sky_coords.dec.deg%180.)-90., frame="icrs",unit="deg")
@@ -171,6 +171,7 @@ class ClusteredQuery:
                  angle_weight,
                  time_weight,
                  max_distance,
+                 min_ang_distance = 0.2,
                  cluster_size_range = (3,5),
                  cluster_size_preference_threshold = (5.,5.),
                  failed_improvements_max = 4,
@@ -186,6 +187,7 @@ class ClusteredQuery:
         self._angle_weight = float(angle_weight)
         self._time_weight = float(time_weight)
         self._max_distance = float(max_distance)
+        self._min_ang_distance = float(min_ang_distance)
         self._cluster_size_range = cluster_size_range
         self._cluster_size_preference_threshold = cluster_size_preference_threshold
         self._failed_improvements_max = failed_improvements_max
@@ -196,6 +198,7 @@ class ClusteredQuery:
         
         self._track_performance = track_performance
         if self._track_performance:
+            start_time = time()
             self._region_sizes = {}
             self._initial_cluster_sizes = self.initialize_size_dictionary()
             self._cluster_sizes = self.initialize_size_dictionary()
@@ -205,15 +208,20 @@ class ClusteredQuery:
             self._attempted_improvements = 0
             self._implemented_improvements = 0
             self._dead_ends = 0
-            
-            
+        
         
         quick_list = np.zeros((self._num_pointings, 3))
         quick_list[:,0:2] = scw_ids[:,1:3]
+        quick_list[:,0:2] = np.deg2rad(quick_list[:,0:2])
         for i in range(self._num_pointings):
             quick_list[i,2] = (scw_ids[i,3] - datetime(2000,1,1,0,0,0)).total_seconds()/86400
+        
+        # #####
+        # self.ql = quick_list
+        # ######    
             
-        partitions, self._distances = calculate_distance_matrix(quick_list, angle_weight, time_weight, self._max_distance)
+        partitions, self._distances = calculate_distance_matrix(quick_list, np.rad2deg(angle_weight), time_weight, 
+                                                                self._max_distance, np.deg2rad(self._min_ang_distance))
                 
         self._region_indices = find_regions(self._distances, self._max_distance, partitions)
         
@@ -223,7 +231,6 @@ class ClusteredQuery:
                                     for index, pointing in enumerate(scw_ids)])
         
         self.clusters = self.initialize_size_dictionary()
-        
         
         for i in self._region_indices:
             Region(i, self)
@@ -238,26 +245,30 @@ class ClusteredQuery:
                 for cluster in clusters:
                     self._cluster_sizes[cluster.num_pointings] += 1
             
-        print()
-        print("All Done")
-        clustered = set()
-        n = 0
+        # print()
+        # print("All Done")
+        # clustered = set()
+        # n = 0
         
-        for key, value in self.clusters.items():
-            for c in value:
-                print(f"{c.indices}, {c.avg_distance}")
-                clustered = clustered | set(c.indices)
-                n += c.num_pointings
+        # for key, value in self.clusters.items():
+        #     for c in value:
+        #         print(f"{c.indices}, {c.avg_distance}")
+        #         clustered = clustered | set(c.indices)
+        #         n += c.num_pointings
                 
-        missing = [i for i in range(self._num_pointings) if i not in clustered]
-        print()
-        print(missing)
-        print(self._num_pointings, n)
+        # missing = [i for i in range(self._num_pointings) if i not in clustered]
+        # print()
+        # print(missing)
+        # print(self._num_pointings, n)
         
         if self._track_performance:
+            end_time = time()
             print()
             print()
             print("Performance Review!")
+            print()
+            print("Rune Time:")
+            print(end_time - start_time)
             print()
             print("Region Sizes:")
             print(self._region_sizes)
@@ -302,8 +313,9 @@ class Region:
         self.potential_clusters1 = self.query.initialize_size_dictionary()
         self.potential_clusters2 = self.query.initialize_size_dictionary()
             
-
-        
+        # print()
+        # print("Initial Clustering!")
+        # print()
         self.initial_clustering()
         
         if self.query._track_performance:
@@ -311,9 +323,9 @@ class Region:
                 for cluster in clusters:
                     self.query._initial_cluster_sizes[cluster.num_pointings] += 1
         
-        for key, value in self.clusters.items():
-            for c in value:
-                print(f"{c.indices}, {c.avg_distance}")
+        # for key, value in self.clusters.items():
+        #     for c in value:
+        #         print(f"{c.indices}, {c.avg_distance}")
         
         
         failed_improvements = 0
@@ -330,33 +342,46 @@ class Region:
         for size, clusters in self.clusters.items():
             self.query.clusters[size].extend(clusters)
         
-        print()
-        print()
-        print()
-        print("Finishing Region!")
-        print()
-        print()
-        print()
+        # print()
+        # print()
+        # print()
+        # print("Finishing Region!")
+        # print()
+        # print()
+        # print()
                 
         
         
     
-    def initial_clustering(self): ################## also check following pointings
-        cluster = Cluster(self.query._pointings[self.indices[0]], self.query)
-        for index in self.indices[1:]:
-            if cluster.should_add_pointing(self.query._pointings[index]):
-                cluster.add_pointing(self.query._pointings[index])
-            else:
+    def initial_clustering(self):
+        for position, index in enumerate(self.indices):
+            if self.query._pointings[index].cluster is None:
+                # print()
+                # print(f"New Cluster: {position}, {index}")
+                cluster = Cluster(self.query._pointings[index], self.query)
+                self.add_following_pointings(cluster, position+1)
                 cluster.finalize_cluster()
                 self.clusters[cluster.num_pointings].append(cluster)
-                cluster = Cluster(self.query._pointings[index], self.query)
-        cluster.finalize_cluster()
-        self.clusters[cluster.num_pointings].append(cluster)
+                
+        
+    def add_following_pointings(self, cluster, position):
+        if cluster.num_pointings < self.query._cluster_size_range[1]:
+            for position2, index in enumerate(self.indices[position : position + 20*self.query._cluster_size_range[1]]):
+                if self.query._pointings[index].cluster is None:
+                    # print(f"Checking: {position+position2}, {index}")
+                    if cluster.should_add_pointing(self.query._pointings[index]):
+                        # print(f"Adding: {position+position2}, {index}")
+                        cluster.add_pointing(self.query._pointings[index])
+                        self.add_following_pointings(cluster, position+position2+1)
+                        break
+        
+        
+        
         
     def attempt_improvement(self):
-        print()
-        print("Attempting Improvement!")
-        print()
+        # print()
+        # print("Attempting Improvement!")
+        # print()
         c1 = self.find_suboptimal_cluster()
         c2 = self.find_close_suboptimal_cluster(c1)
         found_path, recluster_indices = self.find_cluster_path(c1,c2)
@@ -364,41 +389,40 @@ class Region:
             return False
         else:
             self.recluster_pointings(recluster_indices, c1)
-        print()
-        print("Done!")
-        print()
-        for key, value in self.clusters.items():
-            for c in value:
-                print(f"{c.indices}, {c.avg_distance}")
-        print()
-        for key, value in self.potential_clusters1.items():
-            for c in value:
-                print(f"{c.indices}, {c.avg_distance}")
-        print()
-        for key, value in self.potential_clusters2.items():
-            for c in value:
-                print(f"{c.indices}, {c.avg_distance}")
+        # print()
+        # print("Done!")
+        # print()
+        # for key, value in self.clusters.items():
+        #     for c in value:
+        #         print(f"{c.indices}, {c.avg_distance}")
+        # print()
+        # for key, value in self.potential_clusters1.items():
+        #     for c in value:
+        #         print(f"{c.indices}, {c.avg_distance}")
+        # print()
+        # for key, value in self.potential_clusters2.items():
+        #     for c in value:
+        #         print(f"{c.indices}, {c.avg_distance}")
                 
-        print(f"Comparison: {self.calc_clustering_cost(self.potential_clusters1)}, {self.calc_clustering_cost(self.potential_clusters2)}")
+        # print(f"Comparison: {self.calc_clustering_cost(self.potential_clusters1)}, {self.calc_clustering_cost(self.potential_clusters2)}")
         if self.calc_clustering_cost(self.potential_clusters1) > self.calc_clustering_cost(self.potential_clusters2):
             self.implement(self.potential_clusters2, True)
-            print()
-            print("Implemented!")
-            for key, value in self.clusters.items():
-                for c in value:
-                    print(f"{c.indices}, {c.avg_distance}")
-            print()
+            # print()
+            # print("Implemented!")
+            # for key, value in self.clusters.items():
+            #     for c in value:
+            #         print(f"{c.indices}, {c.avg_distance}")
+            # print()
             return True
         else:
             self.implement(self.potential_clusters1, False)
-            print()
-            print("Rejected!")
-            for key, value in self.clusters.items():
-                for c in value:
-                    print(f"{c.indices}, {c.avg_distance}")
-            print()
+            # print()
+            # print("Rejected!")
+            # for key, value in self.clusters.items():
+            #     for c in value:
+            #         print(f"{c.indices}, {c.avg_distance}")
+            # print()
             return False
-            
         
     
     def find_suboptimal_cluster(self):
@@ -434,11 +458,8 @@ class Region:
         self.potential_clusters1[size].append(cluster2)
         return cluster2
         
-        
-        
-        
     
-    def find_cluster_path(self, cluster1, cluster2):
+    def find_cluster_path(self, cluster1, cluster2): #ignore minimum distance?
         indices_in = set(cluster1.indices)
         indices_to = set(cluster2.indices)
         arrived = False
@@ -446,10 +467,10 @@ class Region:
         
             indices_out = np.array([i for i in self.indices if i not in indices_in])
             pointing1, pointing2 = cluster1.find_closest_pointings(cluster2)
-            print(pointing1.index, pointing2.index)
+            # print(pointing1.index, pointing2.index, self.query._distances[pointing1.index, pointing2.index])
 
-            close_indices = self.find_closest_points(pointing1.index, indices_out, 4) #### use 3?
-            print(close_indices)
+            close_indices = self.find_closest_points(pointing1.index, indices_out, 5) #### use 3?
+            # print(close_indices)
             
             angle = np.vectorize(lambda p: pointing1.angle_between_three_pointings(pointing2, p, self.query._angle_weight,
                                                                                    self.query._time_weight))
@@ -459,17 +480,17 @@ class Region:
             distances_filtered = self.query._distances[pointing1.index, close_indices]
             
             close_indices_weights = ((distances_filtered < self.query._max_distance) 
-                                     * np.exp(-5. * distances_filtered / self.query._max_distance) ##### weights
+                                     * np.exp(-4. * distances_filtered / self.query._max_distance) ##### weights
                                      * np.cos(angles_filtered/2.)**8)
             
-            print(angles_filtered)
-            print(distances_filtered)
-            print(close_indices_weights)
+            # print(angles_filtered)
+            # print(distances_filtered)
+            # print(close_indices_weights)
             
             random_index = choose_random_weighted_interval(close_indices_weights)
             
             if (random_index is None) or (np.amax(np.cos(angles_filtered)) < 0.):
-                print("Cannot go forwards, or reached dead end!")
+                # print("Cannot go forwards, or reached dead end!")
                 self.implement(self.potential_clusters1, False)
                 if self.query._track_performance:
                     self.query._dead_ends += 1
@@ -492,59 +513,59 @@ class Region:
         
         index = start_cluster.indices[choose_random_weighted_interval( 
                                       np.exp(np.average(self.query._distances[start_cluster.indices,:][:,list(recluster_indices)], axis=1) ##### weights
-                                             * 5. / self.query._max_distance) )]
+                                             * 4. / self.query._max_distance) )]
         
         cluster = Cluster(self.query._pointings[index], self.query)
         already_clustered = {index}
         not_clustered = np.array([i for i in recluster_indices if i not in already_clustered])
         
-        print()
-        print("Recluster Pointings!")
+        # print()
+        # print("Recluster Pointings!")
         
         added_all_clusters = False
         while not_clustered.size != 0: # check case of only one left
-            print()
-            print("New Cluster!")
+            # print()
+            # print("New Cluster!")
 
             cluster_done = False
             
             while not cluster_done:
-                print()
-                print("Continue Cluster!")
-                print(index, cluster.indices)
-                print(already_clustered)
-                print(not_clustered)
+                # print()
+                # print("Continue Cluster!")
+                # print(index, cluster.indices)
+                # print(already_clustered)
+                # print(not_clustered)
                 
-                close_indices = self.find_closest_points(index, not_clustered, 3) ############# use 2?
+                close_indices = self.find_closest_points(index, not_clustered, 5) ############# use 2?
                 
                 internal_distances = np.average(self.query._distances[cluster.indices,:][:,close_indices], axis=0)
                 external_distances = np.average(self.query._distances[close_indices,:][:,close_indices], axis=0)
                 
-                close_indices_weights = np.exp( (5.*external_distances - 5.*internal_distances) / self.query._max_distance ) ##### weights
+                close_indices_weights = np.exp( (5.*external_distances - 4.*internal_distances) / self.query._max_distance ) ##### weights
                 
-                print(close_indices)
-                print(internal_distances)
-                print(external_distances)
-                print(close_indices_weights)
+                # print(close_indices)
+                # print(internal_distances)
+                # print(external_distances)
+                # print(close_indices_weights)
                 
                 added = False
                 while not added:
                     random_index = choose_random_weighted_interval(close_indices_weights)
-                    print(random_index)
+                    # print(random_index)
                     if random_index is None:
                         cluster_done = True
-                        print("Found None!")
+                        # print("Found None!")
                         break
                     
                     index = close_indices[random_index]
-                    print(index)
+                    # print(index)
                     if cluster.should_add_pointing(self.query._pointings[index]):
                         added = True
                         cluster.add_pointing(self.query._pointings[index])
                         already_clustered.add(index)
                         not_clustered = np.array([i for i in recluster_indices if i not in already_clustered])
                         
-                        print("Added!")
+                        # print("Added!")
                         
                         if cluster.num_pointings == self.query._cluster_size_range[1]:
                             cluster_done = True
@@ -562,7 +583,7 @@ class Region:
                 if cluster_done:
                     self.potential_clusters2[cluster.num_pointings].append(cluster)
                     
-                    weights = np.exp(4.*external_distances / self.query._max_distance)
+                    weights = np.exp(4.*external_distances / self.query._max_distance) ##### weights
                     if added:
                         weights[random_index] = 0.
                     index = close_indices[choose_random_weighted_interval(weights)]
@@ -577,20 +598,12 @@ class Region:
         if not added_all_clusters:
             self.potential_clusters2[cluster.num_pointings].append(cluster)
             
-            
-            
-            
-            
-            
-            
-            
         
     def find_closest_points(self, start_index, search_indices, number_multiplier):
         num_points = min(len(search_indices), self.query._cluster_size_range[1]*number_multiplier)
         sortable_pointings = [i for i in range(num_points)]
         distances = self.query._distances[start_index,search_indices]
         return search_indices[np.argpartition(distances, sortable_pointings)[:num_points]]
-
 
             
     def calc_clustering_cost(self, cluster_dict):
@@ -605,8 +618,7 @@ class Region:
                     avg_d += cluster.avg_distance
 
         return n + avg_d/n / self.query._max_distance
-        
-        
+    
     
     def has_suboptimal_clusters(self):
         s = 0
@@ -635,11 +647,9 @@ class Region:
         
 
 
-
-
 searchquerry = SearchQuery(object_name="Cyg X-1", resultmax=0)
 cat = IntegralQuery(searchquerry)
-f = Filter(SCW_TYPE="POINTING", SCW_VER=1)
+f = Filter(SCW_TYPE="POINTING")
 scw_ids = cat.apply_filter(f,True)
 
-test = ClusteredQuery(scw_ids, 1, 1, 2.8, track_performance=True)
+test = ClusteredQuery(scw_ids, 1/6, 1/15, 1, 0.3, track_performance=True)

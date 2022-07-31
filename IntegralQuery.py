@@ -26,13 +26,7 @@ def _to_print_dict(conf):
     else:
         for k, v in conf.items():
 
-            if not isinstance(v, dict):
-
-                text = f"{k}" ##############################################################################
-
-            else:
-
-                text = f"{k}"
+            text = f"{k}"
 
             out[text] = _to_print_dict(v)
 
@@ -174,7 +168,7 @@ class IntegralQuery:
         """
         self._table = self._table.sort_values(sortvar)
 
-    def apply_filter(self, filter_ob: Filter, return_coordinates=False) -> np.array:
+    def apply_filter(self, filter_ob: Filter, return_coordinates=False, remove_duplicates=True) -> np.array:
         """
         Apply a filter to the base table
         :param filter_ob: Filter Object with all the filter parameters
@@ -199,12 +193,19 @@ class IntegralQuery:
                             new_table = new_table[new_table[key]<=value["max_val"]]
                 else:
                     new_table = new_table[new_table[key]==value]
+                    
+        if remove_duplicates:
+            new_table = new_table.drop_duplicates("SCW_ID", keep="last")
+        
         if not return_coordinates:
             return new_table["SCW_ID"].to_numpy()
         else:
             # print(type(new_table["START_DATE"].iloc[1]))
             # new_table["START_DATE"] = new_table["START_DATE"].dt.to_pydatetime() ################################################
             # print(type(new_table["START_DATE"].iloc[1]))
+            
+            # new_table["START_DATE"] = (new_table["START_DATE"].dt.to_pydatetime() - datetime(2000,1,1,0,0,0)).total_seconds()/86400
+            # return new_table[["SCW_ID","RA_X","DEC_X","START_DATE"]]
             return np.concatenate((new_table[["SCW_ID","RA_X","DEC_X"]].to_numpy(), 
                                    np.array([new_table["START_DATE"].dt.to_pydatetime()]).T), axis=1) #############################################################
     
