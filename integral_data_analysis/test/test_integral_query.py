@@ -1,0 +1,1 @@
+from integral_data_analysis.IntegralQuery import Range
