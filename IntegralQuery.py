@@ -82,8 +82,8 @@ class SearchQuery(BaseDataClass):
     Dataclass to handle the inital search query parameters
     """
     object_name: Union[str, None] = None
-    position: Union[str, None] = None
-    radius: Union[int, None] = None
+    position: Union[SkyCoord, None] = None
+    radius: Union[float, str, None] = None
     mission: Union[str, None] = "integral_rev3_scw"
     sortvar: Union[str, None] = "START_DATE"
     resultmax: Union[int, None] = 0
@@ -152,7 +152,7 @@ class IntegralQuery:
             with warnings.catch_warnings():
                 warnings.simplefilter("ignore")
                 self._table[c].loc[mask] = 0
-            self._table[c] = self._table[c].astype(float) ####################################################################
+            self._table[c] = self._table[c].astype(float)
             
         for c in string_columns:
             self._table[c] = self._table[c].str.strip()
@@ -200,14 +200,8 @@ class IntegralQuery:
         if not return_coordinates:
             return new_table["SCW_ID"].to_numpy()
         else:
-            # print(type(new_table["START_DATE"].iloc[1]))
-            # new_table["START_DATE"] = new_table["START_DATE"].dt.to_pydatetime() ################################################
-            # print(type(new_table["START_DATE"].iloc[1]))
-            
-            # new_table["START_DATE"] = (new_table["START_DATE"].dt.to_pydatetime() - datetime(2000,1,1,0,0,0)).total_seconds()/86400
-            # return new_table[["SCW_ID","RA_X","DEC_X","START_DATE"]]
             return np.concatenate((new_table[["SCW_ID","RA_X","DEC_X"]].to_numpy(), 
-                                   np.array([new_table["START_DATE"].dt.to_pydatetime()]).T), axis=1) #############################################################
+                                   np.array([new_table["START_DATE"].dt.to_pydatetime()]).T), axis=1)
     
     @property
     def table(self):
