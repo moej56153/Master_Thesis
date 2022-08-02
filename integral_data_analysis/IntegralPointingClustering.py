@@ -7,6 +7,10 @@ from numba import njit
 from time import time
 
 
+    
+def a():
+    return np.random.randint(1000)
+
 @njit
 def calculate_distance_matrix(quick_list, 
                               angle_weight, 
@@ -753,7 +757,3 @@ class Region:
             self.clusters[size].extend(clusters)
         self.potential_clusters1 = self.query.initialize_size_dictionary()
         self.potential_clusters2 = self.query.initialize_size_dictionary()
-
-    
-def seed_test():
-    return np.random.randint(1000)
