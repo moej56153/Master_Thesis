@@ -753,3 +753,7 @@ class Region:
             self.clusters[size].extend(clusters)
         self.potential_clusters1 = self.query.initialize_size_dictionary()
         self.potential_clusters2 = self.query.initialize_size_dictionary()
+
+    
+def seed_test():
+    return np.random.randint(1000)
