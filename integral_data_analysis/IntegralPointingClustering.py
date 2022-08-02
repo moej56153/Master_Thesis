@@ -7,10 +7,6 @@ from numba import njit
 from time import time
 
 
-    
-def a():
-    return np.random.randint(1000)
-
 @njit
 def calculate_distance_matrix(quick_list, 
                               angle_weight, 
@@ -44,8 +40,8 @@ def calculate_distance_matrix(quick_list,
 
 @njit
 def calculate_distance(point1, point2, angle_weight, time_weight, min_ang_distance, max_distance):
-    ang_dis = np.arccos( np.clip(np.array([np.sin(point1[1])*np.sin(point2[1]) 
-                                           + np.cos(point1[1])*np.cos(point2[1]) 
+    ang_dis = np.arccos( np.clip(np.array([np.sin(point1[1]) * np.sin(point2[1]) 
+                                           + np.cos(point1[1]) * np.cos(point2[1]) 
                                            * np.cos(point1[0] - point2[0])]),
                                  -1., 1.) )[0]
     
@@ -79,7 +75,6 @@ def find_regions(distances, max_distance, partitions):
             
     return regions
 
-@njit
 def choose_random_weighted_interval(weights):
     r = np.random.random(1)[0] * np.sum(weights)
     s = 0.
@@ -89,7 +84,6 @@ def choose_random_weighted_interval(weights):
             return i
     return None
         
-@njit
 def calc_pair_combinations(number):
     return (number)*(number-1)/2
     
@@ -170,8 +164,8 @@ class Pointing:
                                       angle_weight: float, 
                                       time_weight: float
                                       ) -> float:
-        """Returns the angle between three different poitings. Can be thought of as
-        how much pointing2 is on the way between p and pointing3
+        """Returns the angle between three different poitings
+        Angle between the vector self -> poiting2 and vector self -> pointing3
         """
         
         origin = SkyCoord(self.sky_coords.ra.deg, (self.sky_coords.dec.deg%180.)-90., frame="icrs",unit="deg")
@@ -444,7 +438,7 @@ class Region:
                 
         
     def add_following_pointings(self, cluster: Cluster, position: int):
-        "Called by initial_clustering, tries to add succesive Pointings to Cluster"
+        """Called by initial_clustering, tries to add succesive Pointings to Cluster"""
         if cluster.num_pointings < self.query._cluster_size_range[1]:
             
             # Performance may be optimized via this value
