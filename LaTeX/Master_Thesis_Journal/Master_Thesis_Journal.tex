@@ -1,0 +1,143 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\parindent=0pt
+\usepackage[a4paper, total={175mm, 252mm}]{geometry}
+\usepackage[section]{placeins}
+\usepackage{enumitem}
+\usepackage{caption}
+
+\title{Master Thesis Journal}
+\author{Möller, Julius}
+\date{July 2022}
+
+\begin{document}
+
+\maketitle
+
+
+\tableofcontents
+
+\pagebreak
+
+
+\section{INTEGRAL Query}
+
+The first step is to write a class capable of taking retrieving a list of all INTEGRAL pointings observing any given
+astronomical object or sky coordinates. Additionally it should be able to filter said list of pointings according to
+relevant parameters, such as the start and end times, coordinates, science window version and type, and various other
+parameters. The implementation of this class did not require any sophisticated algorithms, and as such will not be
+discussed further.
+
+
+\section{INTEGRAL Pointing Clustering}
+
+The fundamental idea of this project is the following: the INTEGRAL background event rates per detector per energy bin
+is assumed to be constant between sufficiently close (in terms of time and orientation) pointings, and can thus be
+determined analytically for bunches of several pointings via maximum likelihood calculations. This finally allows us to
+apply Bayesian inference fits to determine source parameters. Since these fits are done on each cluster of pointings,
+it is pivotal to write an algorithm that clusters a list of INTEGRAL pointings under the following conditions:
+\begin{itemize} \label{list:conditions}
+    \item The angular distance between pointing orientations should not exceed a predetermined value within each
+    cluster.
+    \item The angular distance between pointing orientations should be higher than a predetermined value within each
+    cluster. Many successive INTEGRAL pointings have nearly identical sky orientations, for which the coded mask
+    produces nearly identical patterns; meaning that the above described method of eliminating the background parameter
+    in the fits would not work. Hence a minimum angular distance within each cluster is necessary.
+    \item The temporal distance between pointings should not exceed a predetermined value within each cluster.
+    \item The number number of pointings in each cluster should be within some predetermined range of cluster sizes.
+    Depending on the given list of pointings, clusters with fewer pointings than the preferred range may be
+    unavoidable, but clusters with more pointings than the preferred range can definitely be avoided. A simple
+    mechanism to encourage this is to minimize the total number of clusters, while never exceeding the maximum cluster
+    size.
+    \item The pointings should be as close as possible in order to justify the assumption that background rates are
+    constant. Hence the average effective distance (composed of temporal and angular distance) between pointings should
+    be minimized.
+\end{itemize}
+
+Clustering points in space together is a common problem in computer science, hence many sophisticated algorithms exist
+to do so. However, the above listed conditions are rather unique, and I could not find any established clustering
+algorithms that would satisfy them. The common sentiment for clustering algorithms is that there is no such thing as
+the perfect clustering algorithm; instead the performance of the algorithm depends on how well it is suited to the type
+of distributions found in the data. In our data, the pointings are distributed in three-dimensional space (one time and
+two angular coordinates). However, they are not distributed randomly; instead the sky coordinates of INTEGRAL are
+adjusted slowly as time progresses. Hence the data are distributed along a line through the time dimension, rather than
+randomly distributed in the 3D space. With that in mind, the following clustering algorithm was developed:
+
+\begin{enumerate}
+    \item Given some list of pointings looking at an astronomical object, it is quite likely that INTEGRAL spends some
+    time looking in the general direction, and then spends a lot of time looking at entirely different sections of the
+    sky before returning to the astronomical object. Pointings with large temporal distances will never be clustered
+    together, so the run-time of the algorithm can be reduced significantly by splitting the entire query of pointings
+    into smaller, disconnected regions, so that the effective distance between any two pointings from different regions
+    is larger than the predetermined maximum effective distance. However, in order to split the pointings into
+    disconnected regions, the effective distance between any pair of pointings needs to be calculated. Given N
+    pointings in our query, this requires computing an N by N matrix, which is computationally very expensive for large
+    N. To improve this, the pointings are first split into preliminary regions, such that the temporal distance between
+    any two temporally successive pointings in a preliminary region does not exceed the maximum effective distance.
+    \item Now that we have reduced our large query into several smaller preliminary regions, we can compute the
+    distance matrix for each preliminary region. Hence we have computed the distance matrix for any pair of pointings,
+    except that we have only actually computed the distance for any relevant pair of pointings, and setting the value
+    for pointings in different preliminary regions to some value higher than the maximum effective distance.
+    \item While our preliminary regions are a good start, it is entirely possible that these are composed of several
+    actual regions; i.e. that a preliminary regions contains several regions of entirely disconnected pointings, where
+    the effective distance between any pair of pointings from different regions is larger than the maximum effective
+    distance. Since we have already computed the distance matrix for pointings within preliminary regions, we can use
+    the following algorithm to split these into actual regions:
+    \begin{enumerate}
+        \item \label{itm: region1} Start with some point in the preliminary region, and assign it to a new region while
+        removing it from the preliminary region.
+        \item \label{itm: region2} Go through the distance matrix, and add any point with a distance smaller than the
+        effective distance to the region, and remove said point from the preliminary region.
+        \item Repeat the step \ref{itm: region2} for every pointing added to the region in the previous step.
+        \item \label{itm: region4} If there are no more pointings to add to the region, repeat from step \ref{itm:
+        region1} until the preliminary region is empty.
+        \item Repeat steps \ref{itm: region1} to \ref{itm: region4} for all preliminary clusters.
+    \end{enumerate}
+    \item Now that have split the query into regions, we can cluster each region independently. This is done using the
+    following algorithm:
+    \begin{enumerate}
+        \item First we need create an initial clustering, for which we can take advantage of the fact the the pointings
+        are distributed along a temporal line in the 3D parameter space by iterating of the pointings in each regions
+        according to the start date:
+        \begin{enumerate}
+            \item \label{itm: initial clustering 1}Create a cluster from the first un-clustered pointing.
+            \item \label{itm: initial clustering 2} Iterate over some predetermined number of temporally successive
+            pointings:
+            \begin{enumerate}
+                \item If the pointing can be added to the cluster without breaking the listed conditions
+                \ref{list:conditions}, add it to the cluster and repeat from step \ref{itm: initial clustering 2}. If
+                not, continue the iteration.
+                \item When the iteration is finished or the cluster has reached is maximum size, continue from
+                \ref{itm: initial clustering 1}.
+            \end{enumerate}
+        \end{enumerate}
+        \item While the initial clustering usual produces good results, there is no reason to assume that it is
+        anywhere near optimal. For this reason we attempt an improvement on this clustering in the following way:
+        \begin{enumerate}
+            \item Randomly choose a sub-optimal cluster, weighted by cluster size. This is any cluster with less
+            pointings than a predetermined number.
+            \item Randomly choose a close sub-optimal cluster, weighted by distance from the first cluster and size. A
+            second parameter is used to determine the maximum size of this cluster.
+            \item Connect these two sub-optimal clusters through a path of clusters in the following way:
+            \begin{enumerate}
+                \item \label{itm: clustering path1}Find the pair pointings with the least distance in the two clusters.
+                \item Find the the pointings closest to the first of the two above pointings, that are not already part
+                of the cluster path. Weigh these using their distance to the pointing, and by the angle between the
+                vector connecting the first pointing to the target pointing, and the vector connecting the first
+                pointing to the observed pointing. Randomly choose a pointing based on their weights.
+                \item If the chosen pointing is in the target cluster, the path is complete. If not, repeat from step
+                \ref{itm: clustering path1} using the cluster from the newly selected pointing as the first cluster.
+            \end{enumerate}
+            \item We will now re-cluster all pointings part of the cluster path:
+            \begin{enumerate}
+                \item WRITE HERE
+            \end{enumerate}
+        \end{enumerate}
+    \end{enumerate}
+\end{enumerate}
+
+
+\end{document}

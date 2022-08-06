@@ -227,7 +227,7 @@ class ClusteredQuery:
         
         :param failed_improvements_max: how many successive failed improvements are allowed before a 
         Region is declared finished
-        Use this paramter to determine the trade-off between run time and quality of clusters
+        Use this parameter to determine the trade-off between run time and quality of clusters
         
         :param suboptimal_cluster_size: the maximum cluster size that is used to begin an improvement
         Cannot be smaller than 1
