@@ -252,7 +252,6 @@ class ClusteredQuery:
         assert close_suboptimal_cluster_size >= suboptimal_cluster_size, \
                 "close_suboptimal_cluster_size must be at least suboptimal_cluster_size"
         
-        
         self._angle_weight = float(angle_weight)
         self._time_weight = float(time_weight)
         self._max_distance = float(max_distance)
@@ -264,13 +263,17 @@ class ClusteredQuery:
         self._close_suboptimal_cluster_size_range = (1, close_suboptimal_cluster_size)
         
         if max_ang_distance is None:
-            try:
-                self._max_ang_distance = self._max_distance / self._angle_weight
-            except:
-                self._max_ang_distance = 360.
+            self._max_ang_distance = 360.
         else:
             self._max_ang_distance = float(max_ang_distance)
-        
+            
+        assert self._max_ang_distance > self._min_ang_distance, "max_ang_distance must > min_ang_distance"
+            
+        if self._angle_weight == 0.:
+            self._angle_angle_weight = self._max_distance / self._max_ang_distance
+        else:
+            self._angle_angle_weight = self._angle_weight
+                    
         self._num_pointings = len(scw_ids)
         
         self._track_performance = track_performance
@@ -584,7 +587,7 @@ class Region:
             # print(close_indices)
             
             angle = np.vectorize(lambda p: pointing1.angle_between_three_pointings(
-                pointing2, p, self.query._angle_weight,self.query._time_weight
+                pointing2, p, self.query._angle_angle_weight, self.query._time_weight
                 ))
             
             angles_filtered = angle(self.query._pointings[close_indices])
