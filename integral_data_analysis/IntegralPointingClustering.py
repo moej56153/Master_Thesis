@@ -12,7 +12,8 @@ def calculate_distance_matrix(quick_list,
                               angle_weight, 
                               time_weight, 
                               max_distance, 
-                              min_ang_distance):
+                              min_ang_distance,
+                              max_ang_distance):
     l = len(quick_list)
     distances = np.full((l,l), 2*max_distance)
     
@@ -31,7 +32,8 @@ def calculate_distance_matrix(quick_list,
                     quick_list[k],
                     angle_weight,
                     time_weight,
-                    min_ang_distance, 
+                    min_ang_distance,
+                    max_ang_distance,
                     max_distance)
                 
     np.fill_diagonal(distances,0.)
@@ -39,13 +41,13 @@ def calculate_distance_matrix(quick_list,
     return np.array(partitions), distances
 
 @njit
-def calculate_distance(point1, point2, angle_weight, time_weight, min_ang_distance, max_distance):
+def calculate_distance(point1, point2, angle_weight, time_weight, min_ang_distance, max_ang_distance, max_distance):
     ang_dis = np.arccos( np.clip(np.array([np.sin(point1[1]) * np.sin(point2[1]) 
                                            + np.cos(point1[1]) * np.cos(point2[1]) 
                                            * np.cos(point1[0] - point2[0])]),
                                  -1., 1.) )[0]
     
-    if ang_dis < min_ang_distance:
+    if (ang_dis < min_ang_distance) or (ang_dis > max_ang_distance):
         return 2.*max_distance
     
     time_dis = abs(point1[2] - point2[2])
@@ -193,7 +195,8 @@ class ClusteredQuery:
                  angle_weight: float,
                  time_weight: float,
                  max_distance: float,
-                 min_ang_distance: float,
+                 min_ang_distance: float = 0.,
+                 max_ang_distance: float = None,
                  cluster_size_range: tuple[int] = (5,5),
                  cluster_size_preference_threshold: tuple[float] = (),
                  failed_improvements_max: int = 3,
@@ -215,6 +218,8 @@ class ClusteredQuery:
         :param max_distance: the maximum effective distance two pointings in a cluster may have
         
         :param min_ang_distance: the minimum angular separation (deg) two pointing in a cluster may have
+        
+        :param max_ang_distance: the maximum angular separation (deg) two pointing in a cluster may have
         
         :param cluster_size_range: the smallest and largest cluster sizes the algorithm aims to create
         
@@ -258,6 +263,14 @@ class ClusteredQuery:
         self._suboptimal_cluster_size_range = (1, suboptimal_cluster_size)
         self._close_suboptimal_cluster_size_range = (1, close_suboptimal_cluster_size)
         
+        if max_ang_distance is None:
+            try:
+                self._max_ang_distance = self._max_distance / self._angle_weight
+            except:
+                self._max_ang_distance = 360.
+        else:
+            self._max_ang_distance = float(max_ang_distance)
+        
         self._num_pointings = len(scw_ids)
         
         self._track_performance = track_performance
@@ -281,8 +294,8 @@ class ClusteredQuery:
             quick_list[i,2] = (scw_ids[i,3] - datetime(2000,1,1,0,0,0)).total_seconds()/86400  
             
         partitions, self._distances = calculate_distance_matrix(
-            quick_list, np.rad2deg(angle_weight), time_weight,
-            self._max_distance, np.deg2rad(self._min_ang_distance)
+            quick_list, np.rad2deg(angle_weight), time_weight, self._max_distance, 
+            np.deg2rad(self._min_ang_distance), np.deg2rad(self._max_ang_distance)
             )
                 
         self._region_indices = find_regions(self._distances, self._max_distance, partitions)
