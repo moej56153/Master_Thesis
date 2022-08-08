@@ -18,7 +18,7 @@ def calculate_distance_matrix(quick_list,
     
     partitions = [0]
     for i in range(1,l):
-        if quick_list[i,2]-quick_list[i-1,2] > max_distance/time_weight:
+        if (quick_list[i,2]-quick_list[i-1,2]) * time_weight > max_distance:
             partitions.append(i)
     partitions.append(l)
     
