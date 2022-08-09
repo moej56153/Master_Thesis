@@ -220,6 +220,7 @@ class ClusteredQuery:
         :param min_ang_distance: the minimum angular separation (deg) two pointing in a cluster may have
         
         :param max_ang_distance: the maximum angular separation (deg) two pointing in a cluster may have
+        It is recommended to only specify this parameter if angle_weight=0.
         
         :param cluster_size_range: the smallest and largest cluster sizes the algorithm aims to create
         
@@ -297,7 +298,7 @@ class ClusteredQuery:
             quick_list[i,2] = (scw_ids[i,3] - datetime(2000,1,1,0,0,0)).total_seconds()/86400  
             
         partitions, self._distances = calculate_distance_matrix(
-            quick_list, np.rad2deg(angle_weight), time_weight, self._max_distance, 
+            quick_list, np.rad2deg(self._angle_weight), self._time_weight, self._max_distance, 
             np.deg2rad(self._min_ang_distance), np.deg2rad(self._max_ang_distance)
             )
                 
