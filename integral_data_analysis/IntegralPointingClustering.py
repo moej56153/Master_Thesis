@@ -220,7 +220,6 @@ class ClusteredQuery:
         :param min_ang_distance: the minimum angular separation (deg) two pointing in a cluster may have
         
         :param max_ang_distance: the maximum angular separation (deg) two pointing in a cluster may have
-        It is recommended to only specify this parameter if angle_weight=0.
         
         :param cluster_size_range: the smallest and largest cluster sizes the algorithm aims to create
         
@@ -270,10 +269,7 @@ class ClusteredQuery:
             
         assert self._max_ang_distance > self._min_ang_distance, "max_ang_distance must > min_ang_distance"
             
-        if self._angle_weight == 0.:
-            self._angle_angle_weight = self._max_distance / self._max_ang_distance
-        else:
-            self._angle_angle_weight = self._angle_weight
+        self._angle_angle_weight = max(self._angle_weight, self._max_distance / self._max_ang_distance)
                     
         self._num_pointings = len(scw_ids)
         
