@@ -34,12 +34,13 @@ discussed further.
 
 \section{INTEGRAL Pointing Clustering}
 
+\subsection{Clustering Conditions} \label{list:conditions}
 The fundamental idea of this project is the following: the INTEGRAL background event rates per detector per energy bin
 is assumed to be constant between sufficiently close (in terms of time and orientation) pointings, and can thus be
 determined analytically for bunches of several pointings via maximum likelihood calculations. This finally allows us to
 apply Bayesian inference fits to determine source parameters. Since these fits are done on each cluster of pointings,
 it is pivotal to write an algorithm that clusters a list of INTEGRAL pointings under the following conditions:
-\begin{itemize} \label{list:conditions}
+\begin{itemize}
     \item The angular distance between pointing orientations should not exceed a predetermined value within each
     cluster.
     \item The angular distance between pointing orientations should be higher than a predetermined value within each
@@ -57,6 +58,8 @@ it is pivotal to write an algorithm that clusters a list of INTEGRAL pointings u
     be minimized.
 \end{itemize}
 
+
+\subsection{Clustering Algorithm}
 Clustering points in space together is a common problem in computer science, hence many sophisticated algorithms exist
 to do so. However, the above listed conditions are rather unique, and I could not find any established clustering
 algorithms that would satisfy them. The common sentiment for clustering algorithms is that there is no such thing as
@@ -82,14 +85,14 @@ randomly distributed in the 3D space. With that in mind, the following clusterin
     except that we have only actually computed the distance for any relevant pair of pointings, and setting the value
     for pointings in different preliminary regions to some value higher than the maximum effective distance.
     \item While our preliminary regions are a good start, it is entirely possible that these are composed of several
-    actual regions; i.e. that a preliminary regions contains several regions of entirely disconnected pointings, where
+    actual regions; i.e. that a preliminary region contains several regions of entirely disconnected pointings, where
     the effective distance between any pair of pointings from different regions is larger than the maximum effective
     distance. Since we have already computed the distance matrix for pointings within preliminary regions, we can use
     the following algorithm to split these into actual regions:
     \begin{enumerate}
         \item \label{itm: region1} Start with some point in the preliminary region, and assign it to a new region while
         removing it from the preliminary region.
-        \item \label{itm: region2} Go through the distance matrix, and add any point with a distance smaller than the
+        \item \label{itm: region2} Iterate through the preliminary region, and add any point with a distance smaller than the
         effective distance to the region, and remove said point from the preliminary region.
         \item Repeat the step \ref{itm: region2} for every pointing added to the region in the previous step.
         \item \label{itm: region4} If there are no more pointings to add to the region, repeat from step \ref{itm:
@@ -107,14 +110,14 @@ randomly distributed in the 3D space. With that in mind, the following clusterin
             \item \label{itm: initial clustering 2} Iterate over some predetermined number of temporally successive
             pointings:
             \begin{enumerate}
-                \item If the pointing can be added to the cluster without breaking the listed conditions
+                \item If the pointing can be added to the cluster without breaking the conditions listed in section
                 \ref{list:conditions}, add it to the cluster and repeat from step \ref{itm: initial clustering 2}. If
                 not, continue the iteration.
                 \item When the iteration is finished or the cluster has reached is maximum size, continue from
                 \ref{itm: initial clustering 1}.
             \end{enumerate}
         \end{enumerate}
-        \item While the initial clustering usual produces good results, there is no reason to assume that it is
+        \item \label{itm: improvement1} While the initial clustering usually produces good results, there is no reason to assume that it is
         anywhere near optimal. For this reason we attempt an improvement on this clustering in the following way:
         \begin{enumerate}
             \item Randomly choose a sub-optimal cluster, weighted by cluster size. This is any cluster with less
@@ -123,7 +126,7 @@ randomly distributed in the 3D space. With that in mind, the following clusterin
             second parameter is used to determine the maximum size of this cluster.
             \item Connect these two sub-optimal clusters through a path of clusters in the following way:
             \begin{enumerate}
-                \item \label{itm: clustering path1}Find the pair pointings with the least distance in the two clusters.
+                \item \label{itm: clustering path1}Find the pair of pointings with the least distance in the two clusters.
                 \item Find the the pointings closest to the first of the two above pointings, that are not already part
                 of the cluster path. Weigh these using their distance to the pointing, and by the angle between the
                 vector connecting the first pointing to the target pointing, and the vector connecting the first
@@ -133,9 +136,22 @@ randomly distributed in the 3D space. With that in mind, the following clusterin
             \end{enumerate}
             \item We will now re-cluster all pointings part of the cluster path:
             \begin{enumerate}
-                \item WRITE HERE
+                \item \label{itm: reclustering1} Randomly choose a non-clustered pointing on the cluster path, weighted
+                by its average distance to all other points on the cluster path. This way, the outlier points, which
+                are most likely to be left without good clusters are clustered first. Create a cluster with this point.
+                \item \label{itm: reclustering2} Randomly choose a non-clustered neighboring pointing on the cluster
+                path, weighted by its distance to the current cluster and the distance to all other points on the
+                cluster path. If it satisfies the conditions from section \ref{list:conditions}, add it to the cluster.
+                \item Repeat step \ref{itm: reclustering2} until no points can be added to the cluster. 
+                \item Then repeat from step \ref{itm: reclustering1} until all points on the cluster path are
+                clustered.
             \end{enumerate}
+            \item Calculate a cost of the new and old clustering configuration. Fewer clusters are bettern, and the
+            average distance of all clusters is used as a tie-breaker. Keep the new configuration if it is better,
+            otherwise keep the old one.
         \end{enumerate}
+        \item Repeat from step \ref{itm: improvement1} until the number of succesive rejected improvements exceeds a
+        predetermined value.
     \end{enumerate}
 \end{enumerate}
 
