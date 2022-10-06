@@ -2,7 +2,7 @@ from dataclasses import dataclass, asdict
 from asciitree import LeftAligned
 from asciitree.drawing import BOX_DOUBLE, BoxStyle
 from typing import Union
-from datetime import datetime
+from datetime import datetime, timedelta
 import warnings 
 from astroquery.heasarc import Heasarc, Conf
 import astropy.units as u
@@ -62,6 +62,7 @@ class Filter(BaseDataClass):
     DEC_X: Union[Range, None] = None
     TIME: Union[Range, None] = None
     #END_DATE: Union[Range, None] = None
+    TIME_ELAPSED: Union[Range, None] = None
     OBS_ID: Union[str, None] = None
     OBS_TYPE: Union[str, None]  = None
     PS: Union[str, None]  = None
@@ -186,6 +187,13 @@ class IntegralQuery:
                         if value["max_val"]:
                             new_table = new_table[new_table["END_DATE"]<=
                                                   datetime.fromisoformat(value["max_val"])]
+                    elif key=="TIME_ELAPSED":
+                        if value["min_val"]:
+                            new_table = new_table[(new_table["END_DATE"] - new_table["START_DATE"])
+                                                  >= timedelta(seconds = value["min_val"])]
+                        if value["max_val"]:
+                            new_table = new_table[(new_table["END_DATE"] - new_table["START_DATE"])
+                                                  <= timedelta(seconds = value["max_val"])]
                     else:
                         if value["min_val"]:
                             new_table = new_table[new_table[key]>=value["min_val"]]
@@ -201,7 +209,7 @@ class IntegralQuery:
             return new_table["SCW_ID"].to_numpy()
         else:
             return np.concatenate((new_table[["SCW_ID","RA_X","DEC_X"]].to_numpy(), 
-                                   np.array([new_table["START_DATE"].dt.to_pydatetime()]).T), axis=1)
+                                   np.array([new_table["START_DATE"].dt.to_pydatetime()]).T,), axis=1)
     
     @property
     def table(self):
