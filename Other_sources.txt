@@ -1,0 +1,12 @@
+For Orbit 1019:
+
+MJD = 55609
+
+Crab Flux = 0.175 counts/s/cm^2 from 15 to 50keV
+
+1A 0535+262 RA= 84.7270 degs ; Dec= 26.3160 degs
+Flux =  0.33449603
+
+
+
+
