@@ -5,20 +5,12 @@ from IntegralPointingClustering import ClusteredQuery
 import astropy.io.fits as fits
 from astropy.table import Table
 from datetime import datetime
-# import matplotlib.pyplot as plt
-# import math
-# from numba import njit
 from pyspi.utils.function_utils import find_response_version
 from pyspi.utils.response.spi_response_data import ResponseDataRMF
 from pyspi.utils.response.spi_response import ResponseRMFGenerator
-# from pyspi.utils.response.spi_drm import SPIDRM
 from pyspi.utils.livedets import get_live_dets
-# from astromodels import Powerlaw, Log_uniform_prior, Uniform_prior, PointSource, SpectralComponent, Model
-# from chainconsumer import ChainConsumer
-# import pymultinest
 import os
 import astropy.time as at
-# from scipy.stats import poisson
 import pickle
 
 rsp_bases = tuple([ResponseDataRMF.from_version(i) for i in range(5)])

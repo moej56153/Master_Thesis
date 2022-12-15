@@ -168,14 +168,8 @@ class IntegralQuery:
         :returns:
         """
         self._table = self._table.sort_values(sortvar)
-
-    def apply_filter(self, filter_ob: Filter, return_coordinates=False, remove_duplicates=True) -> np.array:
-        """
-        Apply a filter to the base table
-        :param filter_ob: Filter Object with all the filter parameters
-        :param return_coordintes: Specifies if coordintes should be returned
-        :returns:
-        """
+        
+    def _internal_apply_filter(self, filter_ob):
         new_table = self._table.copy()
         for key, value in asdict(filter_ob).items():
             if value:
@@ -202,6 +196,42 @@ class IntegralQuery:
                 else:
                     new_table = new_table[new_table[key]==value]
                     
+        return new_table
+
+    def apply_filter(self, filter_ob: Filter, return_coordinates=False, remove_duplicates=True) -> np.array:
+        """
+        Apply a filter to the base table
+        :param filter_ob: Filter Object with all the filter parameters
+        :param return_coordintes: Specifies if coordintes should be returned
+        :returns:
+        """
+        # new_table = self._table.copy()
+        # for key, value in asdict(filter_ob).items():
+        #     if value:
+        #         if type(value) is dict:
+        #             if key=="TIME":
+        #                 if value["min_val"]:
+        #                     new_table = new_table[new_table["START_DATE"]>=
+        #                                           datetime.fromisoformat(value["min_val"])]
+        #                 if value["max_val"]:
+        #                     new_table = new_table[new_table["END_DATE"]<=
+        #                                           datetime.fromisoformat(value["max_val"])]
+        #             elif key=="TIME_ELAPSED":
+        #                 if value["min_val"]:
+        #                     new_table = new_table[(new_table["END_DATE"] - new_table["START_DATE"])
+        #                                           >= timedelta(seconds = value["min_val"])]
+        #                 if value["max_val"]:
+        #                     new_table = new_table[(new_table["END_DATE"] - new_table["START_DATE"])
+        #                                           <= timedelta(seconds = value["max_val"])]
+        #             else:
+        #                 if value["min_val"]:
+        #                     new_table = new_table[new_table[key]>=value["min_val"]]
+        #                 if value["max_val"]:
+        #                     new_table = new_table[new_table[key]<=value["max_val"]]
+        #         else:
+        #             new_table = new_table[new_table[key]==value]
+        new_table = self._internal_apply_filter(filter_ob)
+                    
         if remove_duplicates:
             new_table = new_table.drop_duplicates("SCW_ID", keep="last")
         
@@ -210,6 +240,18 @@ class IntegralQuery:
         else:
             return np.concatenate((new_table[["SCW_ID","RA_X","DEC_X"]].to_numpy(), 
                                    np.array([new_table["START_DATE"].dt.to_pydatetime()]).T,), axis=1)
+            
+    def apply_filter_on_revolutions(self, filter_ob: Filter):
+        new_table = self._internal_apply_filter(filter_ob)
+        new_table = new_table["SCW_ID"].to_numpy()
+        revolutions = {}
+        for pointing in new_table:
+            if pointing[:4] in revolutions:
+                revolutions[pointing[:4]] += 1
+            else:
+                revolutions[pointing[:4]] = 1
+        return revolutions
+        
     
     @property
     def table(self):

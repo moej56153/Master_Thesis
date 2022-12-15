@@ -1,7 +1,4 @@
-# from astropy.coordinates import SkyCoord
 import numpy as np
-# from IntegralQuery import SearchQuery, IntegralQuery, Filter, Range
-# from IntegralPointingClustering import ClusteredQuery
 import astropy.io.fits as fits
 from astropy.table import Table
 from datetime import datetime
@@ -13,13 +10,11 @@ from pyspi.utils.response.spi_response_data import ResponseDataRMF
 from pyspi.utils.response.spi_response import ResponseRMFGenerator
 from pyspi.utils.response.spi_drm import SPIDRM
 from pyspi.utils.livedets import get_live_dets
-# from astromodels import Powerlaw, Log_uniform_prior, Uniform_prior, PointSource, SpectralComponent, Model
 from chainconsumer import ChainConsumer
 import pymultinest
 import os
 import astropy.time as at
 from scipy.stats import poisson
-# import pickle
 
 rsp_bases = tuple([ResponseDataRMF.from_version(i) for i in range(5)])
 
@@ -32,7 +27,7 @@ def b_maxL_2(m, t, C):
         return 0
     return res
 
-@njit #################### needs more testing, can do without error?
+@njit
 def b_maxL_3(m, t, C):
     mt = m[0] + m[1] + m[2]
     tt = t[0] + t[1] + t[2]
@@ -239,26 +234,6 @@ class MultinestClusterFit:
                     )
 
         num_params = len(self._source_model.free_parameters)
-        
-        # ###
-        # trial_values = [4.5e-3, -2.08, 7e-3, -2.5]
-        # spec_binned = np.zeros((num_sources, len(self._emod)-1))
-        # for i, parameter in enumerate(self._source_model.free_parameters.values()):
-        #     parameter.value = trial_values[i]
-        # for i, source in enumerate(self._source_model.sources.values()):
-        #     spec = source(self._emod)
-        #     spec_binned[i,:] = (self._emod[1:]-self._emod[:-1])*(spec[:-1]+spec[1:])/2
-        # print(logLcore(
-        #     spec_binned,
-        #     self._pointings,
-        #     self._dets,
-        #     self._resp_mats,
-        #     num_sources,
-        #     self._t_elapsed,
-        #     self._counts,
-        # ))
-        # return None
-        # ###
 
         if not os.path.exists("./chains"):
             os.mkdir("chains")
@@ -384,7 +359,6 @@ class MultinestClusterFit:
         
         fig = self._cc.plotter.plot(
             parameters=self._parameter_names[:-1],
-            # truth={'Crab K':true_values_main[0,0], 'Crab index':true_values_main[0,1]},
             figsize=1.5
         )
         
