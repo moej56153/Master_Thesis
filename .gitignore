@@ -9,4 +9,4 @@ Master_Thesis_Journal.out
 Master_Thesis_Journal.synctex.gz
 Master_Thesis_Journal.toc
 .gitattributes
-.fits
+*.fits
