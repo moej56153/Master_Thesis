@@ -403,16 +403,26 @@ class MultinestClusterFit:
     def ppc(
         self,
         count_energy_plots=True,
-        qq_plots=True
+        qq_plots=True,
+        rel_qq_plots=True,
+        cdf_hists=True
     ):
         assert self._folder is not None, "folder is not set"
         
         s, b = self._calc_rates()
         
+        if cdf_hists:
+            xs = np.linspace(0,1,21)
+            cdf_counts = np.zeros(len(xs)-1)
+            if not os.path.exists(f"./{self._folder}/cdf"):
+                os.mkdir(f"{self._folder}/cdf")
+        
         for c_i, combination in enumerate(self._pointings):
             for p_i in range(len(combination)):
             
                 if count_energy_plots:
+                    if not os.path.exists(f"./{self._folder}/count_energy"):
+                        os.mkdir(f"{self._folder}/count_energy")
                     self._count_energy_plot(
                         b[c_i][p_i],
                         s[c_i][p_i],
@@ -422,6 +432,8 @@ class MultinestClusterFit:
                         combination[p_i][0]
                     )
                 if qq_plots:
+                    if not os.path.exists(f"./{self._folder}/qq"):
+                        os.mkdir(f"{self._folder}/qq")
                     self._qq_plot(
                         b[c_i][p_i],
                         s[c_i][p_i],
@@ -429,6 +441,35 @@ class MultinestClusterFit:
                         self._dets[c_i],
                         combination[p_i][0]
                     )
+                if rel_qq_plots:
+                    if not os.path.exists(f"./{self._folder}/rel_qq"):
+                        os.mkdir(f"{self._folder}/rel_qq")
+                    self._rel_qq_plot(
+                        b[c_i][p_i],
+                        s[c_i][p_i],
+                        self._counts[c_i][p_i],
+                        self._dets[c_i],
+                        combination[p_i][0]
+                    )
+                if cdf_hists:
+                    cdf_counts += self._cdf_hist(
+                        b[c_i][p_i],
+                        s[c_i][p_i],
+                        self._counts[c_i][p_i],
+                        combination[p_i][0],
+                        xs
+                    )
+                    
+        if cdf_hists:
+            fig, axes = plt.subplots()
+            plt.bar(xs[:-1], cdf_counts, 1/(len(xs)-1), align="edge", color="#1f77b4")
+            plt.axhline(np.average(cdf_counts), color="black")
+            plt.xlabel("Cumulative Poisson Probabilty")
+            plt.ylabel("Counts per Bin")
+            
+            fig.savefig(f"{self._folder}/cdf/total_cdf.pdf")
+            plt.close()
+                    
             
     def _calc_rates(self):
         source_rate = []
@@ -503,11 +544,11 @@ class MultinestClusterFit:
         for d in range(19):
             axes[d].text(.5,.9,f"Det {d}",horizontalalignment='center',transform=axes[d].transAxes)
             if d in dets:
-                line1, = axes[d].step(eb[:-1], predicted[i], c="r")
+                # line1, = axes[d].step(eb[:-1], predicted[i], c="r", alpha=0)
                 line2, = axes[d].step(eb[:-1], counts[i], c="k")
-                axes[d].fill_between(eb[:-1], predicted_lower[i], predicted_upper[i], color="r", alpha=0.5)
+                poly = axes[d].fill_between(eb[:-1], predicted_lower[i], predicted_upper[i], color="r", alpha=0.5)
                 if i==0:
-                    line1.set_label("Predicted Counts")
+                    poly.set(label="Predicted Counts")
                     line2.set_label("Real Counts")
                 i += 1
             axes[d].set_yscale("log")
@@ -520,7 +561,7 @@ class MultinestClusterFit:
         plt.xlabel("Detected Energy [keV]")
         plt.ylabel("Cumulative Counts")
         
-        fig.savefig(f"{self._folder}/{name}_count_energy.pdf")
+        fig.savefig(f"{self._folder}/count_energy/{name}_count_energy.pdf")
         plt.close()
     
     def _qq_plot(
@@ -549,7 +590,7 @@ class MultinestClusterFit:
             axes[d].text(.5,.9,f"Det {d}",horizontalalignment='center',transform=axes[d].transAxes)
             if d in dets:
                 line2, = axes[d].plot([0, ma[i]], [0, ma[i]], ls="--", c="k")
-                line1, = axes[d].plot(counts[i], predicted[i], c="r")
+                # line1, = axes[d].plot(counts[i], predicted[i], c="r")
                 axes[d].fill_between(counts[i], predicted_lower[i], predicted_upper[i], color="r", alpha=0.5)
                 i += 1
         plt.subplots_adjust(hspace=0, wspace=0)
@@ -560,9 +601,78 @@ class MultinestClusterFit:
         plt.xlabel("Cumulative Real Counts")
         plt.ylabel("Cumulative Predicted Counts", labelpad=27)
         
-        fig.savefig(f"{self._folder}/{name}_qq.pdf")
+        fig.savefig(f"{self._folder}/qq/{name}_qq.pdf")
         plt.close()
         
+    def _rel_qq_plot(
+        self,
+        b,
+        s,
+        c,
+        dets,
+        name
+    ):
+        fig, axes = plt.subplots(5,4, sharex=True, sharey=True, figsize=(10,10))
+        axes = axes.flatten()
+        
+        p = b + s
+        predicted = np.cumsum(p, axis=1)
+        predicted_lower = np.cumsum(poisson.ppf(0.16, p), axis=1)
+        predicted_upper = np.cumsum(poisson.ppf(0.84, p), axis=1)
+        counts = np.cumsum(c, axis=1)
+        rel_predicted_lower = predicted_lower / counts
+        rel_predicted_upper = predicted_upper / counts
+        # ma = np.amax(
+        #     np.array([np.amax(counts, axis=1), np.amax(predicted, axis=1)]),
+        #     axis=0
+        # )
+        
+        i=0
+        for d in range(19):
+            axes[d].text(.5,.9,f"Det {d}",horizontalalignment='center',transform=axes[d].transAxes)
+            if d in dets:
+                axes[d].hlines(y=1, linestyles="dashed", colors="k", xmin=counts[i,0], xmax=counts[i,-1])
+                # line2, = axes[d].plot([0, ma[i]], [0, ma[i]], ls="--", c="k")
+                # line1, = axes[d].plot(counts[i], predicted[i], c="r")
+                axes[d].fill_between(counts[i], rel_predicted_lower[i], rel_predicted_upper[i], color="r", alpha=0.5)
+                i += 1
+        plt.subplots_adjust(hspace=0, wspace=0)
+        plt.subplots_adjust(hspace=0, top=0.96, bottom=0.1)
+                
+        fig.add_subplot(111, frameon=False)
+        plt.tick_params(labelcolor='none', which='both', top=False, bottom=False, left=False, right=False)
+        plt.xlabel("Cumulative Real Counts")
+        plt.ylabel("Cumulative Predicted Counts / Cumulative Real Counts", labelpad=27)
+        
+        fig.savefig(f"{self._folder}/rel_qq/{name}_rel_qq.pdf")
+        plt.close()
+        
+    def _cdf_hist(
+        self,
+        b,
+        s,
+        c,
+        name,
+        xs
+    ):
+        fig, axes = plt.subplots()
+        p = b + s
+        cdf = np.zeros(p.shape)
+        for det in range(p.shape[0]):
+            for bin in range(p.shape[1]):
+                cdf[det,bin] = poisson.cdf(c[det,bin], p[det,bin])
+                
+        cdf_counts, _ = np.histogram(cdf.flatten(), bins=len(xs)-1, range=(0,1))
+        plt.bar(xs[:-1], cdf_counts, 1/(len(xs)-1), align="edge", color="#1f77b4")
+        plt.axhline(np.average(cdf_counts), color="black")
+        plt.xlabel("Cumulative Poisson Probabilty")
+        plt.ylabel("Counts per Bin")
+        
+        fig.savefig(f"{self._folder}/cdf/{name}_cdf.pdf")
+        plt.close()
+        
+        return cdf_counts
+
     def _extract_parameter_names_simple(self):
         self._parameter_names = []
         for full_name in self._source_model.free_parameters.keys():
