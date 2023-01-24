@@ -44,6 +44,51 @@ def rebin_data_exp(
             min_num_bins = num_bins
             
     return new_bins, new_counts
+
+def rebin_data_exp_10(
+    bins,
+    counts,
+    energy_range
+):
+
+    if energy_range[0]:
+        for i, e in enumerate(bins):
+            if e > energy_range[0]:
+                bins = bins[i:]
+                counts = counts[:,i:]
+                break
+    if energy_range[1]:
+        for i, e in enumerate(bins):
+            if e > energy_range[1]:
+                bins = bins[:i]
+                counts = counts[:,:i-1]
+                assert i > 1, "Max Energy is too low"
+                break
+        
+    min_counts = 10
+    
+    max_num_bins = 120
+    min_num_bins = 1
+    
+    finished = False
+    
+    while not finished:
+        num_bins = round((max_num_bins + min_num_bins) / 2)
+        
+        if num_bins == max_num_bins or num_bins == min_num_bins:
+            num_bins = min_num_bins
+            finished = True
+        
+        temp_bins = np.geomspace(bins[0], bins[-1], num_bins+1)
+        
+        new_bins, new_counts = rebin_closest(bins, counts, temp_bins)
+        
+        if np.amin(new_counts) < min_counts:
+            max_num_bins = num_bins
+        else:
+            min_num_bins = num_bins
+            
+    return new_bins, new_counts
     
 def rebin_closest(bins, counts, temp_bins):
     counts = np.copy(counts)

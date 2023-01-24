@@ -14,7 +14,7 @@ from chainconsumer import ChainConsumer
 import pymultinest
 import os
 import astropy.time as at
-from scipy.stats import poisson
+from scipy.stats import poisson, norm
 
 rsp_bases = tuple([ResponseDataRMF.from_version(i) for i in range(5)])
 
@@ -457,18 +457,13 @@ class MultinestClusterFit:
                         s[c_i][p_i],
                         self._counts[c_i][p_i],
                         combination[p_i][0],
-                        xs
+                        xs,
+                        len(combination),
+                        self._number_of_total_pointings()
                     )
                     
         if cdf_hists:
-            fig, axes = plt.subplots()
-            plt.bar(xs[:-1], cdf_counts, 1/(len(xs)-1), align="edge", color="#1f77b4")
-            plt.axhline(np.average(cdf_counts), color="black")
-            plt.xlabel("Cumulative Poisson Probabilty")
-            plt.ylabel("Counts per Bin")
-            
-            fig.savefig(f"{self._folder}/cdf/total_cdf.pdf")
-            plt.close()
+            self._cdf_plot(cdf_counts, xs, "total")
                     
             
     def _calc_rates(self):
@@ -653,25 +648,33 @@ class MultinestClusterFit:
         s,
         c,
         name,
-        xs
+        xs,
+        nb,
+        ns
     ):
-        fig, axes = plt.subplots()
         p = b + s
-        cdf = np.zeros(p.shape)
-        for det in range(p.shape[0]):
-            for bin in range(p.shape[1]):
-                cdf[det,bin] = poisson.cdf(c[det,bin], p[det,bin])
+        var = (nb-1) / nb * b + (ns-1) / ns * s
+        cdf = norm.cdf(c, loc=p, scale=np.sqrt(var))
                 
         cdf_counts, _ = np.histogram(cdf.flatten(), bins=len(xs)-1, range=(0,1))
+        self._cdf_plot(cdf_counts, xs, name)
+        
+        return cdf_counts
+    
+    def _cdf_plot(
+        self,
+        cdf_counts,
+        xs,
+        name
+    ):
+        fig, axes = plt.subplots()
         plt.bar(xs[:-1], cdf_counts, 1/(len(xs)-1), align="edge", color="#1f77b4")
         plt.axhline(np.average(cdf_counts), color="black")
-        plt.xlabel("Cumulative Poisson Probabilty")
+        plt.xlabel("Cumulative Probabilty")
         plt.ylabel("Counts per Bin")
         
         fig.savefig(f"{self._folder}/cdf/{name}_cdf.pdf")
         plt.close()
-        
-        return cdf_counts
 
     def _extract_parameter_names_simple(self):
         self._parameter_names = []
@@ -687,3 +690,9 @@ class MultinestClusterFit:
             if not os.path.exists(f"./{folder}"):
                 os.mkdir(folder)
         self._folder = folder
+
+    def _number_of_total_pointings(self):
+        n = 0
+        for combination in self._pointings:
+            n += len(combination)
+        return n

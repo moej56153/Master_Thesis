@@ -67,8 +67,8 @@ class PointingClusters: #add min time diff
             max_ang_distance=self._max_angle_dif,
             cluster_size_range = self._cluster_size_range,
             failed_improvements_max=3,
-            suboptimal_cluster_size=max(1,self._cluster_size_range[0]),
-            close_suboptimal_cluster_size=max(1,self._cluster_size_range[0])
+            suboptimal_cluster_size=min(max(1, self._cluster_size_range[0]), self._cluster_size_range[1]-1),
+            close_suboptimal_cluster_size=min(max(1, self._cluster_size_range[0]), self._cluster_size_range[1]-1)
         ).get_clustered_scw_ids()
         
         for size in range(self._cluster_size_range[0], self._cluster_size_range[1] + 1):
