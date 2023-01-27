@@ -402,6 +402,7 @@ class MultinestClusterFit:
     
     def ppc(
         self,
+        max_posterior_samples=300,
         count_energy_plots=True,
         qq_plots=True,
         rel_qq_plots=True,
@@ -409,7 +410,7 @@ class MultinestClusterFit:
     ):
         assert self._folder is not None, "folder is not set"
         
-        s, b = self._calc_rates()
+        expected_counts = self._calc_expected_counts(max_posterior_samples)
         
         if cdf_hists:
             xs = np.linspace(0,1,21)
@@ -424,8 +425,7 @@ class MultinestClusterFit:
                     if not os.path.exists(f"./{self._folder}/count_energy"):
                         os.mkdir(f"{self._folder}/count_energy")
                     self._count_energy_plot(
-                        b[c_i][p_i],
-                        s[c_i][p_i],
+                        expected_counts[c_i][p_i],
                         self._ebs[c_i],
                         self._counts[c_i][p_i],
                         self._dets[c_i],
@@ -466,16 +466,24 @@ class MultinestClusterFit:
             self._cdf_plot(cdf_counts, xs, "total")
                     
             
-    def _calc_rates(self):
+    def _calc_expected_counts(self, max_posterior_samples):
         source_rate = []
         background_rate = []
+        
+        if len(self._chain) < max_posterior_samples:
+            print(f"Using all {len(self._chain)} equal-weight posterior values.")
+            max_posterior_samples = len(self._chain)
+        posterior_samples = self._chain[
+            np.random.choice(len(self._chain), max_posterior_samples, replace=False)
+        ]
+        
         for c_i, combination in enumerate(self._pointings):
-            source_rate.append(np.zeros((len(combination), len(self._dets[c_i]), len(self._ebs[c_i])-1, len(self._chain))))
-            background_rate.append(np.zeros((len(self._dets[c_i]), len(self._ebs[c_i])-1, len(self._chain))))
+            source_rate.append(np.zeros((len(combination), len(self._dets[c_i]), len(self._ebs[c_i])-1, len(posterior_samples))))
+            background_rate.append(np.zeros((len(self._dets[c_i]), len(self._ebs[c_i])-1, len(posterior_samples))))
         
         num_sources = len(self._source_model.sources)
         
-        for p_i, params in enumerate(self._chain):
+        for p_i, params in enumerate(posterior_samples):
             spec_binned = np.zeros((num_sources, len(self._emod)-1))
             for fp_i, parameter in enumerate(self._source_model.free_parameters.values()):
                 parameter.value = params[fp_i]
@@ -498,30 +506,43 @@ class MultinestClusterFit:
                             background_rate[c_i][d_i,e_i,p_i] = b_maxL_2(s_b, t_b, C_b)
                         elif len(combination) == 3:
                             background_rate[c_i][d_i,e_i,p_i] = b_maxL_3(s_b, t_b, C_b)
-                        
-        source_rates = []
-        background_rates = []
+        
+        expected_counts = []         
         for c_i, combination in enumerate(self._pointings):
-            c_source_rates = []
-            c_background_rates = []
+            expected_source_counts = np.zeros(source_rate[c_i].shape)
+            expected_background_counts = np.zeors(source_rate[c_i].shape)
             
             for p_i in range(len(combination)):
-                c_source_rates.append(
-                    np.average(source_rate[c_i][p_i], axis=2) * self._t_elapsed[c_i][p_i][:,np.newaxis]
-                )
-                c_background_rates.append(
-                    np.average(background_rate[c_i], axis=2) * self._t_elapsed[c_i][p_i][:,np.newaxis]
-                )
+                expected_source_counts[p_i] = source_rate[c_i][p_i] * self._t_elapsed[c_i][p_i][:,np.newaxis,np.newaxis]
+                expected_background_counts[p_i] = background_rate[c_i] * self._t_elapsed[c_i][p_i][:,np.newaxis,np.newaxis]
+        
+            expected_counts.append(np.random.poisson(expected_source_counts + expected_background_counts))
+                
+            # argsort = np.argsort(expected_counts[c_i], axis=3)
+            # expected_counts[c_i] = np.take_along_axis(expected_counts[c_i], argsort, axis=3)
+                    
+        # source_rates = []
+        # background_rates = []
+        # for c_i, combination in enumerate(self._pointings):
+        #     c_source_rates = []
+        #     c_background_rates = []
             
-            source_rates.append(c_source_rates)
-            background_rates.append(c_background_rates)
+        #     for p_i in range(len(combination)):
+        #         c_source_rates.append(
+        #             np.average(source_rate[c_i][p_i], axis=2) * self._t_elapsed[c_i][p_i][:,np.newaxis]
+        #         )
+        #         c_background_rates.append(
+        #             np.average(background_rate[c_i], axis=2) * self._t_elapsed[c_i][p_i][:,np.newaxis]
+        #         )
+            
+        #     source_rates.append(c_source_rates)
+        #     background_rates.append(c_background_rates)
 
-        return source_rates, background_rates
+        return expected_counts
 
     def _count_energy_plot(
         self,
-        b,
-        s,
+        expected_counts,
         eb,
         c,
         dets,
@@ -530,20 +551,34 @@ class MultinestClusterFit:
         fig, axes = plt.subplots(5,4, sharex=True, sharey=True, figsize=(10,10))
         axes = axes.flatten()
         
-        predicted = b + s
-        predicted_lower = poisson.ppf(0.16, predicted)
-        predicted_upper = poisson.ppf(0.84, predicted)
-        counts = c
+        sd1 = 0.001
+        sd2 = 0.159
+        
+        num_samples = expected_counts.shape[2] - 1
+        
+        nsd1 = round(sd1 * num_samples)
+        nsd2 = round(sd2 * num_samples)
+        
+        ## sort ################################################################################
+        
+        
+        # predicted = b + s
+        # predicted_lower = poisson.ppf(0.16, predicted)
+        # predicted_upper = poisson.ppf(0.84, predicted)
+        # counts = c
         
         i=0
         for d in range(19):
             axes[d].text(.5,.9,f"Det {d}",horizontalalignment='center',transform=axes[d].transAxes)
             if d in dets:
                 # line1, = axes[d].step(eb[:-1], predicted[i], c="r", alpha=0)
-                line2, = axes[d].step(eb[:-1], counts[i], c="k")
-                poly = axes[d].fill_between(eb[:-1], predicted_lower[i], predicted_upper[i], color="r", alpha=0.5)
+                line2, = axes[d].step(eb[:-1], c[i], c="k")
+                poly1 = axes[d].fill_between(eb[:-1], expected_counts[i,:,nsd1], expected_counts[i,:,nsd2], color="r", alpha=0.3)
+                poly2 = axes[d].fill_between(eb[:-1], expected_counts[i,:,nsd2], expected_counts[i,:,num_samples-nsd2], color="r", alpha=0.7)
+                poly3 = axes[d].fill_between(eb[:-1], expected_counts[i,:,num_samples-nsd2], expected_counts[i,:,num_samples-nsd1], color="r", alpha=0.3)
                 if i==0:
-                    poly.set(label="Predicted Counts")
+                    poly1.set(label="0.999 Confindence Interval")
+                    poly2.set(label="0.682 Confindence Interval")
                     line2.set_label("Real Counts")
                 i += 1
             axes[d].set_yscale("log")
@@ -561,14 +596,21 @@ class MultinestClusterFit:
     
     def _qq_plot(
         self,
-        b,
-        s,
+        expected_counts,
         c,
         dets,
         name
     ):
         fig, axes = plt.subplots(5,4, sharex=True, sharey=True, figsize=(10,10))
         axes = axes.flatten()
+        
+        sd1 = 0.001
+        sd2 = 0.159
+        
+        num_samples = expected_counts.shape[2] - 1
+        
+        nsd1 = round(sd1 * num_samples)
+        nsd2 = round(sd2 * num_samples)
         
         p = b + s
         predicted = np.cumsum(p, axis=1)
