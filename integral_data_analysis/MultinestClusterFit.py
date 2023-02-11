@@ -3,6 +3,7 @@ import astropy.io.fits as fits
 from astropy.table import Table
 from datetime import datetime
 import matplotlib.pyplot as plt
+from matplotlib.lines import Line2D
 import math
 from numba import njit
 from pyspi.utils.function_utils import find_response_version
@@ -15,6 +16,7 @@ import pymultinest
 import os
 import astropy.time as at
 from scipy.stats import poisson, norm
+
 
 rsp_bases = tuple([ResponseDataRMF.from_version(i) for i in range(5)])
 
@@ -435,8 +437,7 @@ class MultinestClusterFit:
                     if not os.path.exists(f"./{self._folder}/qq"):
                         os.mkdir(f"{self._folder}/qq")
                     self._qq_plot(
-                        b[c_i][p_i],
-                        s[c_i][p_i],
+                        expected_counts[c_i][p_i],
                         self._counts[c_i][p_i],
                         self._dets[c_i],
                         combination[p_i][0]
@@ -445,21 +446,17 @@ class MultinestClusterFit:
                     if not os.path.exists(f"./{self._folder}/rel_qq"):
                         os.mkdir(f"{self._folder}/rel_qq")
                     self._rel_qq_plot(
-                        b[c_i][p_i],
-                        s[c_i][p_i],
+                        expected_counts[c_i][p_i],
                         self._counts[c_i][p_i],
                         self._dets[c_i],
                         combination[p_i][0]
                     )
                 if cdf_hists:
                     cdf_counts += self._cdf_hist(
-                        b[c_i][p_i],
-                        s[c_i][p_i],
+                        expected_counts[c_i][p_i],
                         self._counts[c_i][p_i],
                         combination[p_i][0],
                         xs,
-                        len(combination),
-                        self._number_of_total_pointings()
                     )
                     
         if cdf_hists:
@@ -510,14 +507,29 @@ class MultinestClusterFit:
         expected_counts = []         
         for c_i, combination in enumerate(self._pointings):
             expected_source_counts = np.zeros(source_rate[c_i].shape)
-            expected_background_counts = np.zeors(source_rate[c_i].shape)
+            expected_background_counts = np.zeros(source_rate[c_i].shape)
             
             for p_i in range(len(combination)):
                 expected_source_counts[p_i] = source_rate[c_i][p_i] * self._t_elapsed[c_i][p_i][:,np.newaxis,np.newaxis]
                 expected_background_counts[p_i] = background_rate[c_i] * self._t_elapsed[c_i][p_i][:,np.newaxis,np.newaxis]
-        
-            expected_counts.append(np.random.poisson(expected_source_counts + expected_background_counts))
+
+            ################# verify this works for clusters larger than 2!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            expected_total_counts = np.append(expected_source_counts, expected_background_counts, axis=0)
+            expected_mean_variance = np.sum(expected_total_counts, axis=0) / expected_total_counts.shape[0]**2
+            expected_std = np.sqrt((2*expected_mean_variance[np.newaxis,:,:,:] + expected_total_counts) / 2)
+            
+            expected_counts.append(
+                (np.random.normal(expected_source_counts, np.sqrt(expected_source_counts), expected_source_counts.shape)
+                 + np.random.normal(expected_background_counts, expected_std[len(combination):], expected_background_counts.shape))
+            )
                 
+            # argsort = np.argsort(np.sum(expected_counts[c_i], axis=1), axis=1)
+            # expected_counts[c_i] = np.take_along_axis(
+            #     expected_counts[c_i],
+            #     np.repeat(argsort[:,np.newaxis,:], expected_counts[c_i].shape[1], axis=1),
+            #     axis=3
+            # )
+            
             # argsort = np.argsort(expected_counts[c_i], axis=3)
             # expected_counts[c_i] = np.take_along_axis(expected_counts[c_i], argsort, axis=3)
                     
@@ -548,48 +560,73 @@ class MultinestClusterFit:
         dets,
         name
     ):
-        fig, axes = plt.subplots(5,4, sharex=True, sharey=True, figsize=(10,10))
-        axes = axes.flatten()
+        xs = eb[:-1]
+        ys = (expected_counts, np.average(expected_counts, axis=2), c)
+        styles = (
+            {"label":"Posterior Predictive", "c":"#17becf","lw":0.1, "alpha":0.3},
+            {"label":"Posterior Predictive Mean", "c":"#1f77b4"},
+            {"label":"Measured", "c":"k"}
+        )
+        legend_elements = [Line2D([0],[0], c=i["c"], label=i["label"]) for i in styles]
         
-        sd1 = 0.001
-        sd2 = 0.159
+        fig, axes = self._detector_plots(
+            dets,
+            xs,
+            ys,
+            styles,
+            {"xlabel":"Detected Energy [keV]"},
+            {"ylabel":"Counts per Energy Bin", "labelpad":12},
+            ylog=True,
+            step_plot=True
+        )
         
-        num_samples = expected_counts.shape[2] - 1
+        fig.legend(handles=legend_elements, loc='center left', bbox_to_anchor=(0.9, 0.5), fontsize='x-large')
         
-        nsd1 = round(sd1 * num_samples)
-        nsd2 = round(sd2 * num_samples)
+        # fig, axes = plt.subplots(5,4, sharex=True, sharey=True, figsize=(10,10))
+        # axes = axes.flatten()
         
-        ## sort ################################################################################
+        # sd1 = 0.001
+        # sd2 = 0.159
         
+        # num_samples = expected_counts.shape[2] - 1
         
-        # predicted = b + s
-        # predicted_lower = poisson.ppf(0.16, predicted)
-        # predicted_upper = poisson.ppf(0.84, predicted)
-        # counts = c
+        # nsd1 = round(sd1 * num_samples)
+        # nsd2 = round(sd2 * num_samples)
         
-        i=0
-        for d in range(19):
-            axes[d].text(.5,.9,f"Det {d}",horizontalalignment='center',transform=axes[d].transAxes)
-            if d in dets:
-                # line1, = axes[d].step(eb[:-1], predicted[i], c="r", alpha=0)
-                line2, = axes[d].step(eb[:-1], c[i], c="k")
-                poly1 = axes[d].fill_between(eb[:-1], expected_counts[i,:,nsd1], expected_counts[i,:,nsd2], color="r", alpha=0.3)
-                poly2 = axes[d].fill_between(eb[:-1], expected_counts[i,:,nsd2], expected_counts[i,:,num_samples-nsd2], color="r", alpha=0.7)
-                poly3 = axes[d].fill_between(eb[:-1], expected_counts[i,:,num_samples-nsd2], expected_counts[i,:,num_samples-nsd1], color="r", alpha=0.3)
-                if i==0:
-                    poly1.set(label="0.999 Confindence Interval")
-                    poly2.set(label="0.682 Confindence Interval")
-                    line2.set_label("Real Counts")
-                i += 1
-            axes[d].set_yscale("log")
-        plt.subplots_adjust(hspace=0, wspace=0)
-        plt.subplots_adjust(hspace=0, top=0.96, bottom=0.1)
-        lgd = fig.legend(loc='center left', bbox_to_anchor=(0.9, 0.5), fontsize='x-large')
+        # ec1 = expected_counts[:,:,nsd1]
+        # ec2 = expected_counts[:,:,nsd2]
+        # ec3 = expected_counts[:,:,num_samples-nsd2]
+        # ec4 = expected_counts[:,:,num_samples-nsd1]
+                
         
-        fig.add_subplot(111, frameon=False)
-        plt.tick_params(labelcolor='none', which='both', top=False, bottom=False, left=False, right=False)
-        plt.xlabel("Detected Energy [keV]")
-        plt.ylabel("Cumulative Counts")
+        # # predicted = b + s
+        # # predicted_lower = poisson.ppf(0.16, predicted)
+        # # predicted_upper = poisson.ppf(0.84, predicted)
+        # # counts = c
+        
+        # i=0
+        # for d in range(19):
+        #     axes[d].text(.5,.9,f"Det {d}",horizontalalignment='center',transform=axes[d].transAxes)
+        #     if d in dets:
+        #         # line1, = axes[d].step(eb[:-1], predicted[i], c="r", alpha=0)
+        #         line2, = axes[d].step(eb[:-1], c[i], c="k")
+        #         poly1 = axes[d].fill_between(eb[:-1], ec1[i,:], ec2[i,:], color="r", alpha=0.3)
+        #         poly2 = axes[d].fill_between(eb[:-1], ec2[i,:], ec3[i,:], color="r", alpha=0.7)
+        #         poly3 = axes[d].fill_between(eb[:-1], ec3[i,:], ec4[i,:], color="r", alpha=0.3)
+        #         if i==0:
+        #             poly1.set(label="0.999 Confindence Interval")
+        #             poly2.set(label="0.682 Confindence Interval")
+        #             line2.set_label("Real Counts")
+        #         i += 1
+        #     axes[d].set_yscale("log")
+        # plt.subplots_adjust(hspace=0, wspace=0)
+        # plt.subplots_adjust(hspace=0, top=0.96, bottom=0.1)
+        # lgd = fig.legend(loc='center left', bbox_to_anchor=(0.9, 0.5), fontsize='x-large')
+        
+        # fig.add_subplot(111, frameon=False)
+        # plt.tick_params(labelcolor='none', which='both', top=False, bottom=False, left=False, right=False)
+        # plt.xlabel("Detected Energy [keV]")
+        # plt.ylabel("Cumulative Counts")
         
         fig.savefig(f"{self._folder}/count_energy/{name}_count_energy.pdf")
         plt.close()
@@ -601,102 +638,223 @@ class MultinestClusterFit:
         dets,
         name
     ):
-        fig, axes = plt.subplots(5,4, sharex=True, sharey=True, figsize=(10,10))
-        axes = axes.flatten()
+        xs = np.cumsum(c, axis=1)
+        ys = (
+            np.cumsum(expected_counts, axis=1),
+            xs,
+            np.cumsum(np.average(expected_counts, axis=2), axis=1)
+        )
+        styles = (
+            {"label":"Posterior Predictive", "c":"#17becf","lw":0.1, "alpha":0.3},
+            {"c":"k", "ls":"--"},
+            {"label":"Posterior Predictive Mean", "c":"#1f77b4"},
+        )
+        legend_elements = [Line2D([0],[0], c=i["c"], label=i["label"]) for i in (styles[0],styles[2])]
         
-        sd1 = 0.001
-        sd2 = 0.159
-        
-        num_samples = expected_counts.shape[2] - 1
-        
-        nsd1 = round(sd1 * num_samples)
-        nsd2 = round(sd2 * num_samples)
-        
-        p = b + s
-        predicted = np.cumsum(p, axis=1)
-        predicted_lower = np.cumsum(poisson.ppf(0.16, p), axis=1)
-        predicted_upper = np.cumsum(poisson.ppf(0.84, p), axis=1)
-        counts = np.cumsum(c, axis=1)
-        ma = np.amax(
-            np.array([np.amax(counts, axis=1), np.amax(predicted, axis=1)]),
-            axis=0
+        fig, axes = self._detector_plots(
+            dets,
+            xs,
+            ys,
+            styles,
+            {"xlabel":"Cumulative Measured Counts"},
+            {"ylabel":"Cumulative Predicted Counts", "labelpad":25}
         )
         
-        i=0
-        for d in range(19):
-            axes[d].text(.5,.9,f"Det {d}",horizontalalignment='center',transform=axes[d].transAxes)
-            if d in dets:
-                line2, = axes[d].plot([0, ma[i]], [0, ma[i]], ls="--", c="k")
-                # line1, = axes[d].plot(counts[i], predicted[i], c="r")
-                axes[d].fill_between(counts[i], predicted_lower[i], predicted_upper[i], color="r", alpha=0.5)
-                i += 1
-        plt.subplots_adjust(hspace=0, wspace=0)
-        plt.subplots_adjust(hspace=0, top=0.96, bottom=0.1)
+        fig.legend(handles=legend_elements, loc='center left', bbox_to_anchor=(0.9, 0.5), fontsize='x-large')
+        
+        # fig, axes = plt.subplots(5,4, sharex=True, sharey=True, figsize=(10,10))
+        # axes = axes.flatten()
+        
+        # sd1 = 0.001
+        # sd2 = 0.159
+        
+        # num_samples = expected_counts.shape[2] - 1
+        
+        # nsd1 = round(sd1 * num_samples)
+        # nsd2 = round(sd2 * num_samples)
+        
+        # ec1 = np.cumsum(expected_counts[:,:,nsd1], axis=1)
+        # ec2 = np.cumsum(expected_counts[:,:,nsd2], axis=1)
+        # ec3 = np.cumsum(expected_counts[:,:,num_samples-nsd2], axis=1)
+        # ec4 = np.cumsum(expected_counts[:,:,num_samples-nsd1], axis=1)
                 
-        fig.add_subplot(111, frameon=False)
-        plt.tick_params(labelcolor='none', which='both', top=False, bottom=False, left=False, right=False)
-        plt.xlabel("Cumulative Real Counts")
-        plt.ylabel("Cumulative Predicted Counts", labelpad=27)
+        # # p = b + s
+        # # predicted = np.cumsum(p, axis=1)
+        # # predicted_lower = np.cumsum(poisson.ppf(0.16, p), axis=1)
+        # # predicted_upper = np.cumsum(poisson.ppf(0.84, p), axis=1)
+        # counts = np.cumsum(c, axis=1)
+        # ma = np.amax(
+        #     np.array([np.amax(counts, axis=1), np.amax(ec4, axis=1)]),
+        #     axis=0
+        # )
+        
+        # i=0
+        # for d in range(19):
+        #     axes[d].text(.5,.9,f"Det {d}",horizontalalignment='center',transform=axes[d].transAxes)
+        #     if d in dets:
+        #         line2, = axes[d].plot([0, ma[i]], [0, ma[i]], ls="--", c="k")
+        #         # line1, = axes[d].plot(counts[i], predicted[i], c="r")
+        #         axes[d].fill_between(counts[i], predicted_lower[i], predicted_upper[i], color="r", alpha=0.5)
+        #         i += 1
+        # plt.subplots_adjust(hspace=0, wspace=0)
+        # plt.subplots_adjust(hspace=0, top=0.96, bottom=0.1)
+                
+        # fig.add_subplot(111, frameon=False)
+        # plt.tick_params(labelcolor='none', which='both', top=False, bottom=False, left=False, right=False)
+        # plt.xlabel("Cumulative Real Counts")
+        # plt.ylabel("Cumulative Predicted Counts", labelpad=27)
         
         fig.savefig(f"{self._folder}/qq/{name}_qq.pdf")
         plt.close()
         
     def _rel_qq_plot(
         self,
-        b,
-        s,
+        expected_counts,
         c,
         dets,
         name
     ):
-        fig, axes = plt.subplots(5,4, sharex=True, sharey=True, figsize=(10,10))
-        axes = axes.flatten()
+        xs = np.cumsum(c, axis=1)
+        ys = (
+            np.cumsum(expected_counts, axis=1) / xs[:,:,np.newaxis],
+            np.ones(xs.shape),
+            np.cumsum(np.average(expected_counts, axis=2), axis=1) / xs
+        )
+
+        styles = (
+            {"label":"Posterior Predictive", "c":"#17becf","lw":0.1, "alpha":0.3},
+            {"c":"k", "ls":"--"},
+            {"label":"Posterior Predictive Mean", "c":"#1f77b4"},
+        )
+        legend_elements = [Line2D([0],[0], c=i["c"], label=i["label"]) for i in (styles[0],styles[2])]
         
-        p = b + s
-        predicted = np.cumsum(p, axis=1)
-        predicted_lower = np.cumsum(poisson.ppf(0.16, p), axis=1)
-        predicted_upper = np.cumsum(poisson.ppf(0.84, p), axis=1)
-        counts = np.cumsum(c, axis=1)
-        rel_predicted_lower = predicted_lower / counts
-        rel_predicted_upper = predicted_upper / counts
-        # ma = np.amax(
-        #     np.array([np.amax(counts, axis=1), np.amax(predicted, axis=1)]),
-        #     axis=0
-        # )
+        fig, axes = self._detector_plots(
+            dets,
+            xs,
+            ys,
+            styles,
+            {"xlabel":"Cumulative Measured Counts"},
+            {"ylabel":"Cumulative Predicted Counts / Cumulative Measured Counts", "labelpad":15}
+        )
         
-        i=0
-        for d in range(19):
-            axes[d].text(.5,.9,f"Det {d}",horizontalalignment='center',transform=axes[d].transAxes)
-            if d in dets:
-                axes[d].hlines(y=1, linestyles="dashed", colors="k", xmin=counts[i,0], xmax=counts[i,-1])
-                # line2, = axes[d].plot([0, ma[i]], [0, ma[i]], ls="--", c="k")
-                # line1, = axes[d].plot(counts[i], predicted[i], c="r")
-                axes[d].fill_between(counts[i], rel_predicted_lower[i], rel_predicted_upper[i], color="r", alpha=0.5)
-                i += 1
-        plt.subplots_adjust(hspace=0, wspace=0)
-        plt.subplots_adjust(hspace=0, top=0.96, bottom=0.1)
+        fig.legend(handles=legend_elements, loc='center left', bbox_to_anchor=(0.9, 0.5), fontsize='x-large')
+        
+        
+        # fig, axes = plt.subplots(5,4, sharex=True, sharey=True, figsize=(10,10))
+        # axes = axes.flatten()
+        
+        # p = b + s
+        # predicted = np.cumsum(p, axis=1)
+        # predicted_lower = np.cumsum(poisson.ppf(0.16, p), axis=1)
+        # predicted_upper = np.cumsum(poisson.ppf(0.84, p), axis=1)
+        # counts = np.cumsum(c, axis=1)
+        # rel_predicted_lower = predicted_lower / counts
+        # rel_predicted_upper = predicted_upper / counts
+        # # ma = np.amax(
+        # #     np.array([np.amax(counts, axis=1), np.amax(predicted, axis=1)]),
+        # #     axis=0
+        # # )
+        
+        # i=0
+        # for d in range(19):
+        #     axes[d].text(.5,.9,f"Det {d}",horizontalalignment='center',transform=axes[d].transAxes)
+        #     if d in dets:
+        #         axes[d].hlines(y=1, linestyles="dashed", colors="k", xmin=counts[i,0], xmax=counts[i,-1])
+        #         # line2, = axes[d].plot([0, ma[i]], [0, ma[i]], ls="--", c="k")
+        #         # line1, = axes[d].plot(counts[i], predicted[i], c="r")
+        #         axes[d].fill_between(counts[i], rel_predicted_lower[i], rel_predicted_upper[i], color="r", alpha=0.5)
+        #         i += 1
+        # plt.subplots_adjust(hspace=0, wspace=0)
+        # plt.subplots_adjust(hspace=0, top=0.96, bottom=0.1)
                 
-        fig.add_subplot(111, frameon=False)
-        plt.tick_params(labelcolor='none', which='both', top=False, bottom=False, left=False, right=False)
-        plt.xlabel("Cumulative Real Counts")
-        plt.ylabel("Cumulative Predicted Counts / Cumulative Real Counts", labelpad=27)
+        # fig.add_subplot(111, frameon=False)
+        # plt.tick_params(labelcolor='none', which='both', top=False, bottom=False, left=False, right=False)
+        # plt.xlabel("Cumulative Real Counts")
+        # plt.ylabel("Cumulative Predicted Counts / Cumulative Real Counts", labelpad=27)
         
         fig.savefig(f"{self._folder}/rel_qq/{name}_rel_qq.pdf")
         plt.close()
         
+    def _detector_plots(
+        self,
+        dets,
+        xs,
+        ys,
+        styles,
+        xlabel=None,
+        ylabel=None,
+        ylog=False,
+        step_plot=False
+    ):
+        fig, axes = plt.subplots(5,4, sharex=True, sharey=True, figsize=(10,10))
+        axes = axes.flatten()
+        i=0
+        for d in range(19):
+            axes[d].text(.5,.9,f"Det {d}",horizontalalignment='center',transform=axes[d].transAxes)
+            if d in dets:
+                if step_plot:
+                    plotting_func = axes[d].step
+                else:
+                    plotting_func = axes[d].plot
+                for y_i in range(len(ys)):
+                    if len(xs.shape) != 1:
+                        plotting_func(xs[i], ys[y_i][i], **styles[y_i])
+                    else:
+                        plotting_func(xs, ys[y_i][i], **styles[y_i])
+                
+                i += 1
+            if ylog == True:
+                axes[d].set_yscale("log")
+        plt.subplots_adjust(hspace=0, wspace=0)
+        plt.subplots_adjust(hspace=0, top=0.96, bottom=0.1)
+        
+        fig.add_subplot(111, frameon=False)
+        plt.tick_params(labelcolor='none', which='both', top=False, bottom=False, left=False, right=False)
+        if not xlabel is None:
+            plt.xlabel(**xlabel)
+        if not ylabel is None:
+            plt.ylabel(**ylabel)
+            
+        return fig, axes
+    
+    # def _ppc_plotter(
+    #   self,
+    #   axes,
+    #   x,
+    #   ys,
+    #   styles
+    # ):
+    #     for i, y in enumerate(ys):
+    #         plt.plot(x, y, styles[i])
+        
+        
+        
+        
     def _cdf_hist(
         self,
-        b,
-        s,
+        expected_counts,
         c,
         name,
         xs,
-        nb,
-        ns
     ):
-        p = b + s
-        var = (nb-1) / nb * b + (ns-1) / ns * s
-        cdf = norm.cdf(c, loc=p, scale=np.sqrt(var))
+        # p = b + s
+        # var = (nb-1) / nb * b + (ns-1) / ns * s
+        # cdf = norm.cdf(c, loc=p, scale=np.sqrt(var))
+                
+        # cdf_counts, _ = np.histogram(cdf.flatten(), bins=len(xs)-1, range=(0,1))
+        # self._cdf_plot(cdf_counts, xs, name)
+        
+        argsort = np.argsort(expected_counts, axis=2)
+        expected_counts = np.take_along_axis(expected_counts, argsort, axis=2)
+        
+        num_samples = expected_counts.shape[2]
+        
+        cdf = np.zeros(expected_counts.shape[:2])
+        for d_i in range(expected_counts.shape[0]):
+            for e_i in range(expected_counts.shape[1]):
+                cdf[d_i, e_i] = ((np.searchsorted(expected_counts[d_i,e_i], c[d_i,e_i], "left")
+                                 + np.searchsorted(expected_counts[d_i,e_i], c[d_i,e_i], "right"))
+                                 / (2 * num_samples))
                 
         cdf_counts, _ = np.histogram(cdf.flatten(), bins=len(xs)-1, range=(0,1))
         self._cdf_plot(cdf_counts, xs, name)

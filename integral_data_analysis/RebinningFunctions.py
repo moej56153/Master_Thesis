@@ -45,7 +45,7 @@ def rebin_data_exp(
             
     return new_bins, new_counts
 
-def rebin_data_exp_10(
+def rebin_data_exp_50(
     bins,
     counts,
     energy_range
@@ -65,7 +65,7 @@ def rebin_data_exp_10(
                 assert i > 1, "Max Energy is too low"
                 break
         
-    min_counts = 10
+    min_counts = 50
     
     max_num_bins = 120
     min_num_bins = 1
