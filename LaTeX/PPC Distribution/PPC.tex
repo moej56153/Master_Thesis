@@ -1,0 +1,40 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\parindent=0pt
+\usepackage[a4paper, total={175mm, 252mm}]{geometry}
+\usepackage[section]{placeins}
+\usepackage{enumitem}
+\usepackage{caption}
+
+\title{PPC Distributions for  PySPI}
+\author{Möller, Julius}
+\date{February 2023}
+
+\begin{document}
+
+\maketitle
+
+\section{Introduction}
+
+Given a posterior distribution (from a fit or similar), a standard Posterior Predictive Check (PPC) works in the
+following steps:
+\begin{enumerate}
+    \item Sample from the posterior (i.e. sample parameters for Crab index and intensity)
+    \item \label{phys_dataspace} Convert posterior into physical data-space (i.e. flux rate at SPI's position)
+    \item Compute instrument response (i.e. SPI's count rate)
+    \item \label{rand_sample} Sample instrument data (i.e. measured counts per bin via poisson distribution)
+\end{enumerate}
+For PySPI, issues arise at step \ref{phys_dataspace}, since the posterior parameter space does not fully describe the
+physical system required to predict SPI data. Instead, the entire background is effectively filtered out during the
+fitting process using the maximum likelihood value of the background. In order to obtain PPC distributions, we may
+recalculate this maximum likelihood background using the posterior samples as source rates and the actual measured
+data. This, however, introduces a bias  in our PPC data towards the measured data, which has to taken into account in
+step \ref{rand_sample}. The nature of this bias and the resulting distributions will be discussed below.
+
+\section{Assumptions}
+
+
+\end{document}
