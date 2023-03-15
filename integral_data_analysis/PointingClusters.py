@@ -46,6 +46,8 @@ class PointingClusters: #add min time diff
         min_time_elapsed,
         cluster_size_range,
         random_angle_dif_range=None,
+        center_ra=83.6333,
+        center_dec=22.0144,
     ):
         self._orbit_paths = orbit_paths
         self._min_angle_dif = min_angle_dif
@@ -57,7 +59,7 @@ class PointingClusters: #add min time diff
         self._random_angle_dif_range = random_angle_dif_range
         
         pointings = []
-        self._get_scw_ids()
+        self._get_scw_ids(center_ra, center_dec)
         cq = ClusteredQuery(
             self._scw_ids,
             angle_weight=0.,
@@ -77,8 +79,8 @@ class PointingClusters: #add min time diff
                 
         self.pointings = tuple(pointings)             
     
-    def _get_scw_ids(self, print_results=False):
-        p = SkyCoord(83.6333, 22.0144, frame="icrs", unit="deg")
+    def _get_scw_ids(self, center_ra, center_dec, print_results=False):
+        p = SkyCoord(center_ra, center_dec, frame="icrs", unit="deg")
         searchquerry = SearchQuery(position=p, radius=f"{self._radius_around_crab} degree",)
         cat = IntegralQuery(searchquerry)
 

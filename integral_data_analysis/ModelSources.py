@@ -99,6 +99,19 @@ def geminga_pl(model, piv):
     model.add_source(ps)
     return model
 
+def simulated_pl(model, piv):
+    ra, dec = 10, -40
+    
+    pl = Powerlaw()
+    pl.piv = piv
+    pl.K.prior = Log_uniform_prior(lower_bound=1e-6, upper_bound=1e0)
+    pl.index.prior = Uniform_prior(lower_bound=-4, upper_bound=0)
+    component1 = SpectralComponent("pl", shape=pl)
+    ps = PointSource("Simulated_Source", ra=ra, dec=dec, components=[component1])
+    
+    model.add_source(ps)
+    return model
+
 def true_values(include_position=False):
     piv = 40
     
