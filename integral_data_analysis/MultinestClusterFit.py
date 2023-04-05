@@ -204,6 +204,17 @@ class MultinestClusterFit:
     def _run_multinest(self):
         num_sources = len(self._source_model.sources)
         
+        import pickle # why is this necessary for 1380?????????????????????????????????????????????
+        with open("error_test","wb") as f:
+            pickle.dump(
+                (self._counts,),
+                f
+            )
+        
+        with open("error_test", "rb") as f:
+            (self._counts,) = pickle.load(f)
+        
+        
         def logLba_mult(trial_values, ndim=None, params=None):
             spec_binned = np.zeros((num_sources, len(self._emod)-1))
             for i, parameter in enumerate(self._source_model.free_parameters.values()):
