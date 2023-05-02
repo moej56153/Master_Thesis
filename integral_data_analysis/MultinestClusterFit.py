@@ -166,6 +166,31 @@ def calc_mahalanobis_dist(summary, cov, true_vals):
         
     return np.array(rel_distance)
 
+@njit
+def powerlaw_binned_spectrum(energy_bins, spectrum):
+    assert np.amin(energy_bins) > 0, "All energy bin values must be greater 0"
+    assert np.amin(spectrum) > 0, "All spectrum values must be greater 0"
+    
+    B = np.log(spectrum[1:] / spectrum[:-1]) / np.log(energy_bins[1:] / energy_bins[:-1])
+    A = spectrum[:-1] / (energy_bins[:-1] ** B)
+    
+    C = B + 1.
+    # prevent rounding errors
+    C[np.abs(C) < 1e-7] = 0
+    
+    regular = np.nonzero(C)[0]
+    non_regular = []
+    for i in range(len(energy_bins) - 1):
+        if not i in regular:
+            non_regular.append(i)
+    non_regular = np.array(non_regular)
+    
+    binned_spectrum = np.zeros(len(energy_bins) - 1)
+    binned_spectrum[regular] = A[regular] / (C[regular]) * (energy_bins[regular+1]**(C[regular]) - energy_bins[regular]**(C[regular]))
+    binned_spectrum[non_regular] = A[non_regular] * (np.log(energy_bins[non_regular+1]) - np.log(energy_bins[non_regular]))
+    
+    return binned_spectrum
+
 class MultinestClusterFit:
     def __init__(
         self,
@@ -221,7 +246,8 @@ class MultinestClusterFit:
                 parameter.value = trial_values[i]
             for i, source in enumerate(self._source_model.sources.values()):
                 spec = source(self._emod)
-                spec_binned[i,:] = (self._emod[1:]-self._emod[:-1])*(spec[:-1]+spec[1:])/2
+                spec_binned[i,:] = powerlaw_binned_spectrum(self._emod, spec)
+                # spec_binned[i,:] = (self._emod[1:]-self._emod[:-1])*(spec[:-1]+spec[1:])/2
             if 1 in self._updatable_sources:
                 self._update_resp_mats()
             return logLcore(
@@ -497,7 +523,8 @@ class MultinestClusterFit:
                 parameter.value = params[fp_i]
             for s_i, source in enumerate(self._source_model.sources.values()):
                 spec = source(self._emod)
-                spec_binned[s_i,:] = (self._emod[1:]-self._emod[:-1])*(spec[:-1]+spec[1:])/2
+                spec_binned[s_i,:] = powerlaw_binned_spectrum(self._emod, spec)
+                # spec_binned[s_i,:] = (self._emod[1:]-self._emod[:-1])*(spec[:-1]+spec[1:])/2
             if 1 in self._updatable_sources:
                 self._update_resp_mats()
             

@@ -42,7 +42,7 @@ class PointingClusters: #add min time diff
         min_angle_dif,
         max_angle_dif,
         max_time_dif,
-        radius_around_crab,
+        radius_around_source,
         min_time_elapsed,
         cluster_size_range,
         random_angle_dif_range=None,
@@ -53,7 +53,7 @@ class PointingClusters: #add min time diff
         self._min_angle_dif = min_angle_dif
         self._max_angle_dif = max_angle_dif
         self._max_time_dif = max_time_dif
-        self._radius_around_crab = radius_around_crab
+        self._radius_around_source = radius_around_source
         self._min_time_elapsed = min_time_elapsed
         self._cluster_size_range = cluster_size_range
         self._random_angle_dif_range = random_angle_dif_range
@@ -72,16 +72,22 @@ class PointingClusters: #add min time diff
             suboptimal_cluster_size=min(max(1, self._cluster_size_range[0]), self._cluster_size_range[1]-1),
             close_suboptimal_cluster_size=min(max(1, self._cluster_size_range[0]), self._cluster_size_range[1]-1)
         ).get_clustered_scw_ids()
-        
+                
         for size in range(self._cluster_size_range[0], self._cluster_size_range[1] + 1):
             for cluster in cq[size]:
-                pointings.append(tuple([(i, f"crab_data/{i[:4]}") for i in cluster]))
+                pointings_cluster = []
+                for pointing in cluster:
+                    for i, scw in enumerate(self._scw_ids):
+                        if scw[0] == pointing:
+                            pointings_cluster.append((pointing, self._scw_paths[i]))
+                            break
+                pointings.append(tuple(pointings_cluster))
                 
         self.pointings = tuple(pointings)             
     
     def _get_scw_ids(self, center_ra, center_dec, print_results=False):
         p = SkyCoord(center_ra, center_dec, frame="icrs", unit="deg")
-        searchquerry = SearchQuery(position=p, radius=f"{self._radius_around_crab} degree",)
+        searchquerry = SearchQuery(position=p, radius=f"{self._radius_around_source} degree",)
         cat = IntegralQuery(searchquerry)
 
         scw_ids_all = None
@@ -98,8 +104,9 @@ class PointingClusters: #add min time diff
                 )
             else:
                 scw_ids_all = cat.apply_filter(f, return_coordinates=True, remove_duplicates=True)
-        
+                
         scw_ids = []
+        paths = []
         
         multiple_files = []
         no_files = []
@@ -108,20 +115,34 @@ class PointingClusters: #add min time diff
         num_dets = 19
         eb = np.geomspace(18, 2000, 5)
         emod = np.geomspace(18, 2000, 5)
-        for scw_id in scw_ids_all:
+        
+        for i, scw_id in enumerate(scw_ids_all):
+            # Query may structure scws differently to our data, we only care about our data
+            repeat = False
+            for scw_id_2 in scw_ids_all[:i]:
+                if scw_id[0][:8] == scw_id_2[0][:8]:
+                    repeat = True
+                    break
+            if repeat:
+                continue
+            
             good = True
-            with fits.open(f"{path}/pointing.fits") as file:
-                t = Table.read(file[1])
-                index = np.argwhere(t["PTID_ISOC"]==scw_id[0][:8])
+            found = False
+            for path in self._orbit_paths:
+                with fits.open(f"{path}/pointing.fits") as file:
+                    t = Table.read(file[1])
+                    index = np.argwhere(t["PTID_ISOC"]==scw_id[0][:8])
                 
                 if len(index) < 1:
                     no_files.append(scw_id)
-                    good = False
                     continue
-                    
+                                    
                 elif len(index) > 1:
                     multiple_files.append(scw_id)
                     good = False
+                    
+                found = True
+                paths.append(path)
                                 
                 pointing_info = t[index[-1][0]]
             
@@ -135,23 +156,28 @@ class PointingClusters: #add min time diff
                     
                     for i in range(num_dets):
                         for j in index:
-                            time_elapsed[i] += t2["LIVETIME"][j[0]*85 + i]
+                            time_elapsed[i] += t2["LIVETIME"][j[0]*85 + i] # this is only true when combining fragmented scws
                                 
                 dets = get_live_dets(time=time_start, event_types=["single"])
                                 
                 if not np.amin(time_elapsed[dets]) > self._min_time_elapsed:
                     good = False
-            
-            try: # investigate why this is necessary
-                version = find_response_version(time_start)
-                rsp = ResponseRMFGenerator.from_time(time_start, dets[0], eb, emod, rsp_bases[version])
-            except:
-                no_pyspi.append(scw_id)
+                        
+                try: # investigate why this is necessary
+                    version = find_response_version(time_start)
+                    rsp = ResponseRMFGenerator.from_time(time_start, dets[0], eb, emod, rsp_bases[version])
+                except:
+                    no_pyspi.append(scw_id)
+                    good = False
+                
+            if not found:
                 good = False
                 
             if good:
                 scw_ids.append(scw_id)
                 
+        assert len(paths) == len(scw_ids), "At least one SCW is found in multiple paths"    
+            
         if print_results:
             print("Multiple Files:")
             print(multiple_files)
@@ -163,3 +189,4 @@ class PointingClusters: #add min time diff
             print(scw_ids)
         
         self._scw_ids = np.array(scw_ids)
+        self._scw_paths = paths
