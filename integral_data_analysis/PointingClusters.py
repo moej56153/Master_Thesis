@@ -142,8 +142,7 @@ class PointingClusters: #add min time diff
                     good = False
                     
                 found = True
-                paths.append(path)
-                                
+                                                
                 pointing_info = t[index[-1][0]]
             
                 t1 = at.Time(f'{pointing_info["TSTART"]+2451544.5}', format='jd').datetime
@@ -169,15 +168,16 @@ class PointingClusters: #add min time diff
                 except:
                     no_pyspi.append(scw_id)
                     good = False
+                    
+                if good:
+                    paths.append(path)
                 
             if not found:
                 good = False
                 
             if good:
                 scw_ids.append(scw_id)
-                
-        assert len(paths) == len(scw_ids), "At least one SCW is found in multiple paths"    
-            
+                    
         if print_results:
             print("Multiple Files:")
             print(multiple_files)
@@ -187,6 +187,8 @@ class PointingClusters: #add min time diff
             print(no_pyspi)
             print("Good:")
             print(scw_ids)
+            
+        assert len(paths) == len(scw_ids), "At least one SCW is found in multiple paths"
         
         self._scw_ids = np.array(scw_ids)
         self._scw_paths = paths

@@ -105,7 +105,7 @@ def simulated_pl_0374(model, piv):
     pl = Powerlaw()
     pl.piv = piv
     pl.K.prior = Log_uniform_prior(lower_bound=1e-6, upper_bound=1e0)
-    pl.index.prior = Uniform_prior(lower_bound=-4, upper_bound=0)
+    pl.index.prior = Uniform_prior(lower_bound=-4, upper_bound=4)
     component1 = SpectralComponent("pl", shape=pl)
     ps = PointSource("Simulated_Source_0374", ra=ra, dec=dec, components=[component1])
     
