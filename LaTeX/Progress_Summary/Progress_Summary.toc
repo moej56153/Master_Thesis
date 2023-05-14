@@ -1,0 +1,4 @@
+\contentsline {section}{\numberline {1}General Procedure}{2}{section.1}%
+\contentsline {section}{\numberline {2}Spimodfit Procedure}{3}{section.2}%
+\contentsline {section}{\numberline {3}Results: Crab Nebula}{4}{section.3}%
+\contentsline {section}{\numberline {4}Results: Simulated Source}{4}{section.4}%
