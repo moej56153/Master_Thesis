@@ -56,6 +56,56 @@ def b_maxL_3(m, t, C):
     
     return x0.real
 
+@njit
+def b_maxL_4(m, t, C):
+    t_t = np.sum(t)
+    C_ = np.zeros(4)
+    m_plus = np.zeros(4)
+    m_cross = np.zeros(4)
+    m_dot = np.zeros(4)
+    
+    for i in range(4):
+        C_[i] = C[i] - t[i] * m[i]
+        m_plus[i] = m[(i+1) % 4] + m[(i+2) % 4] + m[(i+3) % 4]
+        m_cross[i] = (m[(i+1) % 4] * m[(i+2) % 4]
+                      + m[(i+2) % 4] * m[(i+3) % 4]
+                      + m[(i+3) % 4] * m[(i+1) % 4])
+        m_dot[i] = m[(i+1) % 4] * m[(i+2) % 4] * m[(i+3) % 4]
+        
+    A = -t_t.item()
+    B = np.sum(C_ - t * m_plus).item()
+    C = np.sum(C_ * m_plus - t * m_cross).item()
+    D = np.sum(C_ * m_cross - t * m_dot).item()
+    E = np.sum(C_ * m_dot).item()
+    
+    # print(A,B,C,D,E)
+    
+    alpha = -3 * B**2 / (8 * A**2) + C/A
+    beta = B**3 / (8 * A**3) - B * C / (2 * A**2) + D/A
+    gamma = -3 * B**4 / (256 * A**4) + C * B**2 / (16 * A**3) - B * D / (4 * A**2) + E / A
+    
+    if beta == 0.:
+        s1 = (alpha**2 - 4*gamma)**0.5
+        s2 = ((-alpha + s1) / 2)**0.5
+        x = -B/(4*A) + s2
+        return x
+    
+    P = -(alpha**2)/12 - gamma
+    Q = -(alpha**3)/108 + alpha*gamma/3 - (beta**2) / 8
+    R = -Q/2 + (Q**2 / 4 + P**3 / 27)**0.5
+    U = R**(1/3)
+    if U == 0.:
+        y = -5/6*alpha - (Q**(1/3))
+    else:
+        y = -5/6*alpha + U - P/(3*U)
+    W = (alpha + 2*y)**0.5
+    
+    s1 = 2*beta/W
+    s2 = (-(3*alpha + 2*y + s1))**0.5
+    s3 = (W + s2) / 2
+    x = -B / (4*A) + s3
+    return x.real
+
 
 @njit
 def logLcore(
@@ -90,6 +140,8 @@ def logLcore(
                     b = b_maxL_2(m_b, t_b, C_b)
                 elif n_p == 3:
                     b = b_maxL_3(m_b, t_b, C_b)
+                elif n_p == 4:
+                    b = b_maxL_4(m_b, t_b, C_b)
                 else:
                     print()
                     print("b_maxL is not defined")

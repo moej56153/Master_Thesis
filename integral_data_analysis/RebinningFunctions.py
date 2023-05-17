@@ -1,49 +1,49 @@
 import numpy as np
 
-def rebin_data_exp(
-    bins,
-    counts,
-    energy_range
-):
+# def rebin_data_exp(
+#     bins,
+#     counts,
+#     energy_range
+# ):
 
-    if energy_range[0]:
-        for i, e in enumerate(bins):
-            if e >= energy_range[0]:
-                bins = bins[i:]
-                counts = counts[:,i:]
-                break
-    if energy_range[1]:
-        for i, e in enumerate(bins):
-            if e > energy_range[1]:
-                bins = bins[:i]
-                counts = counts[:,:i-1]
-                assert i > 1, "Max Energy is too low"
-                break
+#     if energy_range[0]:
+#         for i, e in enumerate(bins):
+#             if e >= energy_range[0]:
+#                 bins = bins[i:]
+#                 counts = counts[:,i:]
+#                 break
+#     if energy_range[1]:
+#         for i, e in enumerate(bins):
+#             if e > energy_range[1]:
+#                 bins = bins[:i]
+#                 counts = counts[:,:i-1]
+#                 assert i > 1, "Max Energy is too low"
+#                 break
         
-    min_counts = 5
+#     min_counts = 5
     
-    max_num_bins = 120
-    min_num_bins = 2
+#     max_num_bins = 120
+#     min_num_bins = 2
     
-    finished = False
+#     finished = False
     
-    while not finished:
-        num_bins = round((max_num_bins + min_num_bins) / 2)
+#     while not finished:
+#         num_bins = round((max_num_bins + min_num_bins) / 2)
         
-        if num_bins == max_num_bins or num_bins == min_num_bins:
-            num_bins = min_num_bins
-            finished = True
+#         if num_bins == max_num_bins or num_bins == min_num_bins:
+#             num_bins = min_num_bins
+#             finished = True
         
-        temp_bins = np.geomspace(bins[0], bins[-1], num_bins+1)
+#         temp_bins = np.geomspace(bins[0], bins[-1], num_bins+1)
         
-        new_bins, new_counts = rebin_closest(bins, counts, temp_bins)
+#         new_bins, new_counts = rebin_closest(bins, counts, temp_bins)
         
-        if np.amin(new_counts) < min_counts:
-            max_num_bins = num_bins
-        else:
-            min_num_bins = num_bins
+#         if np.amin(new_counts) < min_counts:
+#             max_num_bins = num_bins
+#         else:
+#             min_num_bins = num_bins
             
-    return new_bins, new_counts
+#     return new_bins, new_counts
 
 def rebin_data_exp_50(
     bins,
@@ -67,7 +67,7 @@ def rebin_data_exp_50(
         
     min_counts = 50
     
-    max_num_bins = 120 # these bin numbers do not necessarly correlate to final bin numbers
+    max_num_bins = 120 # these bin numbers do not necessarily correlate to final bin numbers
     min_num_bins = 2
     
     finished = False
@@ -146,6 +146,34 @@ def spimodfit_binning_SE(bins, counts, energy_range):
                 break
     
     return new_bins, new_counts
+
+def exp_binning_function_for_x_number_of_bins(num_bins):
+    def binning_function(
+        bins,
+        counts,
+        energy_range
+    ):
+        if energy_range[0]:
+            for i, e in enumerate(bins):
+                if e >= energy_range[0]:
+                    bins = bins[i:]
+                    counts = counts[:,i:]
+                    break
+        if energy_range[1]:
+            for i, e in enumerate(bins):
+                if e > energy_range[1]:
+                    bins = bins[:i]
+                    counts = counts[:,:i-1]
+                    assert i > 1, "Max Energy is too low"
+                    break
+        
+        temp_bins = np.geomspace(bins[0], bins[-1], num_bins+1)
+        
+        new_bins, new_counts = rebin_closest(bins, counts, temp_bins)
+                
+        return new_bins, new_counts
+    
+    return binning_function
         
         
         
