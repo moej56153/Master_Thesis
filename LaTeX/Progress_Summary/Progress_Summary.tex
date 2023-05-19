@@ -26,7 +26,7 @@
 
 
 \section{General Procedure}
-In contrast to previous approaches to working with INTEGRAL SPI, this method does not attempt to fit the background via physical models, and instead uses a profile likelihood to eliminate its effect in the source model fit. The underlying assumption that allows this to work is that background count rates in each energy bin remain constant for temporally and spatially near SPI Science Windows (SCWs). Here we distinguish between source counts, which describe all detected events directly originating from astronomical objects considered in our source model and background counts, which describe all other detector events.
+In contrast to previous approaches to working with INTEGRAL SPI, this method does not attempt to fit the background via physical models, and instead uses a profile likelihood to eliminate its effect in the source model fit. The underlying assumption that allows this to work is that background count rates in each energy bin remain constant for temporally and spatially near SPI Science Windows (SCWs). Here we distinguish between source counts, which describe all detected events directly originating from astronomical objects considered in our source model, and background counts, which describe all other detector events.
 
 This works in the following way: once we have split our set of SCWs into clusters within which we claim the assumption of constant background to be true and have defined a source model, a likelihood value can be calculated for each energy bin of each detector in each cluster. If one energy bin of one detector in one SCW with measuring time $t$ has a source count rate $s$ and a background count rate $b$, the probability $P$ of measuring $C$ counts follows a Poisson distribution:
 \begin{equation}
@@ -57,7 +57,7 @@ The process for clusters with sizes larger than two is analogous. One such likel
 
 
 \section{Spimodfit Procedure}
-In order to be able to compare the results obtain using PySpi and the method described above, spimodfit will be used with the same dataset. For the sake of limiting sources of potential errors, the procedure for obtaining results using spimodfit will be described in more detail than might otherwise be deemed necessary. In general, the  \href{https://www-cms.mpe.mpg.de/gamma/instruments/integral/www/}{spimodfit cookbook found here} was followed very closely. In all of the following sections only the SE Data was used by Spimodfit with an energy up to 600keV, compared to a possible 2MeV in the data used by Pyspi. 
+In order to be able to compare the results obtained using PySpi and the method described above, spimodfit will be used with the same dataset. For the sake of limiting sources of potential errors, the procedure for obtaining results using spimodfit will be described in more detail than might otherwise be deemed necessary. In general, the  \href{https://www-cms.mpe.mpg.de/gamma/instruments/integral/www/}{spimodfit cookbook found here} was followed very closely. In all of the following sections only the SE Data was used by Spimodfit with an energy up to 600keV, compared to a possible 2MeV in the data used by Pyspi. 
 
 \subsection{Fitting the Crab Nebula} \label{Spimodfit crab steps}
 
@@ -86,11 +86,11 @@ In order to be able to compare the results obtain using PySpi and the method des
     
     \verb|idl idl-startup.pro adjust4threeML_SE_02.pro|
 
-    \item For convenience, transfer the files \verb|specra_Crab.fits| and \verb|spectral_response.rmf.fits| onto local machine. Here the script found in
+    \item For convenience, transfer the files \verb|specra_Crab.fits| and \verb|spectral_response.rmf.fits| onto the local machine. Here the script found in
     
     \verb|/home/jmoeller/cookbook/SPI_cookbook/spectral_analysis/3ml_fit_Crab_SE.py|
     
-    is used extract the fit parameters, where the source model can be changed and active measurements (i.e. energy range) can be changed as pleased.
+    is used extract the fit parameters, where the source model and active measurements (i.e. energy range) can be changed as pleased.
 \end{enumerate}
 
 
@@ -154,14 +154,14 @@ The data used by PySpi was also subjected to a Posterior Predictive Check (PPC) 
 \section{Results: Simulated Source} \label{Sec: Sim Source}
 The downside to fitting a real astronomical object such as the Crab nebula is that one can never be exactly sure what the true source parameter values should be. This is why it can be advantageous to simulate a source, feed the simulated data back into the fit, and compare the produced source parameters to the now known true values.
 
-However, not only a simulated source is required, but a background as well. There are different approaches one may take to realize this. The first approach is to use an entirely real dataset from a SPI revolution as background, and add a simulated source on top:
+However, not only a simulated source is required, but a background spectrum as well. There are different approaches one may take to realize this:
 
 \begin{enumerate}
-    \item \label{step bkg}Choose a data set to use as background. This was done once with real data, in this case a single SPI revolutionFor this to work well, there should be as few bright sources within the field of view as possible, since these will interfere with the fit if not included in the source model. This step was also performed using the Spimodfit background spectrum, as described in section \ref{spimodfit bkg}. Alternatively, one can also use a constant background spectrum for all SCWs. This may be realized by choosing one SCW and duplicating its counts to all other SCWs. The counts have to be  redistributed according to a Poisson distribution and the lifetimes of the other SCWs has to be adjusted as well. 
+    \item \label{step bkg}Choose a data set to use as background. This can be done with real data, in this case a single SPI revolution. For this to work well, there should be as few bright sources within the field of view as possible, since these will interfere with the fit if not included in the source model. This step was also performed using the Spimodfit background spectrum, as described in section \ref{spimodfit bkg}. Alternatively, one can also use a constant background spectrum for all SCWs. This may be realized by choosing one SCW and duplicating its counts to all other SCWs. The counts have to be  redistributed according to a Poisson distribution and the lifetimes of the other SCWs has to be adjusted as well. 
     
     \item Define spectrum of the source to be simulated, as well as position. In this case powerlaws as shown in equation \ref{powerlaw} are used, and the position of the sources is chosen to be central to as many SCWs in the revolution as possible.
     
-    \item Use the SPI Instrument Response Function (IRF) to calculate the expected source count rates in each energy bin in each detector for each SCW. Multiply by these be the respective lifetime (effectively the active measuring time) of the detector in the SCW, and finally draw a sample of a Poisson distribution with the respective means to attain the measured counts of the simulated source for each energy bin in each detector in each SCW.
+    \item Use the SPI Instrument Response Function (IRF) to calculate the expected source count rates in each energy bin in each detector for each SCW. Multiply these by the respective lifetimes (effectively the active measuring time) of the detectors in the SCWs, and finally draw a sample of a Poisson distribution with the respective means to attain the measured counts of the simulated source for each energy bin in each detector in each SCW.
     
     \item These source count rates are then added to the background spectrum to acquire the total counts.
 \end{enumerate}
@@ -211,7 +211,7 @@ In general we see PySpi consistently perform better than Spimodfit. A couple of 
 \end{figure}
 
 
-Finally, the count and source model spectra produced by the Spimodfit fits are shown in figures \ref{smf_spec_0374} to \ref{smf_spec_1380_smf_bkg}. Two possible signs of errors are the first energy bin is always significantly higher than predicted by the source model, and that the uncertainties for revolution 1380 with real background data are very high.
+Finally, the count and source model spectra produced by the Spimodfit fits are shown in figures \ref{smf_spec_0374} to \ref{smf_spec_1380_smf_bkg}. Two possible signs of errors are that the first energy bin is always significantly higher than predicted by the source model, and that the uncertainties for revolution 1380 with real background data are very high.
 
 \section{Background Analysis}
 
@@ -238,7 +238,7 @@ While we are analyzing data spectra that we consider to be background-like (i.e.
     E(var) = (rt_1 - m)^2 + (rt_2 - m)^2 + \frac{r(t_1+t_2)}{2}
 \end{equation}
 
-where $r=\frac{C_1+C_2}{t_1+t_2}$ is the average count-rate in both energy bins, $m=\frac{C_1+C_2}{2}$ is the average number of counts, and $t_1$ and $t_2$ are the lifetimes of the respective SCWs. We may then sum the variance and expected variance over all energy bins and all detectors for each cluster of SCWs and take their ratio to get an estimate of how well the fundamental assumption of a constant background count-rate within SCW clusters is met. A ratio $var / E(var)$ around 1 means that the variances between the two SCWs are entirely explained by Poisson sampling with a common count-rate, in comparison to a ratio larger than 1 indicating a source in SPIs field of view, hence non-common count-rates for identical energy bins in the clustered SCWs.
+where $r=\frac{C_1+C_2}{t_1+t_2}$ is the average count-rate in both energy bins, $m=\frac{C_1+C_2}{2}$ is the average number of counts, and $t_1$ and $t_2$ are the lifetimes of the respective SCWs. We may then sum the variance and expected variance over all energy bins and all detectors for each cluster of SCWs and take their ratio to get an estimate of how well the fundamental assumption of a constant background count-rate within SCW clusters is met. A ratio $var / E(var)$ around 1 means that the variances between the two SCWs are entirely explained by Poisson sampling with a common count-rate, in comparison to a ratio larger than 1 indicating a source is in SPIs field of view, hence non-common count-rates for identical energy bins in the clustered SCWs.
 
 This was plotted in figure \ref{plt bkg var} for the real data from revolution 0374 and the Spimodfit generated background spectrum for revolution 0374. We see that both are closely distributed around 1, meaning that the fundamental assumption of constant background rates within SCW clusters is well met, both within the real data and the spimodfit generated background. 
 
@@ -302,7 +302,7 @@ Another important test is how well the fit works for powerlaws with different pa
 
 In practical applications there are almost always going to be additional sources within SPI's field of view that are not considered in the source model. In order to judge the severity of this, we shall simulate a second source within SPI's field of view (not included in the source model) to observe to ramifications of the fit on the primary source, as is shown in figure \ref{fig sec source}. 
 
-When the two sources are close to each other, the normalization and index shift in accordance to the second source as expected. At 5 degrees apart most fits start to achieve a decent level of quality, and at 15 degrees or mre the impact is negligible. The impact is largest when the second source has a large (on an absolute scale) index. One might be inclined to conclude that the second source has significant impact even up to 45 degrees separation, but one should note that Poisson samples used in the background spectra are only redrawn once for every index of the second source. In light of all other results shown here, this seems like the more plausible explanation for the deviations at large separations. 
+When the two sources are close to each other, the normalization and index shift in accordance to the second source as expected. At 5 degrees apart most fits start to achieve a decent level of quality, and at 15 degrees or more the impact is negligible. The impact is largest when the second source has a large (on an absolute scale) index. One might be inclined to conclude that the second source has significant impact even up to 45 degrees separation, but one should note that Poisson samples used in the background spectra are only redrawn once for every index of the second source. In light of all other results shown here, this seems like the more plausible explanation for the deviations at large separations. 
 
 \FloatBarrier
 
