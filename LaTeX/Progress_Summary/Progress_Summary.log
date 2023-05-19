@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2022.8.6)  18 MAY 2023 18:08
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2022.8.6)  19 MAY 2023 03:36
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -266,43 +266,49 @@ Package: parskip 2021-03-14 v2.0h non-zero parskip adjustments
  (/usr/local/texlive/2022/texmf-dist/tex/latex/etoolbox/etoolbox.sty
 Package: etoolbox 2020/10/05 v2.5k e-TeX tools for LaTeX (JAW)
 \etb@tempcnta=\count289
-)) (/usr/local/texlive/2022/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
+)) (/usr/local/texlive/2022/texmf-dist/tex/latex/multirow/multirow.sty
+Package: multirow 2021/03/15 v2.8 Span multiple rows of a table
+\multirow@colwidth=\skip54
+\multirow@cntb=\count290
+\multirow@dima=\skip55
+\bigstrutjot=\dimen171
+) (/usr/local/texlive/2022/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
 File: l3backend-pdftex.def 2022-07-01 L3 backend support: PDF output (pdfTeX)
-\l__color_backend_stack_int=\count290
+\l__color_backend_stack_int=\count291
 \l__pdf_internal_box=\box54
 ) (./Progress_Summary.aux)
 \openout1 = `Progress_Summary.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 17.
-LaTeX Font Info:    ... okay on input line 17.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 17.
-LaTeX Font Info:    ... okay on input line 17.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 17.
-LaTeX Font Info:    ... okay on input line 17.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 17.
-LaTeX Font Info:    ... okay on input line 17.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 17.
-LaTeX Font Info:    ... okay on input line 17.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 17.
-LaTeX Font Info:    ... okay on input line 17.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 17.
-LaTeX Font Info:    ... okay on input line 17.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 17.
-LaTeX Font Info:    ... okay on input line 17.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 17.
-LaTeX Font Info:    ... okay on input line 17.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 18.
+LaTeX Font Info:    ... okay on input line 18.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 18.
+LaTeX Font Info:    ... okay on input line 18.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 18.
+LaTeX Font Info:    ... okay on input line 18.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 18.
+LaTeX Font Info:    ... okay on input line 18.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 18.
+LaTeX Font Info:    ... okay on input line 18.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 18.
+LaTeX Font Info:    ... okay on input line 18.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 18.
+LaTeX Font Info:    ... okay on input line 18.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 18.
+LaTeX Font Info:    ... okay on input line 18.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 18.
+LaTeX Font Info:    ... okay on input line 18.
  (/usr/local/texlive/2022/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count291
-\scratchdimen=\dimen171
+\scratchcounter=\count292
+\scratchdimen=\dimen172
 \scratchbox=\box55
-\nofMPsegments=\count292
-\nofMParguments=\count293
+\nofMPsegments=\count293
+\nofMParguments=\count294
 \everyMPshowfont=\toks26
-\MPscratchCnt=\count294
-\MPscratchDim=\dimen172
-\MPnumerator=\count295
-\makeMPintoPDFobject=\count296
+\MPscratchCnt=\count295
+\MPscratchDim=\dimen173
+\MPnumerator=\count296
+\makeMPintoPDFobject=\count297
 \everyMPtoPDFconversion=\toks27
 ) (/usr/local/texlive/2022/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
 Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
@@ -310,7 +316,7 @@ Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 48
  (/usr/local/texlive/2022/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Live
 ))
-Package hyperref Info: Link coloring OFF on input line 17.
+Package hyperref Info: Link coloring OFF on input line 18.
  (./Progress_Summary.out) (./Progress_Summary.out)
 \@outlinefile=\write3
 \openout3 = `Progress_Summary.out'.
@@ -359,75 +365,75 @@ Package caption Info: End \AtBeginDocument code.
  [1
 
 {/usr/local/texlive/2022/texmf-var/fonts/map/pdftex/updmap/pdftex.map}] [2]
-Overfull \hbox (14.51852pt too wide) in paragraph at lines 76--77
+Overfull \hbox (14.51852pt too wide) in paragraph at lines 77--78
 []\OT1/cmr/m/n/10 In the file [][]\OT1/cmtt/m/n/10 spimodfit.fit_Crab_SE_02.par []\OT1/cmr/m/n/10 change the pa-ram-e-ters [][]\OT1/cmtt/m/n/10 counts_input_file[]\OT1/cmr/m/n/10 , [][]\OT1/cmtt/m/n/10 pointing_input_file[]\OT1/cmr/m/n/10 ,
  []
 
 [3]
-<Images/crab_ps_smf_wo_out.pdf, id=144, 521.68877pt x 263.16693pt>
+<Images/crab_ps_smf_wo_out.pdf, id=149, 521.68877pt x 263.16693pt>
 File: Images/crab_ps_smf_wo_out.pdf Graphic file (type pdf)
 <use Images/crab_ps_smf_wo_out.pdf>
-Package pdftex.def Info: Images/crab_ps_smf_wo_out.pdf  used on input line 136.
+Package pdftex.def Info: Images/crab_ps_smf_wo_out.pdf  used on input line 137.
 (pdftex.def)             Requested size: 497.92322pt x 251.19177pt.
  [4 <./Images/crab_ps_smf_wo_out.pdf>]
-<Images/0374_sim_source.pdf, id=193, 540.02289pt x 260.9347pt>
+<Images/0374_sim_source.pdf, id=198, 540.02289pt x 260.9347pt>
 File: Images/0374_sim_source.pdf Graphic file (type pdf)
 <use Images/0374_sim_source.pdf>
-Package pdftex.def Info: Images/0374_sim_source.pdf  used on input line 171.
+Package pdftex.def Info: Images/0374_sim_source.pdf  used on input line 172.
 (pdftex.def)             Requested size: 497.92322pt x 240.60033pt.
-<Images/1380_sim_source.pdf, id=194, 540.02289pt x 263.16693pt>
+<Images/1380_sim_source.pdf, id=199, 540.02289pt x 263.16693pt>
 File: Images/1380_sim_source.pdf Graphic file (type pdf)
 <use Images/1380_sim_source.pdf>
-Package pdftex.def Info: Images/1380_sim_source.pdf  used on input line 177.
+Package pdftex.def Info: Images/1380_sim_source.pdf  used on input line 178.
 (pdftex.def)             Requested size: 497.92322pt x 242.65862pt.
 
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
 [5 <./Images/0374_sim_source.pdf>]
-<Images/smf_spec_0374_sim_source.pdf, id=249, 448.95206pt x 332.55229pt>
+<Images/smf_spec_0374_sim_source.pdf, id=254, 448.95206pt x 332.55229pt>
 File: Images/smf_spec_0374_sim_source.pdf Graphic file (type pdf)
 <use Images/smf_spec_0374_sim_source.pdf>
-Package pdftex.def Info: Images/smf_spec_0374_sim_source.pdf  used on input line 186.
+Package pdftex.def Info: Images/smf_spec_0374_sim_source.pdf  used on input line 187.
 (pdftex.def)             Requested size: 348.54472pt x 258.18204pt.
 
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-<Images/smf_spec_0374_sim_source_smf_bkg.pdf, id=250, 448.95206pt x 332.55229pt>
+<Images/smf_spec_0374_sim_source_smf_bkg.pdf, id=255, 448.95206pt x 332.55229pt>
 File: Images/smf_spec_0374_sim_source_smf_bkg.pdf Graphic file (type pdf)
 <use Images/smf_spec_0374_sim_source_smf_bkg.pdf>
-Package pdftex.def Info: Images/smf_spec_0374_sim_source_smf_bkg.pdf  used on input line 193.
+Package pdftex.def Info: Images/smf_spec_0374_sim_source_smf_bkg.pdf  used on input line 194.
 (pdftex.def)             Requested size: 348.54472pt x 258.18204pt.
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-<Images/smf_spec_1380_sim_source.pdf, id=251, 448.78267pt x 332.55229pt>
+<Images/smf_spec_1380_sim_source.pdf, id=256, 448.78267pt x 332.55229pt>
 File: Images/smf_spec_1380_sim_source.pdf Graphic file (type pdf)
 <use Images/smf_spec_1380_sim_source.pdf>
-Package pdftex.def Info: Images/smf_spec_1380_sim_source.pdf  used on input line 200.
+Package pdftex.def Info: Images/smf_spec_1380_sim_source.pdf  used on input line 201.
 (pdftex.def)             Requested size: 348.54472pt x 258.27338pt.
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-<Images/smf_spec_1380_sim_source_smf_bkg.pdf, id=252, 448.47221pt x 332.55229pt>
+<Images/smf_spec_1380_sim_source_smf_bkg.pdf, id=257, 448.47221pt x 332.55229pt>
 File: Images/smf_spec_1380_sim_source_smf_bkg.pdf Graphic file (type pdf)
 <use Images/smf_spec_1380_sim_source_smf_bkg.pdf>
-Package pdftex.def Info: Images/smf_spec_1380_sim_source_smf_bkg.pdf  used on input line 207.
+Package pdftex.def Info: Images/smf_spec_1380_sim_source_smf_bkg.pdf  used on input line 208.
 (pdftex.def)             Requested size: 348.54472pt x 258.45097pt.
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
 [6 <./Images/1380_sim_source.pdf>] [7 <./Images/smf_spec_0374_sim_source.pdf> <./Images/smf_spec_0374_sim_source_smf_bkg.pdf>] [8 <./Images/smf_spec_1380_sim_source.pdf> <./Images/smf_spec_1380_sim_source_smf_bkg.pdf>]
-<Images/background.pdf, id=482, 509.24942pt x 495.94473pt>
+<Images/background.pdf, id=487, 509.24942pt x 495.94473pt>
 File: Images/background.pdf Graphic file (type pdf)
 <use Images/background.pdf>
-Package pdftex.def Info: Images/background.pdf  used on input line 220.
+Package pdftex.def Info: Images/background.pdf  used on input line 221.
 (pdftex.def)             Requested size: 497.92322pt x 484.94037pt.
-<Images/background_variance.pdf, id=484, 505.89pt x 505.89pt>
+<Images/background_variance.pdf, id=489, 505.89pt x 505.89pt>
 File: Images/background_variance.pdf Graphic file (type pdf)
 <use Images/background_variance.pdf>
-Package pdftex.def Info: Images/background_variance.pdf  used on input line 229.
+Package pdftex.def Info: Images/background_variance.pdf  used on input line 230.
 (pdftex.def)             Requested size: 448.12785pt x 448.13332pt.
 
 
@@ -435,23 +441,80 @@ LaTeX Warning: `h' float specifier changed to `ht'.
 
 [9
 
- <./Images/background.pdf>] [10 <./Images/background_variance.pdf>] [11] (./Progress_Summary.aux)
+ <./Images/background.pdf>] [10 <./Images/background_variance.pdf>]
+<Images/t_identical_sim_source_sb.pdf, id=597, 520.5125pt x 263.16693pt>
+File: Images/t_identical_sim_source_sb.pdf Graphic file (type pdf)
+<use Images/t_identical_sim_source_sb.pdf>
+Package pdftex.def Info: Images/t_identical_sim_source_sb.pdf  used on input line 260.
+(pdftex.def)             Requested size: 497.92322pt x 251.74994pt.
+<Images/identical_sim_source_db.pdf, id=599, 520.5125pt x 263.16693pt>
+File: Images/identical_sim_source_db.pdf Graphic file (type pdf)
+<use Images/identical_sim_source_db.pdf>
+Package pdftex.def Info: Images/identical_sim_source_db.pdf  used on input line 273.
+(pdftex.def)             Requested size: 497.92322pt x 251.74994pt.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[11 <./Images/t_identical_sim_source_sb.pdf>]
+<Images/index_k.pdf, id=647, 755.57483pt x 744.72289pt>
+File: Images/index_k.pdf Graphic file (type pdf)
+<use Images/index_k.pdf>
+Package pdftex.def Info: Images/index_k.pdf  used on input line 286.
+(pdftex.def)             Requested size: 497.92322pt x 490.76862pt.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+<Images/sec_source.pdf, id=649, 983.78632pt x 1030.89328pt>
+File: Images/sec_source.pdf Graphic file (type pdf)
+<use Images/sec_source.pdf>
+Package pdftex.def Info: Images/sec_source.pdf  used on input line 298.
+(pdftex.def)             Requested size: 497.92322pt x 521.75317pt.
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[12 <./Images/identical_sim_source_db.pdf>] [13 <./Images/index_k.pdf>] [14 <./Images/sec_source.pdf>]
+<Images/energy_ranges.pdf, id=788, 582.02356pt x 263.16693pt>
+File: Images/energy_ranges.pdf Graphic file (type pdf)
+<use Images/energy_ranges.pdf>
+Package pdftex.def Info: Images/energy_ranges.pdf  used on input line 313.
+(pdftex.def)             Requested size: 497.92322pt x 225.14659pt.
+<Images/num_e_bins.pdf, id=793, 554.27928pt x 264.1263pt>
+File: Images/num_e_bins.pdf Graphic file (type pdf)
+<use Images/num_e_bins.pdf>
+Package pdftex.def Info: Images/num_e_bins.pdf  used on input line 326.
+(pdftex.def)             Requested size: 497.92322pt x 237.28024pt.
+<Images/cluster_sizes.pdf, id=795, 547.61375pt x 263.16693pt>
+File: Images/cluster_sizes.pdf Graphic file (type pdf)
+<use Images/cluster_sizes.pdf>
+Package pdftex.def Info: Images/cluster_sizes.pdf  used on input line 339.
+(pdftex.def)             Requested size: 497.92322pt x 239.29355pt.
+ [15
+
+ <./Images/energy_ranges.pdf> <./Images/num_e_bins.pdf>]
+<Images/data_scaling.pdf, id=886, 549.26053pt x 267.31792pt>
+File: Images/data_scaling.pdf Graphic file (type pdf)
+<use Images/data_scaling.pdf>
+Package pdftex.def Info: Images/data_scaling.pdf  used on input line 352.
+(pdftex.def)             Requested size: 497.92322pt x 242.33376pt.
+ [16 <./Images/cluster_sizes.pdf> <./Images/data_scaling.pdf>] [17] (./Progress_Summary.aux)
 Package rerunfilecheck Info: File `Progress_Summary.out' has not changed.
-(rerunfilecheck)             Checksum: 5B2B835D876B95A574A9EB5A7B3101CA;2541.
+(rerunfilecheck)             Checksum: 677C97A78C8BC4D5490B839D8E3AFCD1;2662.
  ) 
 Here is how much of TeX's memory you used:
- 11509 strings out of 478023
- 187899 string characters out of 5838676
- 503963 words of memory out of 5000000
- 29768 multiletter control sequences out of 15000+600000
+ 11661 strings out of 478023
+ 191379 string characters out of 5838676
+ 506277 words of memory out of 5000000
+ 29892 multiletter control sequences out of 15000+600000
  474810 words of font info for 48 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  72i,8n,77p,1146b,551s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
-Output written on Progress_Summary.pdf (11 pages, 482982 bytes).
+Output written on Progress_Summary.pdf (17 pages, 623295 bytes).
 PDF statistics:
- 665 PDF objects out of 1000 (max. 8388607)
- 297 compressed objects within 3 object streams
- 62 named destinations out of 1000 (max. 500000)
- 182 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 1057 PDF objects out of 1200 (max. 8388607)
+ 419 compressed objects within 5 object streams
+ 78 named destinations out of 1000 (max. 500000)
+ 230 words of extra memory for PDF output out of 10000 (max. 10000000)
 

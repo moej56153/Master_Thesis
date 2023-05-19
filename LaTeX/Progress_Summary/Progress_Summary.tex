@@ -9,6 +9,7 @@
 \usepackage{enumitem}
 \usepackage{caption}
 \usepackage{parskip}
+\usepackage{multirow}
 
 \title{PySpi for Persistent Sources}
 \author{Möller, Julius}
@@ -130,7 +131,7 @@ is created, containing the files \verb|output_bgmodel-conti.fits.gz| and \verb|o
 
 
 
-\section{Results: Crab Nebula}
+\section{Results: Crab Nebula} \label{Sec: Crab}
 
 \begin{figure}[h]
     \includegraphics[width=\textwidth]{Images/crab_ps_smf_wo_out.pdf}
@@ -150,7 +151,7 @@ Although the two methods obtain different values for the index and normalization
 
 The data used by PySpi was also subjected to a Posterior Predictive Check (PPC) analysis, allowing for revolution pairs that did not match the source model to be manually removed. This substantially improved the consistency of the fits.
 
-\section{Results: Simulated Source}
+\section{Results: Simulated Source} \label{Sec: Sim Source}
 The downside to fitting a real astronomical object such as the Crab nebula is that one can never be exactly sure what the true source parameter values should be. This is why it can be advantageous to simulate a source, feed the simulated data back into the fit, and compare the produced source parameters to the now known true values.
 
 However, not only a simulated source is required, but a background as well. There are different approaches one may take to realize this. The first approach is to use an entirely real dataset from a SPI revolution as background, and add a simulated source on top:
@@ -244,19 +245,116 @@ This was plotted in figure \ref{plt bkg var} for the real data from revolution 0
 Additionally, the same analysis was performed on revolution 1662, featuring many SCWs with the Crab Nebula within 10 degrees of the center of SPIs field of view. As expected, we see that the ratio of the variances is now considerably higher. Curiously, there are still several clusters with a ratio close to 1, implying that there are no visible sources in SPIs field of view. Since the Crab nebula is always within 10 degrees of the field of view, this is impossible. It is unclear what happened in these SCW clusters, but whatever the cause, any sources are completely drowned out. A PPC analysis was conducted on this revolution, with notable outlier SCW clusters being removed from the fit. As expected, this removes exactly those SCW clusters with a variance ratio close to 1. This highlights the importance of performing a PPC analysis when using PySpi.
 
 \section{Results: Pure Simulation} \label{sec: pure sim}
+Before we can really draw any conclusions from PySpi fits, we should further observe how accurate the results of PySpi fits are under different conditions. To do this, we once again use the count spectrum from SCW 03740002 as background and duplicate it to others SCWs in the revolution. Different sources are simulated in the following subsections, but the most commonly used source is a powerlaw with the parameters are $K=0.0001\text{keV}^{-1}\text{s}^{-1}\text{cm}^{-2}$, $piv=200\text{keV}$, and $index=-2$, which produces a similar spectrum to the Crab nebula. This revolution contains 42 suitable SCWs for fitting the simulated source at equatorial coordinates $RA=10, DEC=-40$. To measure the accuracy of a fit we shall use the Mahalanobis distance:
+
+\begin{equation}
+    d_M = \sqrt{(\vec{V}_F - \vec{V}_T)^TS^{-1}(\vec{V}_F-\vec{V}_T)}
+\end{equation}
+
+which tells us the number of standard deviations the fitted source values $\vec{V}_F$ are away from the true source values $\vec{V}_T$, where $S$ is the covariance matrix. Whereas sections \ref{Sec: Crab} and \ref{Sec: Sim Source} used an energy range of 20-81.5keV, this section uses the full energy range of 18-2000keV unless otherwise specified.
 
 \subsection{Consistency}
 
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=\textwidth]{Images/t_identical_sim_source_sb.pdf}
+    \caption{Repeated fits for identical datasets.}
+    \label{fig ident}
+\end{figure}
+
+The first test is how consistent the fitting is with exactly identical inputs. The results are shown in figure \ref{fig ident}, where the same source is fitted 8 times. We see that the results are actually very consistent, with all of the $1\sigma$ confidence intervals overlapping with each other, and $d_M<1$ for nearly all fits. This result is actually surprisingly good. As we shall see in the following subsections, this exact same source and background will also produce worse fits. A possible explanation is that the count spectra are regenerated for each subsection, meaning that every single Poisson sample is redrawn. This may lead to some datasets for which the works better than others. 
+
+\FloatBarrier
+
 \subsubsection{Dynamic Binning}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=\textwidth]{Images/identical_sim_source_db.pdf}
+    \caption{Repeated fits for identical datasets using dynamic binning.}
+    \label{fig ident db}
+\end{figure}
+
+For most fits, the count spectra are binned into exactly 125 energy bins, spaced semi-logarithmically, which are identical between all SCWs. Another way of binning the data is to use a dynamic binning algorithm, which bins each SCW cluster independently so that the minimum amount of counts is higher than some predetermined value, 50 in this case. A maximum number of bins of 120 was also implemented, since using too many energy bins has a negative effect on computational performance. With this different binning algorithm, we may repeat the same fit on the same data as figure \ref{fig ident}, the results of which are shown in figure \ref{fig ident db}. Strangely, this different binning method seems slightly less consistent than using the exact same energy bins for all SCW clusters. 
+
+\FloatBarrier
 
 \subsection{Different Powerlaws}
 
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=\textwidth]{Images/index_k.pdf}
+    \caption{The results of fitting different powerlaws sources. The right column of plots does not show the true values since they are too far away and instead includes the values in the legend.}
+    \label{fig index k}
+\end{figure}
+
+Another important test is how well the fit works for powerlaws with different parameters. Figure \ref{fig index k} shows the fit results for three different powerlaw indices and three different powerlaw normalizations around a pivot value $piv=100$keV. As one might expect, the fit results have the smallest absolute distance to the true values for bright powerlaws with small indices (in terms of absolute value), since these produce a meaningful amount of counts over the largest range of energies. Surprising is however, that the dimmer sources tend to be fewer standard deviations away from the true values due to their higher uncertainties, and that the fits for powerlaws with the large $index=-8$ fail completely with small uncertainties despite poor accuracies.
+
+
 \subsection{A Second Source}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=\textwidth]{Images/sec_source.pdf}
+    \caption{The effects of a second source, which is not included in the source model of the fit, on the quality of the fit for the primary source. The different plots show results for different angular distances between the two sources, as stated in the respective titles. The titles further show the amount of standard deviations illustrated by the ellipses. Finally, see the legend at the bottom right for the powerlaw parameters of the second source. All powerlaws are normalized at $piv=200$keV.}
+    \label{fig sec source}
+\end{figure}
+
+In practical applications there are almost always going to be additional sources within SPI's field of view that are not considered in the source model. In order to judge the severity of this, we shall simulate a second source within SPI's field of view (not included in the source model) to observe to ramifications of the fit on the primary source, as is shown in figure \ref{fig sec source}. 
+
+When the two sources are close to each other, the normalization and index shift in accordance to the second source as expected. At 5 degrees apart most fits start to achieve a decent level of quality, and at 15 degrees or mre the impact is negligible. The impact is largest when the second source has a large (on an absolute scale) index. One might be inclined to conclude that the second source has significant impact even up to 45 degrees separation, but one should note that Poisson samples used in the background spectra are only redrawn once for every index of the second source. In light of all other results shown here, this seems like the more plausible explanation for the deviations at large separations. 
+
+\FloatBarrier
 
 \subsection{Energy Range}
 
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=\textwidth]{Images/energy_ranges.pdf}
+    \caption{The same dataset fitted using different energy ranges, as shown in the legend.}
+    \label{fig energy range}
+\end{figure}
+
+Figure \ref{fig energy range} shows the same fit conducted using different energy ranges of the data. We see that the energy range 18-200keV is absolutely crucial for the fit to work well. Since figure \ref{plt bkg spec} shows that this is where the majority of relevant source counts occur for this kind of source, this is not very surprising. It can also be used to explain the systematic errors observed in sections \ref{Sec: Crab} and \ref{Sec: Sim Source}, where an energy range of 20-81.5keV was used.
+
+\FloatBarrier
+
 \subsection{Number of Energy Bins}
 
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=\textwidth]{Images/num_e_bins.pdf}
+    \caption{The same data set fitted using a different number of energy bins.}
+    \label{fig num bins}
+\end{figure}
+
+Seeing how powerlaws do not have fine details that have to be represented with specific energy bins, we would expect the number of energy bins used during the fit to be largely irrelevant. Figure \ref{fig num bins} mostly supports this, with the results for more than 25 energy bins aligning closely. Nonetheless, the result is best for 125 bins, which is convenient since this is also the point where more bins start to have a severe negative impact computational performance.
+
+\FloatBarrier
+
 \subsection{Cluster Size}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=\textwidth]{Images/cluster_sizes.pdf}
+    \caption{The same dataset fitted repeatedly using clusters sizes of two and three.}
+    \label{fig cluster size}
+\end{figure}
+
+So far we have only been using SCW clusters of size two ($S_C=2$) in the fits. Figure \ref{fig cluster size} compares fits using cluster size $S_C=2$ to $S_C=3$. Although the difference is not large, we do see a consistent improvement in both the distance from the true values and the uncertainty size of the fit parameters. Even larger clusters may accentuate this improvement even further. However, in practical applications larger cluster sizes also have downsides. For one, calculating the maximum likelihood background value becomes more complex, and secondly, the the assumption of a constant background count-rate within SCW clusters may become harder to fulfill, since larger cluster sizes necessarily mean larger temporal and spatial differences in the SCWs of the clusters. Further testing is required to see where the optimum lies.
+
+\FloatBarrier
+
+\subsection{Data Scaling}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=\textwidth]{Images/data_scaling.pdf}
+    \caption{Fit results from scaling the amount of lifetime $t$ in each SCW or the amount of SCWs used.}
+    \label{fig data scaling}
+\end{figure}
+
+Generally speaking, more data will produce better results in any fit. We can test the scaling behavior of the fit quality with the amount of data available to PySpi by scaling the amount of lifetime in each SCW and by scaling the amount of SCWs used in the fit, as shown in figure \ref{fig data scaling}. Unsurprisingly, the fit quality scales very similarly with both of these parameters. The scaling further implies that even larger datasets will produce even smaller uncertainties and errors in the fit. 
+
 
 \end{document}

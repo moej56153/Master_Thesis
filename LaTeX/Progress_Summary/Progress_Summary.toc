@@ -9,9 +9,10 @@
 \contentsline {section}{\numberline {5}Background Analysis}{9}{section.5}%
 \contentsline {section}{\numberline {6}Results: Pure Simulation}{11}{section.6}%
 \contentsline {subsection}{\numberline {6.1}Consistency}{11}{subsection.6.1}%
-\contentsline {subsubsection}{\numberline {6.1.1}Dynamic Binning}{11}{subsubsection.6.1.1}%
-\contentsline {subsection}{\numberline {6.2}Different Powerlaws}{11}{subsection.6.2}%
-\contentsline {subsection}{\numberline {6.3}A Second Source}{11}{subsection.6.3}%
-\contentsline {subsection}{\numberline {6.4}Energy Range}{11}{subsection.6.4}%
-\contentsline {subsection}{\numberline {6.5}Number of Energy Bins}{11}{subsection.6.5}%
-\contentsline {subsection}{\numberline {6.6}Cluster Size}{11}{subsection.6.6}%
+\contentsline {subsubsection}{\numberline {6.1.1}Dynamic Binning}{12}{subsubsection.6.1.1}%
+\contentsline {subsection}{\numberline {6.2}Different Powerlaws}{12}{subsection.6.2}%
+\contentsline {subsection}{\numberline {6.3}A Second Source}{12}{subsection.6.3}%
+\contentsline {subsection}{\numberline {6.4}Energy Range}{15}{subsection.6.4}%
+\contentsline {subsection}{\numberline {6.5}Number of Energy Bins}{15}{subsection.6.5}%
+\contentsline {subsection}{\numberline {6.6}Cluster Size}{16}{subsection.6.6}%
+\contentsline {subsection}{\numberline {6.7}Data Scaling}{16}{subsection.6.7}%
