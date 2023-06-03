@@ -57,7 +57,7 @@ def b_maxL_3(m, t, C):
     return x0.real
 
 @njit
-def b_maxL_4(m, t, C):
+def b_maxL_4(m, t, C): ###################### doesnt work?
     t_t = np.sum(t)
     C_ = np.zeros(4)
     m_plus = np.zeros(4)
@@ -152,6 +152,75 @@ def logLcore(
                             -t_elapsed[p_i][0][d_i]*(m[m_i,e_i]+b))
     return logL
 
+@njit
+def sample_count_rates(
+    c_i,
+    source_rate,
+    background_rate,
+    posterior_samples,
+    dets,
+    ebs,
+    t_elapsed,
+    variance_matrix,
+    dimension_values,
+    b_int_funcs,
+    c_int_funcs,
+    s_int_funcs
+):
+    expected_counts_combination = np.zeros(source_rate[c_i].shape)
+    for d_i in range(len(dets[c_i])):
+        for e_i in range(len(ebs[c_i])-1):
+            for p_i in range(len(posterior_samples)):
+                matrix_pos = np.array([
+                    background_rate[c_i][d_i, e_i, p_i],
+                    source_rate[c_i][0,d_i,e_i,p_i],
+                    t_elapsed[c_i][0][d_i],
+                    source_rate[c_i][1,d_i,e_i,p_i],
+                    t_elapsed[c_i][1][d_i]
+                ])
+                
+                b_vars = interpolate_matrix_5_dim(
+                    matrix_pos,
+                    variance_matrix[:,:,:,:,:,:,0,0],
+                    dimension_values,
+                    b_int_funcs
+                )
+                
+                co_vars = interpolate_matrix_5_dim(
+                    matrix_pos,
+                    variance_matrix[:,:,:,:,:,:,0,1],
+                    dimension_values,
+                    c_int_funcs
+                )
+                
+                s_vars = interpolate_matrix_5_dim(
+                    matrix_pos,
+                    variance_matrix[:,:,:,:,:,:,1,1],
+                    dimension_values,
+                    s_int_funcs
+                )
+                
+                co_var_matrix1 = np.array([
+                    [b_vars[0], co_vars[0]],
+                    [co_vars[0], s_vars[0]]
+                ])
+                
+                co_var_matrix2 = np.array([
+                    [b_vars[1], co_vars[1]],
+                    [co_vars[1], s_vars[1]]
+                ])
+                
+                expected_counts1 = t_elapsed[c_i][0][d_i] * np.array([background_rate[c_i][d_i, e_i, p_i], source_rate[c_i][0,d_i,e_i,p_i]])
+                expected_counts2 = t_elapsed[c_i][1][d_i] * np.array([background_rate[c_i][d_i, e_i, p_i], source_rate[c_i][1,d_i,e_i,p_i]])
+                
+                expected_counts_combination[0, d_i, e_i, p_i] = np.sum(
+                    multivariate_normal_numba(expected_counts1, co_var_matrix1)
+                )
+                expected_counts_combination[1, d_i, e_i, p_i] = np.sum(
+                    multivariate_normal_numba(expected_counts2, co_var_matrix2)
+                )
+    return expected_counts_combination
+
 def extract_pointing_info(path, p_id):
     num_dets = 19
     with fits.open(f"{path}/pointing.fits") as file:
@@ -243,6 +312,143 @@ def powerlaw_binned_spectrum(energy_bins, spectrum):
     
     return binned_spectrum
 
+@njit
+def interpolate_constant(x1, x2, y1, y2, x):
+    return (y1 + y2) / 2 + 0*x
+
+@njit
+def interpolate_linear(x1, x2, y1, y2, x):
+    return y1 + (y2 - y1) * (x - x1) / (x2 - x1)
+
+@njit
+def interpolate_logarithmic(x1, x2, y1, y2, x):
+    A = (y2 - y1) / np.log(x2 / x1)
+    B = y1 - A * np.log(x1)
+    return A * np.log(x) + B
+
+@njit
+def interpolate_powerlaw(x1, x2, y1, y2, x):
+    B = np.log(y2 / y1) / np.log(x2 / x1)
+    A = y1 * x1**(-B)
+    return A * x**B
+
+@njit
+def interpolate_matrix_5_dim(position, matrix, dimension_values, interpolation_functions):
+    # this is a really ugly implementation, but I couldn't figure out a better way using numba
+    
+    indices = np.zeros(len(position), dtype=np.int32)
+    for i in range(len(position)):
+        indices[i] = np.searchsorted(dimension_values[i], position[i], side="left")
+        
+    surrounding_matrix = matrix[
+        indices[0]-1 : indices[0]+1,
+        indices[1]-1 : indices[1]+1,
+        indices[2]-1 : indices[2]+1,
+        indices[3]-1 : indices[3]+1,
+        indices[4]-1 : indices[4]+1,
+    ]
+    
+    interpolation1 = interpolation_functions[0](
+        dimension_values[0][indices[0]-1],
+        dimension_values[0][indices[0]],
+        surrounding_matrix[0],
+        surrounding_matrix[1],
+        position[0]
+    )
+    
+    interpolation2 = interpolation_functions[1](
+        dimension_values[1][indices[1]-1],
+        dimension_values[1][indices[1]],
+        interpolation1[0],
+        interpolation1[1],
+        position[1]
+    )
+    
+    interpolation3 = interpolation_functions[2](
+        dimension_values[2][indices[2]-1],
+        dimension_values[2][indices[2]],
+        interpolation2[0],
+        interpolation2[1],
+        position[2]
+    )
+    
+    interpolation4 = interpolation_functions[3](
+        dimension_values[3][indices[3]-1],
+        dimension_values[3][indices[3]],
+        interpolation3[0],
+        interpolation3[1],
+        position[3]
+    )
+    
+    interpolation5 = interpolation_functions[4](
+        dimension_values[4][indices[4]-1],
+        dimension_values[4][indices[4]],
+        interpolation4[0],
+        interpolation4[1],
+        position[4]
+    )
+        
+    return interpolation5
+
+@njit
+def cholesky_numba(A):
+    n = A.shape[0]
+    L = np.zeros_like(A)
+    for i in range(n):
+        for j in range(i+1):
+            s = 0
+            for k in range(j):
+                s += L[i][k] * L[j][k]
+
+            if (i == j):
+                L[i][j] = (A[i][i] - s) ** 0.5
+            else:
+                L[i][j] = (1.0 / L[j][j] * (A[i][j] - s))
+    return L
+
+@njit
+def multivariate_normal_numba(mean, covariance):
+    L = cholesky_numba(covariance)
+    X = np.array([np.random.normal(), np.random.normal()])
+    return L.dot(X) + mean
+
+
+
+@njit
+def calc_bmaxL_variance_matrix(b_array, s1_array, t1_array, s2_array, t2_array, num_samples=100000):
+    variance_matrix = np.zeros((len(b_array), len(s1_array), len(t1_array), len(s2_array), len(t2_array), 2, 2, 2))
+    for b_i, b in enumerate(b_array):
+        for s1_i, s1 in enumerate(s1_array):
+            for t1_i, t1 in enumerate(t1_array):
+                for s2_i, s2 in enumerate(s2_array):
+                    for t2_i, t2 in enumerate(t2_array):
+                        bd1 = np.zeros(num_samples)
+                        bd2 = np.zeros(num_samples)
+                        sd1 = np.zeros(num_samples)
+                        sd2 = np.zeros(num_samples)
+                        for n_i in range(num_samples):
+                            s1m = np.random.poisson(t1 * s1)
+                            s2m = np.random.poisson(t2 * s2)
+                            b1m = np.random.poisson(t1 * b)
+                            b2m = np.random.poisson(t2 * b)
+                            
+                            c1m = s1m + b1m
+                            c2m = s2m + b2m
+                            b_max_L = b_maxL_2(np.array([s1, s2]), np.array([t1, t2]), np.array([c1m, c2m]))
+                            
+                            bd1[n_i] = b1m - b_max_L*t1
+                            bd2[n_i] = b2m - b_max_L*t2
+                            sd1[n_i] = s1m - s1*t1
+                            sd2[n_i] = s2m - s2*t2
+                            
+                        variance_matrix[b_i, s1_i, t1_i, s2_i, t2_i, 0, :, :] = np.cov(bd1, sd1)
+                        variance_matrix[b_i, s1_i, t1_i, s2_i, t2_i, 1, :, :] = np.cov(bd2, sd2)
+                        
+    return variance_matrix
+
+
+
+
 class MultinestClusterFit:
     def __init__(
         self,
@@ -277,6 +483,47 @@ class MultinestClusterFit:
         self._cc = ChainConsumer()
         self._chain = np.loadtxt('./chains/1-post_equal_weights.dat')
         self._cc.add_chain(self._chain, parameters=self._parameter_names, name='fit')
+        
+        # import pickle
+        # with open("temp_dump","wb") as f:
+        #     pickle.dump(
+        #         (
+        #             self._pointings,
+        #             self._source_model,
+        #             self._energy_range,
+        #             self._emod,
+        #             self._folder,
+        #             self._cc,
+        #             self._chain,
+        #             self._parameter_names,
+        #             self._dets,
+        #             self._ebs,
+        #             self._t_elapsed,
+        #             self._resp_mats,
+        #             self._updatable_sources,
+        #             self._counts
+        #         ),
+        #         f
+        #     )
+        
+        # with open("temp_dump", "rb") as f:
+        #     (
+        #             self._pointings,
+        #             self._source_model,
+        #             self._energy_range,
+        #             self._emod,
+        #             self._folder,
+        #             self._cc,
+        #             self._chain,
+        #             self._parameter_names,
+        #             self._dets,
+        #             self._ebs,
+        #             self._t_elapsed,
+        #             self._resp_mats,
+        #             self._updatable_sources,
+        #             self._counts
+        #         ) = pickle.load(f)
+        
         
     def _run_multinest(self):
         num_sources = len(self._source_model.sources)
@@ -491,23 +738,26 @@ class MultinestClusterFit:
                     except:
                         f.write(f"None  {summary[param][1]:.5}  None\n")
     
-    def ppc(
+    def ppc( ## add check for cluster size = 2
         self,
         max_posterior_samples=300,
-        count_energy_plots=True,
-        qq_plots=True,
-        rel_qq_plots=True,
-        cdf_hists=True
+        count_energy_plots=False,
+        qq_plots=False,
+        rel_qq_plots=False,
+        cdf_hists=True,
     ):
         assert self._folder is not None, "folder is not set"
         
         expected_counts = self._calc_expected_counts(max_posterior_samples)
         
         if cdf_hists:
+            # number of bins divisble by 4
             xs = np.linspace(0,1,21)
             cdf_counts = np.zeros(len(xs)-1)
             if not os.path.exists(f"./{self._folder}/cdf"):
                 os.mkdir(f"{self._folder}/cdf")
+                
+            self._bad_pointings = []
         
         for c_i, combination in enumerate(self._pointings):
             for p_i in range(len(combination)):
@@ -553,8 +803,15 @@ class MultinestClusterFit:
                     
             
     def _calc_expected_counts(self, max_posterior_samples):
+        
+        print("Calculating Count Rates")
+        
         source_rate = []
         background_rate = []
+        
+        b_range = [None, None]
+        s_range = [None, None]
+        t_range = [None, None]
         
         if len(self._chain) < max_posterior_samples:
             print(f"Using all {len(self._chain)} equal-weight posterior values.")
@@ -585,6 +842,17 @@ class MultinestClusterFit:
                     for s_i in range(num_sources):
                         for m_i in range(len(combination)):
                             source_rate[c_i][m_i,d_i,:,p_i] += np.dot(spec_binned[s_i,:], self._resp_mats[c_i][s_i][m_i][d_i])
+                            
+                            if t_range[0] is None:
+                                t_range = [np.amin(self._t_elapsed[c_i][m_i][d_i]), np.amax(self._t_elapsed[c_i][m_i][d_i])]
+                            else:
+                                min = np.amin(self._t_elapsed[c_i][m_i][d_i])
+                                max = np.amax(self._t_elapsed[c_i][m_i][d_i])
+                                if min < t_range[0]:
+                                    t_range[0] = min
+                                elif max > t_range[1]:
+                                    t_range[1] = max
+                            
                     for e_i in range(len(self._ebs[c_i])-1):
                         s_b = np.array([source_rate[c_i][i,d_i,e_i,p_i] for i in range(len(combination))])
                         t_b = np.array([self._t_elapsed[c_i][i][d_i] for i in range(len(combination))])
@@ -593,53 +861,94 @@ class MultinestClusterFit:
                             background_rate[c_i][d_i,e_i,p_i] = b_maxL_2(s_b, t_b, C_b)
                         elif len(combination) == 3:
                             background_rate[c_i][d_i,e_i,p_i] = b_maxL_3(s_b, t_b, C_b)
+                            
+                        if b_range[0] is None:
+                            b_range = [background_rate[c_i][d_i,e_i,p_i], background_rate[c_i][d_i,e_i,p_i]]
+                        else:
+                            if background_rate[c_i][d_i,e_i,p_i] < b_range[0]:
+                                b_range[0] = background_rate[c_i][d_i,e_i,p_i]
+                            elif background_rate[c_i][d_i,e_i,p_i] > b_range[1]:
+                                b_range[1] = background_rate[c_i][d_i,e_i,p_i]
+                                
+                if s_range[0] is None:
+                    s_range = [np.amin(source_rate[c_i][:,:,:,p_i]), np.amax(source_rate[c_i][:,:,:,p_i])]
+                else:
+                    min = np.amin(source_rate[c_i][:,:,:,p_i])
+                    max = np.amax(source_rate[c_i][:,:,:,p_i])
+                    if min < s_range[0]:
+                        s_range[0] = min
+                    elif max > s_range[1]:
+                        s_range[1] = max
+                        
+        # background_rate = tuple(background_rate)
+        # source_rate = tuple(source_rate)
         
-        expected_counts = []         
+        
+        # b_int_funcs = (interpolate_linear, interpolate_linear, interpolate_logarithmic, interpolate_linear, interpolate_logarithmic)
+        # c_int_funcs = (interpolate_logarithmic, interpolate_linear, interpolate_powerlaw, interpolate_linear, interpolate_logarithmic)
+        # s_int_funcs = (interpolate_constant, interpolate_linear, interpolate_powerlaw, interpolate_constant, interpolate_constant)
+        
+        # b_num = 5
+        # s_num = 7
+        # t_num = 5
+        
+        # input_b = np.geomspace(b_range[0]*0.999, b_range[1]*1.001, b_num)
+        # if s_range[0] == 0.0:
+        #     input_s = np.geomspace(s_range[1]*0.005, s_range[1]*1.001, s_num-1)
+        #     input_s = np.insert(input_s, 0, 0.0)
+        # else:
+        #     input_s = np.geomspace(s_range[0]*0.999, s_range[1]*1.001, s_num)
+        # input_t = np.geomspace(t_range[0]*0.999, t_range[1]*1.001, t_num)
+        
+        
+        # dimension_values = (input_b, input_s, input_t, input_s, input_t)
+        
+        # print("Generating Variance Matrix")
+        
+        # variance_matrix = calc_bmaxL_variance_matrix(input_b, input_s, input_t, input_s, input_t)
+        
+        # expected_counts = []
+        
+        # print("Sampling Count Rates")
+        
+        # for c_i, combination in enumerate(self._pointings):   
+        #     expected_counts.append(sample_count_rates(
+        #         c_i,
+        #         source_rate,
+        #         background_rate,
+        #         posterior_samples,
+        #         self._dets,
+        #         self._ebs,
+        #         self._t_elapsed,
+        #         variance_matrix,
+        #         dimension_values,
+        #         b_int_funcs,
+        #         c_int_funcs,
+        #         s_int_funcs
+        #     ))
+                        
+        # print("Sampling Finished")
+        
+        total_num_pointings = self._number_of_total_pointings()
+        expected_counts = []
         for c_i, combination in enumerate(self._pointings):
-            expected_source_counts = np.zeros(source_rate[c_i].shape)
-            expected_background_counts = np.zeros(source_rate[c_i].shape)
+            source_counts = np.zeros(source_rate[c_i].shape)
+            background_counts = np.zeros(source_rate[c_i].shape)
             
-            for p_i in range(len(combination)):
-                expected_source_counts[p_i] = source_rate[c_i][p_i] * self._t_elapsed[c_i][p_i][:,np.newaxis,np.newaxis]
-                expected_background_counts[p_i] = background_rate[c_i] * self._t_elapsed[c_i][p_i][:,np.newaxis,np.newaxis]
-
-            ################# verify this works for clusters larger than 2!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            expected_total_counts = np.append(expected_source_counts, expected_background_counts, axis=0)
-            expected_mean_variance = np.sum(expected_total_counts, axis=0) / expected_total_counts.shape[0]**2
-            expected_std = np.sqrt((2*expected_mean_variance[np.newaxis,:,:,:] + expected_total_counts) / 2)
-            
-            expected_counts.append(
-                (np.random.normal(expected_source_counts, np.sqrt(expected_source_counts), expected_source_counts.shape)
-                 + np.random.normal(expected_background_counts, expected_std[len(combination):], expected_background_counts.shape))
-            )
+            len_comb = len(combination)
+            for m_i in range(len_comb):
+                source_counts[m_i,:,:,:] = source_rate[c_i][m_i,:,:,:] * self._t_elapsed[c_i][m_i][:,np.newaxis,np.newaxis]
+                background_counts[m_i,:,:,:] = background_rate[c_i][:,:,:] * self._t_elapsed[c_i][m_i][:,np.newaxis,np.newaxis]
                 
-            # argsort = np.argsort(np.sum(expected_counts[c_i], axis=1), axis=1)
-            # expected_counts[c_i] = np.take_along_axis(
-            #     expected_counts[c_i],
-            #     np.repeat(argsort[:,np.newaxis,:], expected_counts[c_i].shape[1], axis=1),
-            #     axis=3
-            # )
+            variance = (len_comb-1) / len_comb * background_counts + (total_num_pointings-1) / total_num_pointings * source_counts
             
-            # argsort = np.argsort(expected_counts[c_i], axis=3)
-            # expected_counts[c_i] = np.take_along_axis(expected_counts[c_i], argsort, axis=3)
-                    
-        # source_rates = []
-        # background_rates = []
-        # for c_i, combination in enumerate(self._pointings):
-        #     c_source_rates = []
-        #     c_background_rates = []
+            total_counts = source_counts + background_counts
             
-        #     for p_i in range(len(combination)):
-        #         c_source_rates.append(
-        #             np.average(source_rate[c_i][p_i], axis=2) * self._t_elapsed[c_i][p_i][:,np.newaxis]
-        #         )
-        #         c_background_rates.append(
-        #             np.average(background_rate[c_i], axis=2) * self._t_elapsed[c_i][p_i][:,np.newaxis]
-        #         )
+            sampled_counts = np.random.normal(total_counts, np.sqrt(variance))
             
-        #     source_rates.append(c_source_rates)
-        #     background_rates.append(c_background_rates)
-
+            expected_counts.append(sampled_counts)
+        
+        
         return expected_counts
 
     def _count_energy_plot(
@@ -671,52 +980,6 @@ class MultinestClusterFit:
         )
         
         fig.legend(handles=legend_elements, loc='center left', bbox_to_anchor=(0.9, 0.5), fontsize='x-large')
-        
-        # fig, axes = plt.subplots(5,4, sharex=True, sharey=True, figsize=(10,10))
-        # axes = axes.flatten()
-        
-        # sd1 = 0.001
-        # sd2 = 0.159
-        
-        # num_samples = expected_counts.shape[2] - 1
-        
-        # nsd1 = round(sd1 * num_samples)
-        # nsd2 = round(sd2 * num_samples)
-        
-        # ec1 = expected_counts[:,:,nsd1]
-        # ec2 = expected_counts[:,:,nsd2]
-        # ec3 = expected_counts[:,:,num_samples-nsd2]
-        # ec4 = expected_counts[:,:,num_samples-nsd1]
-                
-        
-        # # predicted = b + s
-        # # predicted_lower = poisson.ppf(0.16, predicted)
-        # # predicted_upper = poisson.ppf(0.84, predicted)
-        # # counts = c
-        
-        # i=0
-        # for d in range(19):
-        #     axes[d].text(.5,.9,f"Det {d}",horizontalalignment='center',transform=axes[d].transAxes)
-        #     if d in dets:
-        #         # line1, = axes[d].step(eb[:-1], predicted[i], c="r", alpha=0)
-        #         line2, = axes[d].step(eb[:-1], c[i], c="k")
-        #         poly1 = axes[d].fill_between(eb[:-1], ec1[i,:], ec2[i,:], color="r", alpha=0.3)
-        #         poly2 = axes[d].fill_between(eb[:-1], ec2[i,:], ec3[i,:], color="r", alpha=0.7)
-        #         poly3 = axes[d].fill_between(eb[:-1], ec3[i,:], ec4[i,:], color="r", alpha=0.3)
-        #         if i==0:
-        #             poly1.set(label="0.999 Confindence Interval")
-        #             poly2.set(label="0.682 Confindence Interval")
-        #             line2.set_label("Real Counts")
-        #         i += 1
-        #     axes[d].set_yscale("log")
-        # plt.subplots_adjust(hspace=0, wspace=0)
-        # plt.subplots_adjust(hspace=0, top=0.96, bottom=0.1)
-        # lgd = fig.legend(loc='center left', bbox_to_anchor=(0.9, 0.5), fontsize='x-large')
-        
-        # fig.add_subplot(111, frameon=False)
-        # plt.tick_params(labelcolor='none', which='both', top=False, bottom=False, left=False, right=False)
-        # plt.xlabel("Detected Energy [keV]")
-        # plt.ylabel("Cumulative Counts")
         
         fig.savefig(f"{self._folder}/count_energy/{name}_count_energy.pdf")
         plt.close()
@@ -751,48 +1014,6 @@ class MultinestClusterFit:
         )
         
         fig.legend(handles=legend_elements, loc='center left', bbox_to_anchor=(0.9, 0.5), fontsize='x-large')
-        
-        # fig, axes = plt.subplots(5,4, sharex=True, sharey=True, figsize=(10,10))
-        # axes = axes.flatten()
-        
-        # sd1 = 0.001
-        # sd2 = 0.159
-        
-        # num_samples = expected_counts.shape[2] - 1
-        
-        # nsd1 = round(sd1 * num_samples)
-        # nsd2 = round(sd2 * num_samples)
-        
-        # ec1 = np.cumsum(expected_counts[:,:,nsd1], axis=1)
-        # ec2 = np.cumsum(expected_counts[:,:,nsd2], axis=1)
-        # ec3 = np.cumsum(expected_counts[:,:,num_samples-nsd2], axis=1)
-        # ec4 = np.cumsum(expected_counts[:,:,num_samples-nsd1], axis=1)
-                
-        # # p = b + s
-        # # predicted = np.cumsum(p, axis=1)
-        # # predicted_lower = np.cumsum(poisson.ppf(0.16, p), axis=1)
-        # # predicted_upper = np.cumsum(poisson.ppf(0.84, p), axis=1)
-        # counts = np.cumsum(c, axis=1)
-        # ma = np.amax(
-        #     np.array([np.amax(counts, axis=1), np.amax(ec4, axis=1)]),
-        #     axis=0
-        # )
-        
-        # i=0
-        # for d in range(19):
-        #     axes[d].text(.5,.9,f"Det {d}",horizontalalignment='center',transform=axes[d].transAxes)
-        #     if d in dets:
-        #         line2, = axes[d].plot([0, ma[i]], [0, ma[i]], ls="--", c="k")
-        #         # line1, = axes[d].plot(counts[i], predicted[i], c="r")
-        #         axes[d].fill_between(counts[i], predicted_lower[i], predicted_upper[i], color="r", alpha=0.5)
-        #         i += 1
-        # plt.subplots_adjust(hspace=0, wspace=0)
-        # plt.subplots_adjust(hspace=0, top=0.96, bottom=0.1)
-                
-        # fig.add_subplot(111, frameon=False)
-        # plt.tick_params(labelcolor='none', which='both', top=False, bottom=False, left=False, right=False)
-        # plt.xlabel("Cumulative Real Counts")
-        # plt.ylabel("Cumulative Predicted Counts", labelpad=27)
         
         fig.savefig(f"{self._folder}/qq/{name}_qq.pdf")
         plt.close()
@@ -829,38 +1050,6 @@ class MultinestClusterFit:
         
         fig.legend(handles=legend_elements, loc='center left', bbox_to_anchor=(0.9, 0.5), fontsize='x-large')
         
-        
-        # fig, axes = plt.subplots(5,4, sharex=True, sharey=True, figsize=(10,10))
-        # axes = axes.flatten()
-        
-        # p = b + s
-        # predicted = np.cumsum(p, axis=1)
-        # predicted_lower = np.cumsum(poisson.ppf(0.16, p), axis=1)
-        # predicted_upper = np.cumsum(poisson.ppf(0.84, p), axis=1)
-        # counts = np.cumsum(c, axis=1)
-        # rel_predicted_lower = predicted_lower / counts
-        # rel_predicted_upper = predicted_upper / counts
-        # # ma = np.amax(
-        # #     np.array([np.amax(counts, axis=1), np.amax(predicted, axis=1)]),
-        # #     axis=0
-        # # )
-        
-        # i=0
-        # for d in range(19):
-        #     axes[d].text(.5,.9,f"Det {d}",horizontalalignment='center',transform=axes[d].transAxes)
-        #     if d in dets:
-        #         axes[d].hlines(y=1, linestyles="dashed", colors="k", xmin=counts[i,0], xmax=counts[i,-1])
-        #         # line2, = axes[d].plot([0, ma[i]], [0, ma[i]], ls="--", c="k")
-        #         # line1, = axes[d].plot(counts[i], predicted[i], c="r")
-        #         axes[d].fill_between(counts[i], rel_predicted_lower[i], rel_predicted_upper[i], color="r", alpha=0.5)
-        #         i += 1
-        # plt.subplots_adjust(hspace=0, wspace=0)
-        # plt.subplots_adjust(hspace=0, top=0.96, bottom=0.1)
-                
-        # fig.add_subplot(111, frameon=False)
-        # plt.tick_params(labelcolor='none', which='both', top=False, bottom=False, left=False, right=False)
-        # plt.xlabel("Cumulative Real Counts")
-        # plt.ylabel("Cumulative Predicted Counts / Cumulative Real Counts", labelpad=27)
         
         fig.savefig(f"{self._folder}/rel_qq/{name}_rel_qq.pdf")
         plt.close()
@@ -927,13 +1116,6 @@ class MultinestClusterFit:
         name,
         xs,
     ):
-        # p = b + s
-        # var = (nb-1) / nb * b + (ns-1) / ns * s
-        # cdf = norm.cdf(c, loc=p, scale=np.sqrt(var))
-                
-        # cdf_counts, _ = np.histogram(cdf.flatten(), bins=len(xs)-1, range=(0,1))
-        # self._cdf_plot(cdf_counts, xs, name)
-        
         argsort = np.argsort(expected_counts, axis=2)
         expected_counts = np.take_along_axis(expected_counts, argsort, axis=2)
         
@@ -947,7 +1129,15 @@ class MultinestClusterFit:
                                  / (2 * num_samples))
                 
         cdf_counts, _ = np.histogram(cdf.flatten(), bins=len(xs)-1, range=(0,1))
-        self._cdf_plot(cdf_counts, xs, name)
+        
+        left_ratio = np.sum(cdf_counts[:int(len(cdf_counts)/2)]) / np.sum(cdf_counts)
+        center_ratio = np.sum(cdf_counts[int(len(cdf_counts)/4):int(3*len(cdf_counts)/4)]) / np.sum(cdf_counts)
+        bad_threshold = 0.05
+        
+        if np.abs(left_ratio - 0.5) > bad_threshold or np.abs(center_ratio - 0.5) > bad_threshold:
+            self._bad_pointings.append(name)
+        
+        self._cdf_plot(cdf_counts, xs, name, left_ratio, center_ratio)
         
         return cdf_counts
     
@@ -955,13 +1145,17 @@ class MultinestClusterFit:
         self,
         cdf_counts,
         xs,
-        name
+        name,
+        left_ratio=None,
+        center_ratio=None
     ):
         fig, axes = plt.subplots()
         plt.bar(xs[:-1], cdf_counts, 1/(len(xs)-1), align="edge", color="#1f77b4")
         plt.axhline(np.average(cdf_counts), color="black")
         plt.xlabel("Cumulative Probabilty")
         plt.ylabel("Counts per Bin")
+        if left_ratio and center_ratio:
+            plt.text(0.5, 1.05, f"Center: {center_ratio:.3f}, Left: {left_ratio:.3f}", ha="center", transform=axes.transAxes)
         
         fig.savefig(f"{self._folder}/cdf/{name}_cdf.pdf")
         plt.close()
