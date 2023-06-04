@@ -25,7 +25,7 @@
 \pagebreak
 
 
-\section{General Procedure}
+\section{General Procedure} \label{General Procedure}
 In contrast to previous approaches to working with INTEGRAL SPI, this method does not attempt to fit the background via physical models, and instead uses a profile likelihood to eliminate its effect in the source model fit. The underlying assumption that allows this to work is that background count rates in each energy bin remain constant for temporally and spatially near SPI Science Windows (SCWs). Here we distinguish between source counts, which describe all detected events directly originating from astronomical objects considered in our source model, and background counts, which describe all other detector events.
 
 This works in the following way: once we have split our set of SCWs into clusters within which we claim the assumption of constant background to be true and have defined a source model, a likelihood value can be calculated for each energy bin of each detector in each cluster. If one energy bin of one detector in one SCW with measuring time $t$ has a source count rate $s$ and a background count rate $b$, the probability $P$ of measuring $C$ counts follows a Poisson distribution:
@@ -355,6 +355,88 @@ So far we have only been using SCW clusters of size two ($S_C=2$) in the fits. F
 \end{figure}
 
 Generally speaking, more data will produce better results in any fit. We can test the scaling behavior of the fit quality with the amount of data available to PySpi by scaling the amount of lifetime in each SCW and by scaling the amount of SCWs used in the fit, as shown in figure \ref{fig data scaling}. Unsurprisingly, the fit quality scales very similarly with both of these parameters. The scaling further implies that even larger datasets will produce even smaller uncertainties and errors in the fit. 
+
+
+\section{PPC Analysis}
+
+List examples of things that can make a SCW bad to justify need for PPC analyis...
+Solar Flares,
+Supernova / other similar events 
+
+\subsection{Theory}
+
+\subsubsection{General Procedure} \label{PPC general}
+
+A Posterior Predictive Check (PPC) is usually conducted in the following way:
+
+\begin{enumerate}
+    \item Fit the data to some model, so that a distribution for the posterior is produced.
+    \item \label{Posterior sample} Randomly sample from the posterior.
+    \item \label{ppc calc count rates} Using the IRF and the model described by the sampled posterior parameters, calculate the expected count rates in every energy bin of every detector of every SCW.
+    \item \label{ppc poisson sample} Taking into consideration the lifetime of each detector in every SCW, draw a sample from the Poisson distribution that describes the measured counts in each bin.
+    \item Repeat from step \ref{Posterior sample} until a sufficiently detailed distribution of expected counts for every bin is achieved.
+\end{enumerate}
+
+This PPC count distribution can the be used in a variety of ways, such as simply plotting the distribution of expected counts next the actually measured counts. Perhaps one of the most useful applications is the Cumulative Distribution Function (CDF), where one sorts the PPC count distribution of each bin according to size, and the finds the percentile in which the number actually measured counts falls. If the model described using the posterior values perfectly matches reality one would expect values evenly distributed between 0 and 1, whereas if the model is not a good representation of reality the distribution will not be even. 
+
+In the context of PySpi it makes sense to organize these CDF values into a histogram for every SCW used in the fit. This way individual SCWs for which the model does not match the measured data can be identified and excluded from a repeated fit with hopefully better results.
+
+\subsubsection{PySpi Application}
+As an attentive reader may have already identified, there is a problem with using the procedure previously described in section \ref{PPC general} for PySpi: the model used the fit (see section \ref{General Procedure}) is purely a source model, i.e. it tells us nothing about the background count rates. This is a problem because it means we cannot calculate the expected count rates in step \ref{ppc calc count rates} of section \ref{PPC general} without being able to describe the background.
+
+The only way to circumvent this problem is with the same approach used in section \ref{General Procedure} of the actual fit. After having calculated the expected source count rates for a sample of the posterior we can use the actually measured counts to calculate the maximum likelihood background count rates and continue our analysis with it.
+
+However, there is a drawback to this solution: in step \ref{ppc poisson sample} of section \ref{PPC general} we can no longer use a simple Poisson distribution to sample expected measured counts from the calculated count rates. This is because we have introduced a bias into our expected count rates by using the actually measured counts in the calculation. For example, if some energy bin has measured a statistically large number of counts (in accordance to the Poisson distribution of the true count rates), then the maximum likelihood background calculated using the actually measured counts will naturally increase with the actually measured counts. This way any statistical outliers are significantly dampened, thus defeating the purpose of conducting the PPC analysis to begin with.
+
+To quantify this bias we will have to do some math. The following equations are applicable to every energy bin for every detector in every SCW cluster. As in section \ref{General Procedure} we will focus on clusters of size 2, although the process is analogous for larger cluster sizes.
+
+For every bin and every SCW there exists a true source count rate $s_1$ and $s_2$ as well as a true background count rate $b$. The source count rates vary between the SCWs of one cluster, whereas the background count rate is constant. If $t_1$ and $t_2$ are the lifetimes of the SCWs, the actually measured counts $b_{1m}, b_{2m}, s_{1m}$ and $s_{2m}$ from the respective sources will be Poisson distributed
+
+\begin{align*}
+    B_{1m} &= P(bt_1) \\
+    B_{2m} &= P(bt_2) \\
+    S_{1m} &= P(s_1t_1) \\
+    S_{2m} &= P(s_2t_2)
+\end{align*}
+
+so that the total number of measured counts $C_{1m}$ and $C_{2m}$ are simply
+
+\begin{align*}
+    C_{1m} &= B_{1m} + S_{1m} \\
+    C_{2m} &= B_{2m} + S_{2m}.
+\end{align*}
+
+Arriving at an equation for the distributions $C_{1m}$ and $C_{2m}$ is our goal for the PPC analysis. We may assume that true source count rates $s_1$ and $s_2$ equal those predicted by our source model from the posterior samples, since testing that assumption is the whole point of doing the PPC analysis to begin with. The true background count rate $b$, however, remains unknown to us. Instead we can only calculate the maximum likelihood background $b_M$, as described previously. In order to be able to draw samples from the probability distributions $C_{1m}$ and $C_{2m}$ we must relate relate the distributions of the quantities that we do know ($s_1, s_2, t_1, t_2, b_M$) to those that we wish to know ($b$):
+
+\begin{align*}
+    B_{d1} &= B_{1m} - b_Mt_1 \\
+    B_{d2} &= B_{2m} - b_Mt_2 \\
+    S_{d1} &= S_{1m} - s_1t_1 \\
+    S_{d2} &= S_{2m} - s_2t_2.
+\end{align*}
+
+$B_{d1}$ and $B_{d2}$ tell us the difference between quantities we have readily available ($b_Mt_1$ and $b_Mt_2$) to those directly necessary in the PPC analysis ($B_{1m}$ and $B_{2m}$). This means that if we calculate their variances and approximate the resulting distribution as normal we can directly draw random samples according to the distribution of $B_{1m}$ and $B_{2m}$, without having to know the true background rate $b$. Furthermore, we also have to consider that the distribution of $b_M$, which we utilize in $B_{d1}$ and $B_{d2}$, is correlated with the distribution $S_{1m}$ and $S_{2m}$. Hence, we not only have to calculate the variances of $B_{d1}$ and $B_{d2}$, but also the covariances of $B_{d1}$ with $S_{d1}$ and $B_{d2}$ with $S_{d2}$, respectively. To draw a random sample from $B_{1m}$ and $S_{1m}$ we thus sample from a multivariate normal with mean $\mu$ and covariance matrix $cov$:
+
+\begin{equation*}
+    \mu = \begin{pmatrix}
+        b_Mt_1 \\ s_1t_1
+    \end{pmatrix} 
+\end{equation*}
+\begin{equation*}
+    cov = \begin{bmatrix}
+        variance(B_{d1}) & covariance(B_{d1}, S_{d1})\\ covariance(B_{d1}, S_{d1}) & variance(S_{d1})
+    \end{bmatrix}
+\end{equation*}
+Hence: 
+\begin{equation*}
+    \begin{pmatrix}
+        B_{1m} \\ S_{1m}
+    \end{pmatrix}
+    \sim \mathcal{N}(\mu, cov)
+\end{equation*}
+This works because we can assume that the expected value of the maximum likelihood background rate is equal to the true background rate: $E(b_M) = b$. Analogous arguments can be made for the second SCW. It is worth noting that approximating the distribution shapes as normal should have negligible impact as long as the number of counts per bin are sufficiently large.
+
+Now that we have understood the motivation, the tricky part is actually calculating these variances.
 
 
 \end{document}
