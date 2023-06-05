@@ -756,9 +756,7 @@ class MultinestClusterFit:
             cdf_counts = np.zeros(len(xs)-1)
             if not os.path.exists(f"./{self._folder}/cdf"):
                 os.mkdir(f"{self._folder}/cdf")
-                
-            self._bad_pointings = []
-        
+                        
         for c_i, combination in enumerate(self._pointings):
             for p_i in range(len(combination)):
             
@@ -790,21 +788,23 @@ class MultinestClusterFit:
                         self._dets[c_i],
                         combination[p_i][0]
                     )
-                if cdf_hists:
-                    cdf_counts += self._cdf_hist(
-                        expected_counts[c_i][p_i],
-                        self._counts[c_i][p_i],
-                        combination[p_i][0],
-                        xs,
-                    )
+            if cdf_hists:
+                cdf_counts += self._cdf_hist(
+                    expected_counts[c_i],
+                    self._counts[c_i],
+                    combination,
+                    xs,
+                )
                     
         if cdf_hists:
-            self._cdf_plot(cdf_counts, xs, "total")
+            left_ratio = np.sum(cdf_counts[:int(len(cdf_counts)/2)]) / np.sum(cdf_counts)
+            center_ratio = np.sum(cdf_counts[int(len(cdf_counts)/4):int(3*len(cdf_counts)/4)]) / np.sum(cdf_counts)
+            self._cdf_plot([cdf_counts], xs, ["Total"], [left_ratio], [center_ratio])
                     
             
     def _calc_expected_counts(self, max_posterior_samples):
         
-        print("Calculating Count Rates")
+        # print("Calculating Count Rates")
         
         source_rate = []
         background_rate = []
@@ -1096,68 +1096,75 @@ class MultinestClusterFit:
             
         return fig, axes
     
-    # def _ppc_plotter(
-    #   self,
-    #   axes,
-    #   x,
-    #   ys,
-    #   styles
-    # ):
-    #     for i, y in enumerate(ys):
-    #         plt.plot(x, y, styles[i])
-        
-        
-        
         
     def _cdf_hist(
         self,
         expected_counts,
-        c,
-        name,
+        counts,
+        combination,
         xs,
     ):
-        argsort = np.argsort(expected_counts, axis=2)
-        expected_counts = np.take_along_axis(expected_counts, argsort, axis=2)
+        cdfs = []
+        names = []
+        left_ratios = []
+        center_ratios = []
+        for p_i in range(len(combination)):
+            
         
-        num_samples = expected_counts.shape[2]
+            argsort = np.argsort(expected_counts[p_i], axis=2)
+            sorted_expected_counts = np.take_along_axis(expected_counts[p_i], argsort, axis=2)
+            
+            num_samples = sorted_expected_counts.shape[2]
+            
+            cdf = np.zeros(sorted_expected_counts.shape[:2])
+            for d_i in range(sorted_expected_counts.shape[0]):
+                for e_i in range(sorted_expected_counts.shape[1]):
+                    cdf[d_i, e_i] = ((np.searchsorted(sorted_expected_counts[d_i,e_i], counts[p_i][d_i,e_i], "left")
+                                    + np.searchsorted(sorted_expected_counts[d_i,e_i], counts[p_i][d_i,e_i], "right"))
+                                    / (2 * num_samples))
+                    
+            cdf_counts, _ = np.histogram(cdf.flatten(), bins=len(xs)-1, range=(0,1))
+            
+            left_ratio = np.sum(cdf_counts[:int(len(cdf_counts)/2)]) / np.sum(cdf_counts)
+            center_ratio = np.sum(cdf_counts[int(len(cdf_counts)/4):int(3*len(cdf_counts)/4)]) / np.sum(cdf_counts)
+            
+            cdfs.append(cdf_counts)
+            names.append(combination[p_i][0])
+            left_ratios.append(left_ratio)
+            center_ratios.append(center_ratio)
+            
+        self._cdf_plot(cdfs, xs, names, left_ratios, center_ratios)
         
-        cdf = np.zeros(expected_counts.shape[:2])
-        for d_i in range(expected_counts.shape[0]):
-            for e_i in range(expected_counts.shape[1]):
-                cdf[d_i, e_i] = ((np.searchsorted(expected_counts[d_i,e_i], c[d_i,e_i], "left")
-                                 + np.searchsorted(expected_counts[d_i,e_i], c[d_i,e_i], "right"))
-                                 / (2 * num_samples))
-                
-        cdf_counts, _ = np.histogram(cdf.flatten(), bins=len(xs)-1, range=(0,1))
+        total_cdf = cdfs[0]
+        for i in cdfs[1:]:
+            total_cdf += i
         
-        left_ratio = np.sum(cdf_counts[:int(len(cdf_counts)/2)]) / np.sum(cdf_counts)
-        center_ratio = np.sum(cdf_counts[int(len(cdf_counts)/4):int(3*len(cdf_counts)/4)]) / np.sum(cdf_counts)
-        bad_threshold = 0.05
-        
-        if np.abs(left_ratio - 0.5) > bad_threshold or np.abs(center_ratio - 0.5) > bad_threshold:
-            self._bad_pointings.append(name)
-        
-        self._cdf_plot(cdf_counts, xs, name, left_ratio, center_ratio)
-        
-        return cdf_counts
+        return total_cdf
     
     def _cdf_plot(
         self,
-        cdf_counts,
+        cdfs,
         xs,
-        name,
-        left_ratio=None,
-        center_ratio=None
+        names,
+        left_ratios,
+        center_ratios
     ):
-        fig, axes = plt.subplots()
-        plt.bar(xs[:-1], cdf_counts, 1/(len(xs)-1), align="edge", color="#1f77b4")
-        plt.axhline(np.average(cdf_counts), color="black")
-        plt.xlabel("Cumulative Probabilty")
-        plt.ylabel("Counts per Bin")
-        if left_ratio and center_ratio:
-            plt.text(0.5, 1.05, f"Center: {center_ratio:.3f}, Left: {left_ratio:.3f}", ha="center", transform=axes.transAxes)
+        num_plots = len(cdfs)
+        fig, axes = plt.subplots(nrows=num_plots, figsize=(6, 1+3*num_plots))
         
-        fig.savefig(f"{self._folder}/cdf/{name}_cdf.pdf")
+        if num_plots == 1:
+            axes = [axes]
+        
+        for i in range(num_plots):
+            axes[i].bar(xs[:-1], cdfs[i], 1/(len(xs)-1), align="edge", color="#1f77b4")
+            axes[i].axhline(np.average(cdfs[i]), color="black")
+            if i == num_plots-1:
+                axes[i].set_xlabel("Cumulative Probabilty")
+            axes[i].set_ylabel("Counts per Bin")
+            axes[i].set_title(f"{names[i]}   Center: {center_ratios[i]:.3f}   Left: {left_ratios[i]:.3f}", fontsize=10)
+        
+        fig.tight_layout()  
+        fig.savefig(f"{self._folder}/cdf/{'_'.join(names)}_cdf.pdf")
         plt.close()
 
     def _extract_parameter_names_simple(self):
