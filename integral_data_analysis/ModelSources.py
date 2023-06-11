@@ -1,5 +1,5 @@
 import numpy as np
-from astromodels import Powerlaw, Log_uniform_prior, Uniform_prior, PointSource, SpectralComponent, Model
+from astromodels import Powerlaw, Line, Log_uniform_prior, Uniform_prior, PointSource, SpectralComponent, Model
 
 def define_sources(source_funcs):    
     model = Model()
@@ -108,6 +108,19 @@ def simulated_pl_0374(model, piv):
     pl.index.prior = Uniform_prior(lower_bound=-12, upper_bound=4)
     pl.index.min_value = -12.5
     component1 = SpectralComponent("pl", shape=pl)
+    ps = PointSource("Simulated_Source_0374", ra=ra, dec=dec, components=[component1])
+    
+    model.add_source(ps)
+    return model
+
+def simulated_linear_0374(model):
+    ra, dec = 10., -40.
+    
+    s = Line()
+    s.a = 0
+    s.a.free = False
+    s.b.prior = Log_uniform_prior(lower_bound=1e-10, upper_bound=1e0)
+    component1 = SpectralComponent("line", shape=s)
     ps = PointSource("Simulated_Source_0374", ra=ra, dec=dec, components=[component1])
     
     model.add_source(ps)

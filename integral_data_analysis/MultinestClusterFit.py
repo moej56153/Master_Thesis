@@ -459,12 +459,14 @@ class MultinestClusterFit:
         binning_func,
         true_values=None,
         folder=None,
+        source_spectrum_powerlaw_binning=True,
     ):
         self._pointings = pointings
         self._source_model = source_model
         self._binning_func = binning_func
         self._energy_range = energy_range
         self._emod = emod
+        self._source_spectrum_powerlaw_binning = source_spectrum_powerlaw_binning
         
         self._true_values = true_values
         self.set_folder(folder)
@@ -545,8 +547,10 @@ class MultinestClusterFit:
                 parameter.value = trial_values[i]
             for i, source in enumerate(self._source_model.sources.values()):
                 spec = source(self._emod)
-                spec_binned[i,:] = powerlaw_binned_spectrum(self._emod, spec)
-                # spec_binned[i,:] = (self._emod[1:]-self._emod[:-1])*(spec[:-1]+spec[1:])/2
+                if self._source_spectrum_powerlaw_binning:
+                    spec_binned[i,:] = powerlaw_binned_spectrum(self._emod, spec)
+                else:
+                    spec_binned[i,:] = (self._emod[1:]-self._emod[:-1])*(spec[:-1]+spec[1:])/2
             if 1 in self._updatable_sources:
                 self._update_resp_mats()
             return logLcore(
@@ -832,8 +836,10 @@ class MultinestClusterFit:
                 parameter.value = params[fp_i]
             for s_i, source in enumerate(self._source_model.sources.values()):
                 spec = source(self._emod)
-                spec_binned[s_i,:] = powerlaw_binned_spectrum(self._emod, spec)
-                # spec_binned[s_i,:] = (self._emod[1:]-self._emod[:-1])*(spec[:-1]+spec[1:])/2
+                if self._source_spectrum_powerlaw_binning:
+                    spec_binned[s_i,:] = powerlaw_binned_spectrum(self._emod, spec)
+                else:
+                    spec_binned[s_i,:] = (self._emod[1:]-self._emod[:-1])*(spec[:-1]+spec[1:])/2
             if 1 in self._updatable_sources:
                 self._update_resp_mats()
             

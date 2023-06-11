@@ -174,6 +174,21 @@ def exp_binning_function_for_x_number_of_bins(num_bins):
         return new_bins, new_counts
     
     return binning_function
+
+def no_rebinning(bins, counts, energy_range):
+    if energy_range[0]:
+        for i, e in enumerate(bins):
+            if e >= energy_range[0]:
+                bins = bins[i:]
+                counts = counts[:,i:]
+                break
+    if energy_range[1]:
+        for i, e in enumerate(bins):
+            if e > energy_range[1]:
+                bins = bins[:i]
+                counts = counts[:,:i-1]
+                assert i > 1, "Max Energy is too low"
+                break
         
-        
+    return bins, counts
         
