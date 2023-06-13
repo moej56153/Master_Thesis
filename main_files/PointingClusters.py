@@ -18,11 +18,11 @@ rsp_bases = tuple([ResponseDataRMF.from_version(i) for i in range(5)])
 def save_clusters(pointings, folder):
     if not os.path.exists(f"./{folder}"):
         os.mkdir(folder)
-    with open(f"./{folder}/pointings.pickle", "wb") as f:
+    with open(f"{folder}/pointings.pickle", "wb") as f:
         pickle.dump(pointings, f)
         
 def load_clusters(folder):
-    with open(f"./{folder}/pointings.pickle", "rb") as f:
+    with open(f"{folder}/pointings.pickle", "rb") as f:
         pointings = pickle.load(f)
     return pointings
 

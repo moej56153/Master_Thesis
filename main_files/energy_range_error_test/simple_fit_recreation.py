@@ -119,8 +119,8 @@ data2 = data2.reshape((len(dets), -1))
 # new matricies for fit
 
 data_total = np.append(data1, data2, axis=0)
-# ebounds, binned_counts = log_binning_function_for_x_number_of_bins(125)(ebounds, data_total, (50., 2000.))
-ebounds, binned_counts = no_rebinning(ebounds, data_total, (50., 2000.))
+ebounds, binned_counts = log_binning_function_for_x_number_of_bins(125)(ebounds, data_total, (50., 2000.))
+# ebounds, binned_counts = no_rebinning(ebounds, data_total, (50., 2000.))
 
 data1 = binned_counts[:len(dets)]
 data2 = binned_counts[len(dets):]
@@ -229,7 +229,6 @@ c.add_chain(chain, parameters=['b', '$z$'], name='fit')
 
 c.plotter.plot(filename="fit_corner.pdf", 
                 parameters=['b'],
-                truth=[8e-6],
-                log_scales=[])
+                truth=[8e-6],)
 
 plt.savefig("./main_files/energy_range_error_test/simple_fit.pdf")
