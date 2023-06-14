@@ -113,6 +113,30 @@ def simulated_pl_0374(model, piv):
     model.add_source(ps)
     return model
 
+def simulated_pl_0374_free_pos(model, piv):
+    ra, dec = 10., -40.
+    angle_range = 5.
+    
+    pl = Powerlaw()
+    pl.piv = piv
+    pl.K.prior = Log_uniform_prior(lower_bound=1e-6, upper_bound=1e0)
+    pl.index.prior = Uniform_prior(lower_bound=-12, upper_bound=4)
+    pl.index.min_value = -12.5
+    component1 = SpectralComponent("pl", shape=pl)
+    ps = PointSource("Simulated_Source_0374", ra=ra, dec=dec, components=[component1])
+    ps.position.ra.prior = Uniform_prior(
+        lower_bound = ra - abs(angle_range/np.cos(dec)),
+        upper_bound = ra + abs(angle_range/np.cos(dec))
+    )
+    ps.position.dec.free = True
+    ps.position.dec.prior = Uniform_prior(
+        lower_bound = dec - angle_range,
+        upper_bound = dec + angle_range
+    )
+    
+    model.add_source(ps)
+    return model
+
 def simulated_linear_0374(model):
     ra, dec = 10., -40.
     
