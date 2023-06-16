@@ -1427,11 +1427,11 @@ def identical_new_gen():
     pointing_index = 1
     
     data_path_b = "./main_files/pure_simulation_tests/identical_repeats_new_gen"
-    if not os.path.exists(f"{data_path_d}"):
-        os.mkdir(f"{data_path_d}")
+    if not os.path.exists(f"{data_path_b}"):
+        os.mkdir(f"{data_path_b}")
         
     with open(f"{data_path_b}/source_params.pickle", "wb") as f:
-        pickle.dump((source_ra, source_dec, source_piv, source_K, source_index), f)
+        pickle.dump((source_ra, source_dec, source_piv, source_K, source_index, repeats), f)
 
     for i in range(repeats):
         data_path_d = f"{data_path_b}/{i}"

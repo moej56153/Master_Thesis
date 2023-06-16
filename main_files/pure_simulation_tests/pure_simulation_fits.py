@@ -380,7 +380,7 @@ def fit_num_e_bins():
 def fit_data_scaling():
     data_folder = "./main_files/pure_simulation_tests/data_scaling"
 
-    with open(f"/{data_folder}/source_params.pickle", "rb") as f:
+    with open(f"{data_folder}/source_params.pickle", "rb") as f:
         source_ra, source_dec, source_piv, source_Ks, source_indices, time_fraction = pickle.load(f)
 
     for i in range(len(time_fraction)):
@@ -521,13 +521,111 @@ def fit_cluster_size():
             with open(f"{temp_path}/source_parameters.pickle", "wb") as f:
                 pickle.dump((val, cov), f)
 
+def fit_identical_new_gen():
+    data_folder = "./main_files/pure_simulation_tests/identical_repeats_new_gen"
+
+    with open(f"{data_folder}/source_params.pickle", "rb") as f:
+        source_ra, source_dec, source_piv, source_Ks, source_indices, repeats = pickle.load(f)
+        
+    
+    source_model = define_sources((
+        (simulated_pl_0374, (200,)),
+    ))
+
+    for i in range(repeats):
+        
+        temp_path = f"{data_folder}/{i}"
+        
+        
+        pointings = PointingClusters(
+            (temp_path,),
+            min_angle_dif=1.5,
+            max_angle_dif=7.5,
+            max_time_dif=0.2,
+            radius_around_source=10.,
+            min_time_elapsed=300.,
+            cluster_size_range=(2,2),
+            center_ra=10.,
+            center_dec=-40.,
+        ).pointings
+        save_clusters(pointings, data_folder)
+
+        pointings = load_clusters(data_folder)
+            
+        
+
+        multinest_fit = MultinestClusterFit(
+            pointings,
+            source_model,
+            (None, None),
+            np.geomspace(18, 3000, 50),
+            log_binning_function_for_x_number_of_bins(125),
+            # true_values=true_values(),
+            folder=temp_path,
+        )
+
+        multinest_fit.parameter_fit_distribution()
+        multinest_fit.text_summaries(pointing_combinations=True, reference_values=False, parameter_fit_constraints=False)
+        multinest_fit.ppc()
+        
+        # print(multinest_fit._cc._all_parameters)
+        
+        p = ["Simulated Source 0374 K", "Simulated Source 0374 index"]
+        val = np.array([i[1] for i in multinest_fit._cc.analysis.get_summary(parameters=p).values()])
+        cov = multinest_fit._cc.analysis.get_covariance(parameters=p)[1]
+
+        with open(f"{temp_path}/source_parameters.pickle", "wb") as f:
+            pickle.dump((val, cov), f)
+            
+def fit_source_position():
+    data_folder = "./main_files/pure_simulation_tests/source_position"
 
 
-fit_data_scaling()
-fit_cluster_size()
+    with open(f"{data_folder}/source_params.pickle", "rb") as f:
+        source_ra, source_dec, source_piv, source_K, source_index = pickle.load(f)
+        
+    pointings = PointingClusters(
+        (data_folder,),
+        min_angle_dif=1.5,
+        max_angle_dif=7.5,
+        max_time_dif=0.2,
+        radius_around_source=10.,
+        min_time_elapsed=300.,
+        cluster_size_range=(2,2),
+        center_ra=10.,
+        center_dec=-40.,
+    ).pointings
+    save_clusters(pointings, data_folder)
+
+    pointings = load_clusters(data_folder)
+    source_model = define_sources((
+        (simulated_pl_0374_free_pos, (200,)),
+    ))
+            
+    multinest_fit = MultinestClusterFit(
+        pointings,
+        source_model,
+        (None, None),
+        np.geomspace(18, 3000, 50),
+        log_binning_function_for_x_number_of_bins(125),
+        # true_values=true_values(),
+        folder=data_folder,
+    )
+
+    multinest_fit.parameter_fit_distribution()
+    multinest_fit.text_summaries(pointing_combinations=True, reference_values=False, parameter_fit_constraints=False)
+    multinest_fit.ppc()
+    
+    # print(multinest_fit._cc._all_parameters)
+    
+    p = ["Simulated Source 0374 K", "Simulated Source 0374 index"]
+    val = np.array([i[1] for i in multinest_fit._cc.analysis.get_summary(parameters=p).values()])
+    cov = multinest_fit._cc.analysis.get_covariance(parameters=p)[1]
+
+    with open(f"{data_folder}/source_parameters.pickle", "wb") as f:
+        pickle.dump((val, cov), f)
 
 
-
-
-
+fit_identical_new_gen()
+fit_source_position()
 

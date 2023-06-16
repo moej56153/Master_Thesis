@@ -467,4 +467,3 @@ def fit_1667_simple_triple_individual():
         with open(f"{folder}/source_parameters.pickle", "wb") as f:
             pickle.dump((val, cov), f)   
 
-fit_1667_simple_triple_individual()
