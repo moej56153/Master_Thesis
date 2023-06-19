@@ -199,7 +199,7 @@ class ClusteredQuery:
                  max_ang_distance: float = None,
                  cluster_size_range: tuple[int] = (5,5),
                  cluster_size_preference_threshold: tuple[float] = (),
-                 failed_improvements_max: int = 3,
+                 failed_improvements_max: int = 4,
                  suboptimal_cluster_size: int = 2, # >= 1
                  close_suboptimal_cluster_size: int = 3, # >= suboptimal_cluster_size
                  track_performance: bool = False

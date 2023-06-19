@@ -124,6 +124,7 @@ def simulated_pl_0374_free_pos(model, piv):
     pl.index.min_value = -12.5
     component1 = SpectralComponent("pl", shape=pl)
     ps = PointSource("Simulated_Source_0374", ra=ra, dec=dec, components=[component1])
+    ps.position.ra.free = True
     ps.position.ra.prior = Uniform_prior(
         lower_bound = ra - abs(angle_range/np.cos(dec)),
         upper_bound = ra + abs(angle_range/np.cos(dec))

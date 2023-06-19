@@ -1426,7 +1426,7 @@ def identical_new_gen():
     source_index = -2
     pointing_index = 1
     
-    data_path_b = "./main_files/pure_simulation_tests/identical_repeats_new_gen"
+    data_path_b = "./main_files/pure_simulation_tests/identical_repeats_new_gen8"
     if not os.path.exists(f"{data_path_b}"):
         os.mkdir(f"{data_path_b}")
         
@@ -1490,7 +1490,7 @@ def identical_new_gen():
 
 
         resp_mats = []
-        emod = np.geomspace(10, 3000, 50)
+        emod = np.geomspace(18, 3000, 75)
 
         for p_i, pointing in enumerate(pointings):
             if skip_pointing[p_i]:
@@ -1555,8 +1555,6 @@ def identical_new_gen():
                 
         hdu = fits.BinTableHDU(data=total_counts, name="SPI.-OBS.-DSP")
         hdu.writeto(f"{temp_path}/evts_det_spec.fits")
-
-identical_new_gen()
 
 def source_position():
     data_path = "./main_files/SPI_data/0374"
@@ -1691,8 +1689,6 @@ def source_position():
     hdu = fits.BinTableHDU(data=total_counts, name="SPI.-OBS.-DSP")
     hdu.writeto(f"{temp_path}/evts_det_spec.fits")
 
-source_position()
-
-
+identical_new_gen()
 
 

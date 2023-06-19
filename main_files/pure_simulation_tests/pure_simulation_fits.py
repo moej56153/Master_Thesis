@@ -522,7 +522,7 @@ def fit_cluster_size():
                 pickle.dump((val, cov), f)
 
 def fit_identical_new_gen():
-    data_folder = "./main_files/pure_simulation_tests/identical_repeats_new_gen"
+    data_folder = "./main_files/pure_simulation_tests/identical_repeats_new_gen8"
 
     with open(f"{data_folder}/source_params.pickle", "rb") as f:
         source_ra, source_dec, source_piv, source_Ks, source_indices, repeats = pickle.load(f)
@@ -539,8 +539,8 @@ def fit_identical_new_gen():
         
         pointings = PointingClusters(
             (temp_path,),
-            min_angle_dif=1.5,
-            max_angle_dif=7.5,
+            min_angle_dif=2.5,
+            max_angle_dif=20.,
             max_time_dif=0.2,
             radius_around_source=10.,
             min_time_elapsed=300.,
@@ -558,15 +558,15 @@ def fit_identical_new_gen():
             pointings,
             source_model,
             (None, None),
-            np.geomspace(18, 3000, 50),
-            log_binning_function_for_x_number_of_bins(125),
+            np.geomspace(18, 3000, 75),
+            log_binning_function_for_x_number_of_bins(100),
             # true_values=true_values(),
             folder=temp_path,
         )
 
         multinest_fit.parameter_fit_distribution()
         multinest_fit.text_summaries(pointing_combinations=True, reference_values=False, parameter_fit_constraints=False)
-        multinest_fit.ppc()
+        # multinest_fit.ppc()
         
         # print(multinest_fit._cc._all_parameters)
         
@@ -606,26 +606,25 @@ def fit_source_position():
         pointings,
         source_model,
         (None, None),
-        np.geomspace(18, 3000, 50),
-        log_binning_function_for_x_number_of_bins(125),
+        np.geomspace(18, 2500, 40),
+        log_binning_function_for_x_number_of_bins(25),
         # true_values=true_values(),
         folder=data_folder,
+        parameter_names=["RA", "DEC", "K", "index"]
     )
 
-    multinest_fit.parameter_fit_distribution()
+    multinest_fit.parameter_fit_distribution([source_ra, source_dec, source_K, source_index])
     multinest_fit.text_summaries(pointing_combinations=True, reference_values=False, parameter_fit_constraints=False)
     multinest_fit.ppc()
     
     # print(multinest_fit._cc._all_parameters)
     
-    p = ["Simulated Source 0374 K", "Simulated Source 0374 index"]
-    val = np.array([i[1] for i in multinest_fit._cc.analysis.get_summary(parameters=p).values()])
-    cov = multinest_fit._cc.analysis.get_covariance(parameters=p)[1]
+    # p = ["Simulated Source 0374 K", "Simulated Source 0374 index"]
+    # val = np.array([i[1] for i in multinest_fit._cc.analysis.get_summary(parameters=p).values()])
+    # cov = multinest_fit._cc.analysis.get_covariance(parameters=p)[1]
 
-    with open(f"{data_folder}/source_parameters.pickle", "wb") as f:
-        pickle.dump((val, cov), f)
-
+    # with open(f"{data_folder}/source_parameters.pickle", "wb") as f:
+    #     pickle.dump((val, cov), f)
 
 fit_identical_new_gen()
-fit_source_position()
 

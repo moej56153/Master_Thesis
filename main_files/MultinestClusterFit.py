@@ -702,12 +702,13 @@ class MultinestClusterFit:
                 if parameter.path[first_pos+1 : second_pos] in keywords:
                     self._updatable_sources[s_i] = 1
 
-    def parameter_fit_distribution(self):
+    def parameter_fit_distribution(self, true_values=[]):
         assert not self._folder is None, "folder is not set"
         
         fig = self._cc.plotter.plot(
             parameters=self._parameter_names[:-1],
-            figsize=1.5
+            figsize=1.5,
+            truth=true_values
         )
         
         plt.savefig(f"{self._folder}/parameter_fit_distributions.pdf")
