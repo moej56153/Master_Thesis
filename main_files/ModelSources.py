@@ -1,5 +1,9 @@
+import sys, os
+sys.path.insert(0, os.path.abspath('./main_files'))
+
 import numpy as np
-from astromodels import Powerlaw, Line, Log_uniform_prior, Uniform_prior, PointSource, SpectralComponent, Model
+from astromodels import Powerlaw, SmoothlyBrokenPowerLaw, Line, Log_uniform_prior, Uniform_prior, PointSource, SpectralComponent, Model
+from CustomAstromodels import C_Band
 
 def define_sources(source_funcs):    
     model = Model()
@@ -13,7 +17,7 @@ def crab_pl_fixed_pos(model, piv):
     pl = Powerlaw()
     pl.piv = piv
     pl.K.prior = Log_uniform_prior(lower_bound=1e-6, upper_bound=1e0)
-    pl.index.prior = Uniform_prior(lower_bound=-4, upper_bound=0)
+    pl.index.prior = Uniform_prior(lower_bound=-3, upper_bound=-1)
     component1 = SpectralComponent("pl", shape=pl)
     ps = PointSource("Crab", ra=ra, dec=dec, components=[component1])
     
@@ -44,13 +48,51 @@ def crab_pl_free_pos(model, piv):
     model.add_source(ps)
     return model
 
+def crab_sm_br_pl(model, piv=100):
+    ra, dec = 83.6333, 22.0144
+    
+    pl = SmoothlyBrokenPowerLaw()
+    pl.piv = piv
+    pl.alpha.min_value = -2.5
+    pl.K.prior = Log_uniform_prior(lower_bound=5e-4, upper_bound=1e-3)
+    pl.alpha.prior = Uniform_prior(lower_bound=-2.2, upper_bound=-1.8)
+    pl.beta.prior = Uniform_prior(lower_bound=-5.0, upper_bound=-1.9)
+    pl.break_energy.prior = Log_uniform_prior(lower_bound=50, upper_bound=500)
+    pl.break_scale.prior = Uniform_prior(lower_bound=0.0, upper_bound=1.5)
+    pl.break_scale.free = True
+    component1 = SpectralComponent("pl", shape=pl)
+    ps = PointSource("Crab", ra=ra, dec=dec, components=[component1])
+    
+    model.add_source(ps)
+    return model
+    
+
+def crab_lower_band(model, piv=100):
+    ra, dec = 83.6333, 22.0144
+    
+    s = C_Band()
+    s.piv = piv
+    s.alpha.min_value = -2.2
+    s.alpha = -2.
+    s.beta = -2.25
+    s.xp = 500
+    s.K.prior = Log_uniform_prior(lower_bound=5e-4, upper_bound=1e-3)
+    s.alpha.prior = Uniform_prior(lower_bound=-2.2, upper_bound=-1.8)
+    s.xp.prior = Uniform_prior(lower_bound=300, upper_bound=1000)
+    s.beta.free = False
+    s.xp.free = False
+    component1 = SpectralComponent("band", shape=s)
+    ps = PointSource("Crab", ra=ra, dec=dec, components=[component1])
+    model.add_source(ps)
+    return model
+
 def s_1A_0535_262_pl(model, piv):
     ra, dec = 84.7270, 26.3160
     
     pl = Powerlaw()
     pl.piv = piv
-    pl.K.prior = Log_uniform_prior(lower_bound=1e-10, upper_bound=1e0)
-    pl.index.prior = Uniform_prior(lower_bound=-4, upper_bound=0)
+    pl.K.prior = Log_uniform_prior(lower_bound=1e-10, upper_bound=1e-2)
+    pl.index.prior = Uniform_prior(lower_bound=-3.5, upper_bound=-0.5)
     component1 = SpectralComponent("pl", shape=pl)
     ps = PointSource("_1A_0535__262", ra=ra, dec=dec, components=[component1])
     

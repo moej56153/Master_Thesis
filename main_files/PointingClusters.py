@@ -21,10 +21,36 @@ def save_clusters(pointings, folder):
     with open(f"{folder}/pointings.pickle", "wb") as f:
         pickle.dump(pointings, f)
         
-def load_clusters(folder):
+def load_clusters(folder, outliers=None):
     with open(f"{folder}/pointings.pickle", "rb") as f:
         pointings = pickle.load(f)
+    
+    if not outliers is None:
+        pointings = remove_outlier_clusters(pointings, outliers)
+    
     return pointings
+
+
+def remove_outlier_clusters(pointings, outliers):
+    new_pointings = []
+    for cluster in pointings:
+        was_in = False
+        for cluster2 in outliers:
+            assert cluster2[1] != cluster[0][0], "Outliers do not correspond to Clusters"
+            if cluster2[0] == cluster[0][0]:
+                was_in = True
+                assert cluster2[1] == cluster[1][0], "Outliers do not correspond to Clusters"
+                # continue
+        if not was_in:
+            new_pointings.append(cluster)
+    return tuple(new_pointings)
+    
+       
+def load_outliers(path, id):
+    with open(path, "rb") as f:
+        outliers = pickle.load(f)[id]
+    return outliers
+
 
 def extract_date_range(path):
     with fits.open(f"{path}/pointing.fits") as file:
@@ -161,7 +187,10 @@ class PointingClusters: #add min time diff
                                 
                 if not np.amin(time_elapsed[dets]) > self._min_time_elapsed:
                     good = False
-                        
+                
+                version = find_response_version(time_start)
+                rsp = ResponseRMFGenerator.from_time(time_start, dets[0], eb, emod, rsp_bases[version])
+                 
                 try: # investigate why this is necessary
                     version = find_response_version(time_start)
                     rsp = ResponseRMFGenerator.from_time(time_start, dets[0], eb, emod, rsp_bases[version])
