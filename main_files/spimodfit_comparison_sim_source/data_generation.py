@@ -61,7 +61,6 @@ def calc_source_counts():
         time_start = np.array(t["TSTART"]) + 2451544.5
         time_start = [at.Time(f"{i}", format="jd").datetime for i in time_start]
         time_start = np.array([datetime.strftime(i,'%y%m%d %H%M%S') for i in time_start])
-    pointings
     # Only necessary for 1380
     skip_pointing = [False] * len(pointings)
     skip_pointing[0] = True
@@ -72,18 +71,6 @@ def calc_source_counts():
         time_elapsed = np.array(t["LIVETIME"])
 
 
-    # Define  Spectrum
-    pl = Powerlaw()
-    pl.piv = piv
-    pl.K = K
-    pl.index = index
-    component1 = SpectralComponent("pl", shape=pl)
-    source = PointSource("Test", ra=ra, dec=dec, components=[component1])
-
-    emod = np.geomspace(18, 3000, 100)
-    spec = source(emod)
-    spec_binned = powerlaw_binned_spectrum(emod, spec)
-    # spec_binned = (emod[1:]-emod[:-1])*(spec[:-1]+spec[1:])/2
     # Generate Source Counts
 
     assert find_response_version(time_start[0]) == find_response_version(time_start[-1]), "Versions not constant"
@@ -135,7 +122,7 @@ def pyspi_real_bkg():
         time_start = np.array(t["TSTART"]) + 2451544.5
         time_start = [at.Time(f"{i}", format="jd").datetime for i in time_start]
         time_start = np.array([datetime.strftime(i,'%y%m%d %H%M%S') for i in time_start])
-    pointings
+        
     # Only necessary for 1380
     skip_pointing = [False] * len(pointings)
     # skip_pointing[0] = True ######################################################################
@@ -274,7 +261,7 @@ def spimodfit_real_bkg():
     
     
 
-
+# spimodfit_real_bkg()
 
 
 
@@ -287,7 +274,7 @@ data_path2 = f"./main_files/spimodfit_comparison_sim_source/pyspi_smf_bkg/{revol
 smf_data_path2 = f"./main_files/spimodfit_comparison_sim_source/smf_smf_bkg/{revolution}"
 
 def smf_bkg():
-    os.popen(f"cp {spimodfit_folder}/energy_boundaries.fits {data_path2}/energy_boundaries.fits")
+    os.popen(f"cp {spimodfit_folder}/energy_boundaries.fits.gz {data_path2}/energy_boundaries.fits")
     
     if not os.path.exists(data_path2):
         os.mkdir(data_path2)
@@ -401,12 +388,12 @@ def smf_bkg():
     hdu.header = h
     hdu.writeto(f"{smf_data_path2}/evts_det_spec.fits.gz")
     
-    os.popen(f"cp {spimodfit_folder}/energy_boundaries.fits {smf_data_path2}/energy_boundaries.fits")
-    os.popen(f"cp {spimodfit_folder}/pointing.fits {smf_data_path2}/pointing.fits")
-    os.popen(f"cp {spimodfit_folder}/dead_time.fits {smf_data_path2}/dead_time.fits")
+    os.popen(f"cp {spimodfit_folder}/energy_boundaries.fits.gz {smf_data_path2}/energy_boundaries.fits.gz")
+    os.popen(f"cp {spimodfit_folder}/pointing.fits.gz {smf_data_path2}/pointing.fits.gz")
+    os.popen(f"cp {spimodfit_folder}/dead_time.fits.gz {smf_data_path2}/dead_time.fits.gz")
     
     
-
+# smf_bkg()
 
 
 
@@ -511,5 +498,5 @@ def pyspi_const_bkg():
     os.popen(f"cp {data_path}/pointing.fits {data_path3}/pointing.fits")
 
 
-
+pyspi_const_bkg()
 
