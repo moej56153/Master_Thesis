@@ -14,16 +14,16 @@ def fit_1662_correct():
     
     folder = "./main_files/ppc_test/ppc_test_1662_correct"
 
-    pointings = PointingClusters(
-        (data_folder,),
-        min_angle_dif=1.5,
-        max_angle_dif=7.5,
-        max_time_dif=0.2,
-        radius_around_source=10.,
-        min_time_elapsed=600.,
-        cluster_size_range=(2,2),
-    ).pointings
-    save_clusters(pointings, folder)
+    # pointings = PointingClusters(
+    #     (data_folder,),
+    #     min_angle_dif=1.5,
+    #     max_angle_dif=7.5,
+    #     max_time_dif=0.2,
+    #     radius_around_source=10.,
+    #     min_time_elapsed=600.,
+    #     cluster_size_range=(2,2),
+    # ).pointings
+    # save_clusters(pointings, folder)
 
     pointings = load_clusters(folder)
     source_model = define_sources((
@@ -55,16 +55,16 @@ def fit_1664_correct():
     
     folder = "./main_files/ppc_test/ppc_test_1664_correct"
 
-    pointings = PointingClusters(
-        (data_folder,),
-        min_angle_dif=1.5,
-        max_angle_dif=7.5,
-        max_time_dif=0.2,
-        radius_around_source=10.,
-        min_time_elapsed=600.,
-        cluster_size_range=(2,2),
-    ).pointings
-    save_clusters(pointings, folder)
+    # pointings = PointingClusters(
+    #     (data_folder,),
+    #     min_angle_dif=1.5,
+    #     max_angle_dif=7.5,
+    #     max_time_dif=0.2,
+    #     radius_around_source=10.,
+    #     min_time_elapsed=600.,
+    #     cluster_size_range=(2,2),
+    # ).pointings
+    # save_clusters(pointings, folder)
 
     pointings = load_clusters(folder)
     source_model = define_sources((
@@ -96,16 +96,16 @@ def fit_1667_correct():
     
     folder = "./main_files/ppc_test/ppc_test_1667_correct"
 
-    pointings = PointingClusters(
-        (data_folder,),
-        min_angle_dif=1.5,
-        max_angle_dif=7.5,
-        max_time_dif=0.2,
-        radius_around_source=10.,
-        min_time_elapsed=600.,
-        cluster_size_range=(2,2),
-    ).pointings
-    save_clusters(pointings, folder)
+    # pointings = PointingClusters(
+    #     (data_folder,),
+    #     min_angle_dif=1.5,
+    #     max_angle_dif=7.5,
+    #     max_time_dif=0.2,
+    #     radius_around_source=10.,
+    #     min_time_elapsed=600.,
+    #     cluster_size_range=(2,2),
+    # ).pointings
+    # save_clusters(pointings, folder)
 
     pointings = load_clusters(folder)
     source_model = define_sources((
@@ -574,5 +574,56 @@ def fit_1667_simple_triple_individual():
         with open(f"{folder}/source_parameters.pickle", "wb") as f:
             pickle.dump((val, cov), f)   
 
+def fit_1662_correct_wo_outliers():
+    folder = "./main_files/ppc_test/ppc_test_1662_correct_wo_outliers"
 
+    folder2 = "./main_files/ppc_test/ppc_test_1662_correct"
+    pointings2 = load_clusters(folder2)
 
+    pointings = []
+
+    bad_pointings = (
+        # "166200030010",
+        "166200050010",
+        "166200450010",
+        "166200490010",
+        "166200540010",
+        )
+
+    for cluster in pointings2:
+        if cluster[0][0] in bad_pointings:
+            continue
+        else:
+            pointings.append(cluster)
+            
+    pointings = tuple(pointings)
+    
+    save_clusters(pointings, folder)
+    
+    # return 0
+
+    source_model = define_sources((
+        (crab_pl_fixed_pos, (40,)),
+    ))
+
+    multinest_fit = MultinestClusterFit(
+        pointings,
+        source_model,
+        (20., 81.5),
+        np.geomspace(18, 150, 50),
+        log_binning_function_for_x_number_of_bins(125),
+        folder=folder,
+    )
+
+    multinest_fit.parameter_fit_distribution()
+    multinest_fit.text_summaries(pointing_combinations=True, reference_values=False, parameter_fit_constraints=False)
+    multinest_fit.ppc()
+
+    p = ["Crab K", "Crab index"]
+    val = np.array([i[1] for i in multinest_fit._cc.analysis.get_summary(parameters=p).values()])
+    cov = multinest_fit._cc.analysis.get_covariance(parameters=p)[1]
+
+    with open(f"{folder}/source_parameters.pickle", "wb") as f:
+        pickle.dump((val, cov), f)
+
+fit_1662_correct_wo_outliers()

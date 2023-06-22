@@ -138,7 +138,7 @@ def crab_pointing_clustering(data_folder=data_folder, revolutions=revolutions):
             max_angle_dif=10.,
             max_time_dif=0.2,
             radius_around_source=10.,
-            min_time_elapsed=300.,
+            min_time_elapsed=600.,
             cluster_size_range=(2,2),
             center_ra=83.6333,
             center_dec=22.0144,

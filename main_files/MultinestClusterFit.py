@@ -417,7 +417,7 @@ def multivariate_normal_numba(mean, covariance):
 
 
 @njit
-def calc_bmaxL_variance_matrix(b_array, s1_array, t1_array, s2_array, t2_array, num_samples=100000):
+def calc_bmaxL_variance_matrix(b_array, s1_array, t1_array, s2_array, t2_array, num_samples=50000):
     variance_matrix = np.zeros((len(b_array), len(s1_array), len(t1_array), len(s2_array), len(t2_array), 2, 2, 2))
     for b_i, b in enumerate(b_array):
         for s1_i, s1 in enumerate(s1_array):
@@ -756,15 +756,16 @@ class MultinestClusterFit:
         qq_plots=False,
         rel_qq_plots=False,
         cdf_hists=True,
-        outlier_hists=False,
+        # outlier_hists=False,
     ):
         assert self._folder is not None, "folder is not set"
         
-        expected_counts, source_rate, background_rate, times = self._calc_expected_counts(max_posterior_samples)
+        # expected_counts, source_rate, background_rate, times = self._calc_expected_counts(max_posterior_samples)
+        expected_counts = self._calc_expected_counts(max_posterior_samples)
         
         if cdf_hists:
             # number of bins divisble by 4
-            xs = np.linspace(0,1,21)
+            xs = np.linspace(0,1,13)
             cdf_counts = np.zeros(len(xs)-1)
             if not os.path.exists(f"{self._folder}/cdf"):
                 os.mkdir(f"{self._folder}/cdf")
@@ -807,17 +808,17 @@ class MultinestClusterFit:
                     combination,
                     xs,
                 )
-            if outlier_hists:
-                if not os.path.exists(f"{self._folder}/outlier_hists"):
-                    os.mkdir(f"{self._folder}/outlier_hists")
-                self._outlier_hists(
-                    self._counts[c_i],
-                    expected_counts[c_i],
-                    source_rate[c_i],
-                    background_rate[c_i],
-                    times[c_i],
-                    combination
-                )
+            # if outlier_hists:
+            #     if not os.path.exists(f"{self._folder}/outlier_hists"):
+            #         os.mkdir(f"{self._folder}/outlier_hists")
+            #     self._outlier_hists(
+            #         self._counts[c_i],
+            #         expected_counts[c_i],
+            #         source_rate[c_i],
+            #         background_rate[c_i],
+            #         times[c_i],
+            #         combination
+            #     )
             
                     
         if cdf_hists:
@@ -906,94 +907,99 @@ class MultinestClusterFit:
                     elif max > s_range[1]:
                         s_range[1] = max
                
-        #### correct ppc         
-        # background_rate = tuple(background_rate)
-        # source_rate = tuple(source_rate)
+        ### correct ppc         
+        background_rate = tuple(background_rate)
+        source_rate = tuple(source_rate)
         
         
-        # b_int_funcs = (interpolate_linear, interpolate_linear, interpolate_logarithmic, interpolate_linear, interpolate_logarithmic)
-        # c_int_funcs = (interpolate_logarithmic, interpolate_linear, interpolate_powerlaw, interpolate_linear, interpolate_logarithmic)
-        # s_int_funcs = (interpolate_constant, interpolate_linear, interpolate_powerlaw, interpolate_constant, interpolate_constant)
+        b_int_funcs = (interpolate_linear, interpolate_linear, interpolate_logarithmic, interpolate_linear, interpolate_logarithmic)
+        c_int_funcs = (interpolate_logarithmic, interpolate_linear, interpolate_powerlaw, interpolate_linear, interpolate_logarithmic)
+        s_int_funcs = (interpolate_constant, interpolate_linear, interpolate_powerlaw, interpolate_constant, interpolate_constant)
         
-        # b_num = 5
-        # s_num = 7
-        # t_num = 5
+        b_num = 7
+        s_num = 9
+        t_num = 5
         
-        # input_b = np.geomspace(b_range[0]*0.999, b_range[1]*1.001, b_num)
-        # if s_range[0] == 0.0:
-        #     input_s = np.geomspace(s_range[1]*0.005, s_range[1]*1.001, s_num-1)
-        #     input_s = np.insert(input_s, 0, 0.0)
-        # else:
-        #     input_s = np.geomspace(s_range[0]*0.999, s_range[1]*1.001, s_num)
-        # input_t = np.geomspace(t_range[0]*0.999, t_range[1]*1.001, t_num)
+        input_b = np.geomspace(b_range[0]*0.999, b_range[1]*1.001, b_num)
+        if s_range[0] == 0.0:
+            input_s = np.geomspace(s_range[1]*0.005, s_range[1]*1.001, s_num-1)
+            input_s = np.insert(input_s, 0, 0.0)
+        else:
+            input_s = np.geomspace(s_range[0]*0.999, s_range[1]*1.001, s_num)
+        input_t = np.geomspace(t_range[0]*0.999, t_range[1]*1.001, t_num)
         
         
-        # dimension_values = (input_b, input_s, input_t, input_s, input_t)
-        # print(dimension_values)
+        dimension_values = (input_b, input_s, input_t, input_s, input_t)
+        print("Matrix - B:")
+        print(input_b)
+        print("Matrix - S:")
+        print(input_s)
+        print("Matrix - T:")
+        print(input_t)
         
-        # print("Generating Variance Matrix")
+        print("Generating Variance Matrix")
         
-        # variance_matrix = calc_bmaxL_variance_matrix(input_b, input_s, input_t, input_s, input_t)
+        variance_matrix = calc_bmaxL_variance_matrix(input_b, input_s, input_t, input_s, input_t)
         
-        # expected_counts = []
-        
-        # print("Sampling Count Rates")
-        
-        # for c_i, combination in enumerate(self._pointings):   
-        #     expected_counts.append(sample_count_rates(
-        #         c_i,
-        #         source_rate,
-        #         background_rate,
-        #         posterior_samples,
-        #         self._dets,
-        #         self._ebs,
-        #         self._t_elapsed,
-        #         variance_matrix,
-        #         dimension_values,
-        #         b_int_funcs,
-        #         c_int_funcs,
-        #         s_int_funcs
-        #     ))
-                        
-        # print("Sampling Finished")
-        #### end correct ppc
-        
-        #### simple ppc
-        total_num_pointings = self._number_of_total_pointings()
         expected_counts = []
-        for c_i, combination in enumerate(self._pointings):
-            source_counts = np.zeros(source_rate[c_i].shape)
-            background_counts = np.zeros(source_rate[c_i].shape)
+        
+        print("Sampling Count Rates")
+        
+        for c_i, combination in enumerate(self._pointings):   
+            expected_counts.append(sample_count_rates(
+                c_i,
+                source_rate,
+                background_rate,
+                posterior_samples,
+                self._dets,
+                self._ebs,
+                self._t_elapsed,
+                variance_matrix,
+                dimension_values,
+                b_int_funcs,
+                c_int_funcs,
+                s_int_funcs
+            ))
+                        
+        print("Sampling Finished")
+        ### end correct ppc
+        
+        # #### simple ppc
+        # total_num_pointings = self._number_of_total_pointings()
+        # expected_counts = []
+        # for c_i, combination in enumerate(self._pointings):
+        #     source_counts = np.zeros(source_rate[c_i].shape)
+        #     background_counts = np.zeros(source_rate[c_i].shape)
             
-            len_comb = len(combination)
-            for m_i in range(len_comb):
-                source_counts[m_i,:,:,:] = source_rate[c_i][m_i,:,:,:] * self._t_elapsed[c_i][m_i][:,np.newaxis,np.newaxis]
-                background_counts[m_i,:,:,:] = background_rate[c_i][:,:,:] * self._t_elapsed[c_i][m_i][:,np.newaxis,np.newaxis]
+        #     len_comb = len(combination)
+        #     for m_i in range(len_comb):
+        #         source_counts[m_i,:,:,:] = source_rate[c_i][m_i,:,:,:] * self._t_elapsed[c_i][m_i][:,np.newaxis,np.newaxis]
+        #         background_counts[m_i,:,:,:] = background_rate[c_i][:,:,:] * self._t_elapsed[c_i][m_i][:,np.newaxis,np.newaxis]
                 
-            variance = (len_comb-1) / len_comb * background_counts + (total_num_pointings-1) / total_num_pointings * source_counts
+        #     variance = (len_comb-1) / len_comb * background_counts + (total_num_pointings-1) / total_num_pointings * source_counts
             
-            total_counts = source_counts + background_counts
+        #     total_counts = source_counts + background_counts
             
-            sampled_counts = np.random.normal(total_counts, np.sqrt(variance))
+        #     sampled_counts = np.random.normal(total_counts, np.sqrt(variance))
             
-            expected_counts.append(sampled_counts)
-        #### end simple ppc
+        #     expected_counts.append(sampled_counts)
+        # #### end simple ppc
 
-        times = []
-        for c_i, combination in enumerate(self._pointings):
-            background_rate[c_i] = np.repeat(background_rate[c_i][np.newaxis,:,:,:], len(combination), axis=0)
-            t = np.zeros(source_rate[c_i].shape)
-            for m_i in range(len_comb):
-                t[m_i,:,:,:] = np.repeat(
-                    np.repeat(
-                        self._t_elapsed[c_i][m_i][:,np.newaxis,np.newaxis], len(source_rate[c_i][m_i,0,:,0]), axis=1
-                    ), len(source_rate[c_i][m_i,0,0,:]), axis=2
-                )
-            times.append(t)
+        # times = []
+        # for c_i, combination in enumerate(self._pointings):
+        #     background_rate[c_i] = np.repeat(background_rate[c_i][np.newaxis,:,:,:], len(combination), axis=0)
+        #     t = np.zeros(source_rate[c_i].shape)
+        #     for m_i in range(len_comb):
+        #         t[m_i,:,:,:] = np.repeat(
+        #             np.repeat(
+        #                 self._t_elapsed[c_i][m_i][:,np.newaxis,np.newaxis], len(source_rate[c_i][m_i,0,:,0]), axis=1
+        #             ), len(source_rate[c_i][m_i,0,0,:]), axis=2
+        #         )
+        #     times.append(t)
             
 
         
-        return expected_counts, source_rate, background_rate, times
+        return expected_counts #, source_rate, background_rate, times
 
     def _count_energy_plot(
         self,

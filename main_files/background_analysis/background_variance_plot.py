@@ -128,7 +128,7 @@ pointing_path_0374_triple_pre = "./main_files/spimodfit_comparison_sim_source/py
 pointing_path_0374_triple_post = "./main_files/spimodfit_comparison_sim_source/pyspi_real_bkg/0374/post_ppc_triple"
 
 pointing_path_1662_pre = "./main_files/ppc_test/ppc_test_1662_correct"
-pointing_path_1662_post = "./main_files/ppc_test/ppc_test_1662_simple_wo_outliers"
+pointing_path_1662_post = "./main_files/ppc_test/ppc_test_1662_correct_wo_outliers"
 
 data_path_0374 = "./main_files/SPI_data/0374"
 data_path_1662 = "./main_files/SPI_data/1662"
