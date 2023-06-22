@@ -366,6 +366,10 @@ def fit_1662_simple_wo_outliers():
             pointings.append(cluster)
             
     pointings = tuple(pointings)
+    
+    save_clusters(pointings, folder)
+    
+    # return 0
 
     source_model = define_sources((
         (crab_pl_fixed_pos, (40,)),
@@ -570,5 +574,5 @@ def fit_1667_simple_triple_individual():
         with open(f"{folder}/source_parameters.pickle", "wb") as f:
             pickle.dump((val, cov), f)   
 
-fit_1662_simple_wo_outliers()
-fit_1664_simple_wo_outliers()
+
+

@@ -71,10 +71,10 @@ def pyspi_real_bkg_fit_0374_post_ppc():
     rev = "0374"
     ra, dec = 10, -40
     data_path = f"./main_files/spimodfit_comparison_sim_source/pyspi_real_bkg/{rev}"
-    pointings_path = f"{data_path}/pre_ppc"
-    fit_path = f"{data_path}/post_ppc"
-    # pointings_path = f"{data_path}/pre_ppc_far"
-    # fit_path = f"{data_path}/post_ppc_far"
+    # pointings_path = f"{data_path}/pre_ppc"
+    # fit_path = f"{data_path}/post_ppc"
+    pointings_path = f"{data_path}/pre_ppc_far"
+    fit_path = f"{data_path}/post_ppc_far"
     
     if not os.path.exists(f"{fit_path}"):
         os.mkdir(f"{fit_path}")
@@ -84,19 +84,19 @@ def pyspi_real_bkg_fit_0374_post_ppc():
 
     pointings = []
 
-    bad_pointings = (
-        "037400020010",
-        "037400160010",
-        "037400440010",
-        )
-    
     # bad_pointings = (
     #     "037400020010",
-    #     "037400030010",
-    #     "037400140010",
-    #     "037400150010",
-    #     "037400430010",
+    #     "037400160010",
+    #     "037400440010",
     #     )
+    
+    bad_pointings = (
+        "037400020010",
+        "037400030010",
+        "037400140010",
+        "037400150010",
+        "037400430010",
+        )
 
     for cluster in pointings2:
         if cluster[0][0] in bad_pointings:
@@ -105,6 +105,10 @@ def pyspi_real_bkg_fit_0374_post_ppc():
             pointings.append(cluster)
             
     pointings = tuple(pointings)
+    
+    save_clusters(pointings, fit_path)
+    
+    # return 0
     
     if rev=="0374":
         s = simulated_pl_0374
@@ -218,6 +222,10 @@ def pyspi_real_bkg_fit_0374_post_ppc_triple():
             pointings.append(cluster)
             
     pointings = tuple(pointings)
+    
+    save_clusters(pointings, fit_path)
+    
+    # return 0
     
     if rev=="0374":
         s = simulated_pl_0374
@@ -418,7 +426,7 @@ def pyspi_const_bkg_fit_0374_pre_ppc():
 
 
 
-pyspi_const_bkg_fit_0374_pre_ppc()
+pyspi_real_bkg_fit_0374_post_ppc_triple()
 
 
 

@@ -151,7 +151,7 @@ def logLcore(
                     return 0.
                 for m_i in range(n_p):
                     logL += (counts[p_i][m_i][d_i, e_i]*math.log(t_elapsed[p_i][m_i][d_i]*(m[m_i,e_i]+b))
-                            -t_elapsed[p_i][0][d_i]*(m[m_i,e_i]+b))
+                            -t_elapsed[p_i][m_i][d_i]*(m[m_i,e_i]+b))
     return logL
 
 @njit
