@@ -417,7 +417,7 @@ def multivariate_normal_numba(mean, covariance):
 
 
 @njit
-def calc_bmaxL_variance_matrix(b_array, s1_array, t1_array, s2_array, t2_array, num_samples=50000):
+def calc_bmaxL_variance_matrix(b_array, s1_array, t1_array, s2_array, t2_array, num_samples=100000):
     variance_matrix = np.zeros((len(b_array), len(s1_array), len(t1_array), len(s2_array), len(t2_array), 2, 2, 2))
     for b_i, b in enumerate(b_array):
         for s1_i, s1 in enumerate(s1_array):

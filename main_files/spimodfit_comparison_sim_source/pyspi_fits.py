@@ -180,7 +180,7 @@ def pyspi_real_bkg_fit_0374_post_ppc():
     )
     multinest_fit.parameter_fit_distribution()
     multinest_fit.text_summaries(pointing_combinations=True, reference_values=False, parameter_fit_constraints=False)
-    multinest_fit.ppc()
+    # multinest_fit.ppc()
     
     p = ["Simulated Source 0374 K", "Simulated Source 0374 index"]
     val = np.array([i[1] for i in multinest_fit._cc.analysis.get_summary(parameters=p).values()])
@@ -250,7 +250,7 @@ def pyspi_real_bkg_fit_0374_post_ppc_far():
     )
     multinest_fit.parameter_fit_distribution()
     multinest_fit.text_summaries(pointing_combinations=True, reference_values=False, parameter_fit_constraints=False)
-    multinest_fit.ppc()
+    # multinest_fit.ppc()
     
     p = ["Simulated Source 0374 K", "Simulated Source 0374 index"]
     val = np.array([i[1] for i in multinest_fit._cc.analysis.get_summary(parameters=p).values()])
@@ -450,6 +450,7 @@ def pyspi_smf_bkg_fit_0374_post_ppc():
 
     bad_pointings = (
         "037400230010",
+        "037400270010",
         "037400330010",
         "037400400010",
         "037400430010",
@@ -484,7 +485,7 @@ def pyspi_smf_bkg_fit_0374_post_ppc():
     )
     multinest_fit.parameter_fit_distribution()
     multinest_fit.text_summaries(pointing_combinations=True, reference_values=False, parameter_fit_constraints=False)
-    multinest_fit.ppc()
+    # multinest_fit.ppc()
     
     p = ["Simulated Source 0374 K", "Simulated Source 0374 index"]
     val = np.array([i[1] for i in multinest_fit._cc.analysis.get_summary(parameters=p).values()])
@@ -549,8 +550,100 @@ def pyspi_const_bkg_fit_0374_pre_ppc():
 
 
 
-# pyspi_real_bkg_fit_0374_post_ppc()
-pyspi_real_bkg_fit_0374_post_ppc_far()
+def pyspi_real_bkg_fit_0374_ind():
+    rev = "0374"
+    ra, dec = 10, -40
+    data_path = f"./main_files/spimodfit_comparison_sim_source/pyspi_real_bkg/{rev}"
+    fit_path = f"{data_path}/ind"
+    pointing_path = f"{data_path}/pre_ppc"
+    
+    if not os.path.exists(f"{fit_path}"):
+        os.mkdir(f"{fit_path}")
+    
+    pointings2 = load_clusters(pointing_path)
+    
+    if rev=="0374":
+        s = simulated_pl_0374
+    elif rev=="1380":
+        s = simulated_pl_1380
+    
+    source_model = define_sources((
+        (s, (40,)),
+    ))
+    
+    for i in range(len(pointings2)):
+        pointings = (pointings2[i],)
+        folder = f"{fit_path}/{pointings[0][0][0]}_{pointings[0][1][0]}"
+        
+        multinest_fit = MultinestClusterFit(
+            pointings,
+            source_model,
+            (30., 400.,),
+            np.geomspace(18, 600, 50),
+            log_binning_function_for_x_number_of_bins(70),
+            # true_values=true_values(),
+            folder=folder,
+        )
+
+        multinest_fit.parameter_fit_distribution()
+        multinest_fit.text_summaries(pointing_combinations=True, reference_values=False, parameter_fit_constraints=False)
+        # multinest_fit.ppc()
+
+        p = ["Simulated Source 0374 K", "Simulated Source 0374 index"]
+        val = np.array([i[1] for i in multinest_fit._cc.analysis.get_summary(parameters=p).values()])
+        cov = multinest_fit._cc.analysis.get_covariance(parameters=p)[1]
+
+        with open(f"{folder}/source_parameters.pickle", "wb") as f:
+            pickle.dump((val, cov), f)   
+
+def pyspi_real_bkg_fit_0374_far_ind():
+    rev = "0374"
+    ra, dec = 10, -40
+    data_path = f"./main_files/spimodfit_comparison_sim_source/pyspi_real_bkg/{rev}"
+    fit_path = f"{data_path}/ind_far"
+    pointing_path = f"{data_path}/pre_ppc_far"
+    
+    if not os.path.exists(f"{fit_path}"):
+        os.mkdir(f"{fit_path}")
+    
+    pointings2 = load_clusters(pointing_path)
+    
+    if rev=="0374":
+        s = simulated_pl_0374
+    elif rev=="1380":
+        s = simulated_pl_1380
+    
+    source_model = define_sources((
+        (s, (40,)),
+    ))
+    
+    for i in range(len(pointings2)):
+        pointings = (pointings2[i],)
+        folder = f"{fit_path}/{pointings[0][0][0]}_{pointings[0][1][0]}"
+        
+        multinest_fit = MultinestClusterFit(
+            pointings,
+            source_model,
+            (30., 400.,),
+            np.geomspace(18, 600, 50),
+            log_binning_function_for_x_number_of_bins(70),
+            # true_values=true_values(),
+            folder=folder,
+        )
+
+        multinest_fit.parameter_fit_distribution()
+        multinest_fit.text_summaries(pointing_combinations=True, reference_values=False, parameter_fit_constraints=False)
+        # multinest_fit.ppc()
+
+        p = ["Simulated Source 0374 K", "Simulated Source 0374 index"]
+        val = np.array([i[1] for i in multinest_fit._cc.analysis.get_summary(parameters=p).values()])
+        cov = multinest_fit._cc.analysis.get_covariance(parameters=p)[1]
+
+        with open(f"{folder}/source_parameters.pickle", "wb") as f:
+            pickle.dump((val, cov), f)  
+
+pyspi_real_bkg_fit_0374_ind()
+pyspi_real_bkg_fit_0374_far_ind()
 
 
 
