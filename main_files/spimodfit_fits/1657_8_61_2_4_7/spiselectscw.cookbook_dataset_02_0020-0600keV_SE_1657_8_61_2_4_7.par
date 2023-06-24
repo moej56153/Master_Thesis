@@ -1,0 +1,605 @@
+# spiselectscw 4.0
+# ScW and revolutions selection
+# Hubert Halloin, MPE, May 2004
+# adapted by Thomas Siegert (tsiegert@mpe.mpg.de; 22.02.2022) for general use
+
+#####################################################################################
+#####################################################################################
+############################# DATA SELECTION OPTIONS ################################
+#####################################################################################
+#####################################################################################
+
+##########################
+# Input Revolutions List #
+##########################
+#--------------------------------------------------
+fits_revolutions_list,s,h,"1657,1658,1661,1662,1664,1667",,,"Prepared revolutions database to read"
+revolutions_cond_value,s,h,"1657,1658,1661,1662,1664,1667",,,"Selection ranges for revolutions (must* be same as fits_revolution_list)"
+#--------------------------------------------------
+
+##############################
+# Selection on Sky Direction #
+##############################
+#--------------------------------------------------
+# COMMENT OUT OPTION YOU DO NOT WANT TO USE
+# (OPTION 1 IS COMMENTED OUT)
+#--------------------------------------------------
+# OPTION 1: RECTANGULAR REGION
+# PARAMETERS TO CHANGE:
+# select_PtgX_masks_par_1, select_PtgX_masks_par_2, select_PtgX_masks_par_3, select_PtgX_masks_par_4
+# BOTTOM LATITUDE        , TOP LATITUDE           , LEFT LONGITUDE         , RIGHT LATITUDE
+# HERE: -40              , 40                     , -40                    , 40
+# ONLY POINTINGS FALLING INSIDE THIS RECTANGLE ARE USED
+#--------------------------------------------------
+# select_PtgX_masks_num,i,h,4,0,,"Number of masks for X pointing"
+# select_PtgX_masks_globrev,i,h,0,0,1,"global reverse of masks result for X pointing"
+# select_PtgX_masks_logeq,s,h,"1 1 1",,,"Masks logical equation"
+
+# select_PtgX_masks_name_1,s,h,"LatSup",,,"Name of the model of the mask 1 for X pointing"
+# select_PtgX_masks_chi_list_1,r,h,0,-180,180,"chi center of the mask 1 for X pointing"
+# select_PtgX_masks_psi_list_1,r,h,0,-90,90,"psi center of the mask 1 for X pointing"
+# select_PtgX_masks_angle_list_1,r,h,0,,,"rotation center of the mask 1 for X pointing"
+# select_PtgX_masks_coordsys_1,s,h,"GALACTIC",,,"coordinate system of the mask 1 for X pointing"
+# select_PtgX_masks_rev_1,i,h,0,0,1,"Reverts the effect of the mask 1 for X pointing"
+# select_PtgX_masks_npar_1,i,h,1,0,,"Number of parameters passed for the mask 1 for X pointing"
+# select_PtgX_masks_par_1,s,h,"-40",,,"Parameters passed for the mask 1 for X pointing"
+
+# select_PtgX_masks_name_2,s,h,"LatInf",,,"Name of the model of the mask2 for X pointing"
+# select_PtgX_masks_chi_list_2,r,h,0,-180,180,"chi center of the mask2 for X pointing"
+# select_PtgX_masks_psi_list_2,r,h,0,-90,90,"psi center of the mask2 for X pointing"
+# select_PtgX_masks_angle_list_2,r,h,0,,,"rotation center of the mask2 for X pointing"
+# select_PtgX_masks_coordsys_2,s,h,"GALACTIC",,,"coordinate system of the mask2 for X pointing"
+# select_PtgX_masks_rev_2,i,h,0,0,1,"Reverts the effect of the mask2 for X pointing"
+# select_PtgX_masks_npar_2,i,h,1,0,,"Number of parameters passed for the mask2 for X pointing"
+# select_PtgX_masks_par_2,s,h,"40",,,"Parameters passed for the mask2 for X pointing"
+
+# select_PtgX_masks_name_3,s,h,"LonSup",,,"Name of the model of the mask 3 for X pointing"
+# select_PtgX_masks_chi_list_3,r,h,0,-180,180,"chi center of the mask 3 for X pointing"
+# select_PtgX_masks_psi_list_3,r,h,0,-90,90,"psi center of the mask 3 for X pointing"
+# select_PtgX_masks_angle_list_3,r,h,0,,,"rotation center of the mask 3 for X pointing"
+# select_PtgX_masks_coordsys_3,s,h,"GALACTIC",,,"coordinate system of the mask 3 for X pointing"
+# select_PtgX_masks_rev_3,i,h,0,0,1,"Reverts the effect of the mask 3 for X pointing"
+# select_PtgX_masks_npar_3,i,h,1,0,,"Number of parameters passed for the mask 3 for X pointing"
+# select_PtgX_masks_par_3,s,h,"-40",,,"Parameters passed for the mask 3 for X pointing"
+
+# select_PtgX_masks_name_4,s,h,"LonInf",,,"Name of the model of the mask 4 for X pointing"
+# select_PtgX_masks_chi_list_4,r,h,0,-180,180,"chi center of the mask 4 for X pointing"
+# select_PtgX_masks_psi_list_4,r,h,0,-90,90,"psi center of the mask 4 for X pointing"
+# select_PtgX_masks_angle_list_4,r,h,0,,,"rotation center of the mask 4 for X pointing"
+# select_PtgX_masks_coordsys_4,s,h,"GALACTIC",,,"coordinate system of the mask 4 for X pointing"
+# select_PtgX_masks_rev_4,i,h,0,0,1,"Reverts the effect of the mask 4 for X pointing"
+# select_PtgX_masks_npar_4,i,h,1,0,,"Number of parameters passed for the mask 4 for X pointing"
+# select_PtgX_masks_par_4,s,h,"40",,,"Parameters passed for the mask 4 for X pointing"
+#---------------------------------------------------
+#--------------------------------------------------
+# OPTION 2: ELLIPTICAL REGION
+# PARAMETERS TO CHANGE:
+# select_PtgX_masks_chi_list_1, select_PtgX_masks_psi_list_1
+# SOURCE LONGITUDE            , SOURCE LATITUDE
+# HERE (CRAB):
+# -175.44                      , -5.78
+# select_PtgX_masks_par_1
+# CENTER LONGITUDE wrt SOURCE, CENTER LATITUDE wrt SOURCE, LONGITUDINAL RADIUS, LATITUDINAL RADIUS
+# HERE:
+# 0,                         , 0                         , 10                 , 10
+# ONLY POINTINGS FALLING INSIDE THIS ELLIPSE ARE USED
+#--------------------------------------------------
+select_PtgX_masks_num,i,h,1,0,,"Number of masks for X pointing"
+select_PtgX_masks_globrev,i,h,0,0,1,"global reverse of masks result for X pointing"
+select_PtgX_masks_name_1,s,h,"Ellipse",,,"Name of the model of the mask 1 for X pointing"
+select_PtgX_masks_chi_list_1,r,h,-175.44,-180,180,"chi center of the mask 1 for X pointing"
+select_PtgX_masks_psi_list_1,r,h,-5.78,-90,90,"psi center of the mask 1 for X pointing"
+select_PtgX_masks_angle_list_1,r,h,0,,,"rotation center of the mask 1 for X pointing"
+select_PtgX_masks_coordsys_1,s,h,"GALACTIC",,,"coordinate system of the mask 1 for X pointing"
+select_PtgX_masks_rev_1,i,h,0,0,1,"Reverts the effect of the mask 1 for X pointing"
+select_PtgX_masks_npar_1,i,h,4,0,,"Number of parameters passed for the mask 1 for X pointing"
+select_PtgX_masks_par_1,s,h,"0 0 10 10",,,"Parameters passed for the mask 1 for X pointing"
+#--------------------------------------------------
+
+#######################
+# Selection on Energy #
+#######################
+#--------------------------------------------------
+# OPTION 1: SE RANGE (USEFUL FROM 20 UP TO ~600 keV)
+#--------------------------------------------------
+rev_std_proc_pref,s,h,"/afs/ipp-garching.mpg.de/mpe/gamma/instruments/integral/user_ref/Private_low/",,,"Location of revolutions std process - Prefix"
+energy_bins,s,h,"20.0-21.5, 21.5-23.5, 23.5-25.5, 25.5-27.5, 27.5-30.0, 30.0-32.5, 32.5-35.5, 35.5-38.5, 38.5-42.0, 42.0-45.5, 45.5-49.5, 49.5-54.0, 54.0-58.5, 58.5-63.5, 63.5-69.0, 69.0-75.0, 75.0-81.5, 81.5-89.0, 89.0-96.5, 96.5-105.0, 105.0-114.0, 114.0-124.0, 124.0-134.5, 134.5-146.0, 146.0-159.0, 159.0-172.5, 172.5-187.5, 187.5-204.0, 204.0-221.5, 221.5-240.5, 240.5-261.5, 261.5-284.0, 284.0-308.5, 308.5-335.5, 335.5-364.5, 364.5-396.0, 396.0-430.0, 430.0-467.5, 467.5-508.0, 508.0-514.0, 514-600 keV",,,"Energy bins selection"
+energy_rebin,s,h,"1.5, 2.0, 2.0, 2.0, 2.5, 2.5, 3.0, 3.0, 3.5, 3.5, 4.0, 4.5, 4.5, 5.0, 5.5, 6.0, 6.5, 7.5, 7.5, 8.5, 9.0, 10.0, 10.5, 11.5, 13.0, 13.5, 15.0, 16.5, 17.5, 19.0, 21.0, 22.5, 24.5, 27.0, 29.0, 31.5, 34.0, 37.5, 40.5, 6, 86 keV",,,"Energy rebinning (must match bins)"
+#--------------------------------------------------
+#--------------------------------------------------
+# OPTION 2: PSD RANGE (USEFUL FROM ~500 UP TO 2000 keV)
+#--------------------------------------------------
+# rev_std_proc_pref,s,h,"/afs/ipp-garching.mpg.de/mpe/gamma/instruments/integral/user_ref/PSD/Private_low/",,,"Location of revolutions std process - Prefix"
+# energy_bins,s,h,"514.0-559.5, 559.5-609.0, 609.0-663.0, 663.0-721.5, 721.5-785.5, 785.5-855.5, 855.5-931.0, 931.0-1013.5, 1013.5-1103.5, 1103.5-1201.5, 1201.5-1308.0, 1308.0-1424.0, 1424.0-1550.0, 1550.0-1687.5, 1687.5-1837.0, 1837.0-2000.0 keV",,,"Energy bins selection"
+# energy_rebin,s,h,"45.5, 49.5, 54.0, 58.5, 64.0, 70.0, 75.5, 82.5, 90.0, 98.0, 106.5, 116.0, 126.0, 137.5, 149.5, 163.0 keV",,,"Energy rebinning (must match bins)"
+#--------------------------------------------------
+#--------------------------------------------------
+# OPTION 3: HE RANGE (USEFUL** FROM 2000 keV to 8000 keV)
+#--------------------------------------------------
+# rev_std_proc_pref,s,h,"/afs/ipp-garching.mpg.de/mpe/gamma/instruments/integral/user_ref/Private_high/",,,"Location of revolutions std process - Prefix"
+# energy_bins,s,h,"2000.0-2378.0, 2378.0-2828.0, 2828.0-3363.0, 3363.0-4000.0, 4000.0-4756.0, 4756.0-5656.0, 5656.0-6727.0, 6727.0-8000.0 keV",,,"Energy bins selection"
+# energy_rebin,s,h,"378.0, 450.0, 535.0, 637.0, 756.0, 900.0, 1071.0, 1273.0 keV",,,"Energy rebinning (must match bins)"
+#--------------------------------------------------
+
+
+
+################
+# EXPOSURE MAP #
+################
+#--------------------------------------------------
+# OPTION 1: CREATE EXPOSURE MAP (INCLUDE FILENAME)
+#--------------------------------------------------
+out_expo_map_dol,s,h,"expo.fits",,,"Name of the output exposure map. None if left blank"
+#--------------------------------------------------
+#--------------------------------------------------
+# OPTION 2: DO NOT CREATE EXPOSURE MAP (BLANK FILENAME)
+#--------------------------------------------------
+# out_expo_map_dol,s,h,"",,,"Name of the output exposure map. None if left blank"
+#--------------------------------------------------
+
+
+
+
+
+
+##################################################################
+# DON'T TOUCH ANYTHING BELOW UNLESS YOU KNOW WHAT YOU ARE DOING! #
+########################### DO YOU? ##############################
+##################################################################
+
+
+
+
+
+
+
+
+
+
+# Enables debugging (mandatory)
+#---------------------------------------------------
+debug,i,h,0,,,"0=silent,1,2 gives more verbose output"
+#---------------------------------------------------
+
+## Information parameters, recorded in fits file headers 
+## Only use for user convenience
+##****************************************************************
+
+# observation group identifier
+#---------------------------------------------------
+group_id,s,h,"MPE observation",,,"observation group identifier"
+#---------------------------------------------------
+
+# observation identifier
+#---------------------------------------------------
+observation_id,s,h,"MPE observation",,,"observation identifier"
+#---------------------------------------------------
+
+# Scientific purpose
+#---------------------------------------------------
+purpose,s,h,"MPE observation",,,"observation scientific purpose (split over multiple lines if more than 80 characters"
+#---------------------------------------------------
+
+# Object
+#---------------------------------------------------
+object,s,h,"MPE observation",,,"Observed Object"
+#---------------------------------------------------
+
+# Observer
+#---------------------------------------------------
+observer,s,h,"MPE observer",,,"Observer"
+#---------------------------------------------------
+
+##****************************************************************
+
+
+## Location of the input files
+##*************************************************************** 
+
+# name of the fits data base (optionnal if rev list)
+#---------------------------------------------------
+fits_input_file,s,h,"",,,"Name of the fits ScW data base"
+#---------------------------------------------------
+
+
+# revolutions database root name (mandatory if revolutions list)
+#---------------------------------------------------
+fits_rev_data_pref,s,h,"ScWDataBase_rev",,,"Prefix for the revolution database"
+#---------------------------------------------------
+
+# revolutions database directory (mandatory if revolutions list)
+#---------------------------------------------------
+fits_rev_data_dir,s,h,"/afs/ipp-garching.mpg.de/mpe/gamma/instruments/integral/data/databases/scw_params/revolutions.new",,,"Path to the revolutions data base"
+#---------------------------------------------------
+
+# Prefix for preprocessed data (mandatory if revolutions list)
+#---------------------------------------------------
+
+
+#---------------------------------------------------
+
+# Suffix for preprocessed data (mandatory if revolutions list)
+#---------------------------------------------------
+rev_std_proc_suff,s,h,"_std",,,"Suffix for standard process"
+#---------------------------------------------------
+
+# Name of the OG fits file for preprocessed data 
+# (mandatory if revolutions list)
+#---------------------------------------------------
+rev_std_og_file,s,h,"og_spi.fits",,,"Input OG name"
+#---------------------------------------------------
+
+# Name of the SWG index fits file for preprocessed data 
+# (mandatory if revolutions list and scw idx creation)
+#---------------------------------------------------
+rev_std_swg_idx,s,h,"swg_idx_spi.fits",,,"Input SWG index name"
+#---------------------------------------------------
+
+# List of off-line detectors
+#---------------------------------------------------
+off_line_detectors_file,s,h,"spi_off_det.fits",,,"Name of the fits file containing the list of off-line detectors"
+
+off_line_dead_ratio,r,h,0,-1,1,"Dead ratio for off line detectors"
+#---------------------------------------------------
+
+##******************************************************
+
+
+## Input/Output File names
+##******************************************************
+
+# input or output ScW file (mandatory)
+#--------------------------------------------------
+create_scw_file,i,h,1,0,1,"Create (1) or read (0) from the specified ScW file"
+scw_file,s,h,"scw.fits.gz",,,"Name of the fits ScW input/output file"
+#---------------------------------------------------
+
+##*****************************************************
+
+
+
+## Output file names
+##****************************************************
+
+# Scw list output file (optionnal)
+#---------------------------------------------------
+scwlist_output_file,s,h,"scw.list",,,"Name of the scw list output file"
+#---------------------------------------------------
+
+# Output og list (optionnal)
+#---------------------------------------------------
+oglist_output_file,s,h,"og_list",,,"Name of the output og list"
+#---------------------------------------------------
+
+# Output observation group DOL
+#--------------------------------------------------
+group_output_file,s,h,"og_spi.fits",,,"Name of the output group, None if left blank"
+#-------------------------------------------------
+
+# Ebounds DOL
+#---------------------------------------------------
+ebounds_output_file,s,h,"spi/energy_boundaries.fits.gz",,,"Name of the output ebounds file, None if left blank"
+#---------------------------------------------------
+
+# Pointings DOL
+#---------------------------------------------------
+pointing_output_file,s,h,"spi/pointing.fits.gz",,,"Name of the output pointings file, None if left blank"
+#--------------------------------------------------
+
+# GTI DOL
+#---------------------------------------------------
+gti_output_file,s,h,"spi/gti.fits.gz",,,"Name of the output gti file, None if left blank"
+#--------------------------------------------------
+
+# Det events DOL
+#---------------------------------------------------
+dspec_output_file,s,h,"spi/evts_det_spec.fits.gz",,,"Name of the output detector events file, None if left blank"
+#--------------------------------------------------
+
+# Dead time DOL
+#---------------------------------------------------
+dtime_output_file,s,h,"spi/dead_time.fits.gz",,,"Name of the output deadtime file, None if left blank"
+#--------------------------------------------------
+
+# SWG index DOL
+#---------------------------------------------------
+attach_swg_idx,i,h,0,0,1,"Attach SwG index to the output OG (if created)"
+out_swg_idx_dol,s,h,"",,,"Name of the output SWG index file None if left blank"
+#--------------------------------------------------
+
+# Exposure map DOL
+#---------------------------------------------------
+
+#--------------------------------------------------
+
+
+##*****************************************************************
+
+
+
+## Output Exposure map parameters
+#*****************************************************************
+
+# Data source for exposure map
+#----------------------------------------------------------------
+expo_map_from_OG,i,h,1,0,1,"Build exposure map form ScW data (0) or pointings/livetime (1)"
+#---------------------------------------------------------------
+
+# Coordinates system and projection method
+#----------------------------------------------------------------
+expo_map_coordsys,s,h,"Galactic",,,"Coordinate system of the exposure map"
+expo_map_proj,s,h,"CAR",,,"Projection method of the exposure map"
+#----------------------------------------------------------------
+
+# Reference pixels in the map (expert user)
+#----------------------------------------------------------------
+expo_map_rpix_chi,s,h,"middle",,,"Reference pixel of the longitude axis: first, middle, last or any real"
+expo_map_rpix_psi,s,h,"middle",,,"Reference pixel of the latitude axis: first, middle, last (pixel) or any real"
+#----------------------------------------------------------------
+
+# Projection parameters (for expert user ...)
+#----------------------------------------------------------------
+expo_map_longpole,r,h,180,,,"Longitude of the pole in the native coord system"
+expo_map_latpole,r,h,0,,,"Latitude of the pole in the native coord system"
+#----------------------------------------------------------------
+
+# Longitude range and binning
+#----------------------------------------------------------------
+expo_map_chi_min,r,h,-179.5,,,"Minimum longitude in degrees of the exposure map"
+expo_map_chi_max,r,h,179.5,,,"Maximum longitude in degrees of the exposure map"
+expo_map_chi_delta,r,h,1,,,"Longitude step in degrees of the exposure map"
+#----------------------------------------------------------------
+
+# Latitude range and binning
+#----------------------------------------------------------------
+expo_map_psi_min,r,h,-89.5,,,"Minimum latitude in degrees of the exposure map"
+expo_map_psi_max,r,h,89.5,,,"Maximum latitude in degrees of the exposure map"
+expo_map_psi_delta,r,h,1,,,"Latitude step in degrees of the exposure map"
+#----------------------------------------------------------------
+
+##*****************************************************************
+
+
+## Output observation group parameters
+##*****************************************************************
+
+# Tolerance on ScW boundaries
+#------------------------------------------------
+time_tolerance,r,h,120,0,,"Tolerance on ScW boundaries in s"
+#------------------------------------------------
+
+# Elapsed time selection
+#--------------------------------------------------
+telapse_selection,s,h,"",,,"Selection on pointing elapsed time in s"
+#--------------------------------------------------
+
+# Total livetime selection
+#--------------------------------------------------
+livetime_selection,s,h,"120-1E6",,,"Selection on total livetime per pointing and detectors selection in s"
+#--------------------------------------------------
+
+# Minimum detectors livetime
+#--------------------------------------------------
+det_livetime_min,r,h,120,0,,"Minimum livetime per detector in s"
+#-------------------------------------------------
+
+# Energy selection
+#--------------------------------------------------
+collect_energies,i,h,0,0,1,"Collect energies (0/1)"
+#--------------------------------------------------
+
+# Detector selection
+#--------------------------------------------------
+det_selection,s,h,"00-18",,,"Detectors selection"
+#-------------------------------------------------
+
+##********************************************************************
+
+
+## Output OG list parameters
+##********************************************************************
+
+# Minimum good time fraction for revolution selection (mandatory if oglist)
+#---------------------------------------------------
+#rev_frac_sel,r,h,0.5,0,,"Minimum good time fraction for revolution selection"
+rev_frac_sel,r,h,0.,0,,"Minimum good time fraction for revolution selection"
+#---------------------------------------------------
+
+##********************************************************************
+
+
+## Output ScW list parameters
+##********************************************************************
+
+# Scw base directory (mandatory if scwlist)
+#---------------------------------------------------
+scw_base_dir,s,h,"scw",,,"Scw base directory"
+#---------------------------------------------------
+
+##*******************************************************************
+
+
+## ScW selection configuration
+##*******************************************************************
+
+
+# Selection on ISOC pointings [optional]
+#---------------------------------------------------
+ISOCPtgs_cond_value,s,h,"",,,"Selection ranges for ISOC pointings"
+#---------------------------------------------------
+
+# Selection on ScW type [optional]
+#---------------------------------------------------
+scwtype_cond_value,s,h,"0",,,"Selection ranges on ScW type"
+#---------------------------------------------------
+
+
+# Selection on OBT start [optional]
+#---------------------------------------------------
+OBTstart_cond_value,s,h,"",,,"Selection on OBT start"
+#---------------------------------------------------
+
+# Selection on OBT end [optional]
+#---------------------------------------------------
+OBTend_cond_value,s,h,"",,,"Selection on OBT end"
+#---------------------------------------------------
+
+
+# Selection on date start [optional]
+#---------------------------------------------------
+datestart_cond_value,s,h,"",,,"Selection on date start"
+#---------------------------------------------------
+
+# Selection on date end [optional]
+#---------------------------------------------------
+dateend_cond_value,s,h,"",,,"Selection on date end"
+#---------------------------------------------------
+
+
+# Selection on Tstart [optional]
+#---------------------------------------------------
+tstart_cond_value,s,h,"",,,"Selection on TStart"
+#---------------------------------------------------
+
+# Selection on Tend [optional]
+#---------------------------------------------------
+tend_cond_value,s,h,"",,,"Selection on TEnd"
+#---------------------------------------------------
+
+
+# Selection on observation type [optional]
+#---------------------------------------------------
+obstype_cond_value,s,h,"",,,"Selection on observation type"
+#--------------------------------------------------
+
+# Selection on ownership [optional]
+#---------------------------------------------------
+owner_cond_value,s,h,"",,,"Selection on ownership in the form : PIname [- PropStatus], etc."
+#--------------------------------------------------
+
+
+# Selection on logical columns [optionnal]
+#-----------------------------------------------
+logical_cond_num,i,h,1,0,,"Number of columns for logical selection"
+#-----------------------------------------------
+
+## First logical column
+logical_cond_colname_1,s,h,"ReadPrpSCHK",,,"Name of the logical column 1"
+logical_cond_element_1,i,h,1,1,,"Number of the selection element in the logical column 1 [optionnal}"
+logical_cond_value_1,i,h,1,0,1,"Selection condition for logical column 1"
+logical_cond_backward_tol_1,r,h,00,,,"Backward rejection time in seconds for logical column 1"
+logical_cond_forward_tol_1,r,h,00,,, "Forward rejection time in seconds for logical column 1"
+
+#-----------------------------------------------
+
+
+# Selection on numerical columns [optional]
+#-----------------------------------------------
+numerical_cond_num,i,h,1,0,,"Number of columns for numerical selection"
+
+# 1st numerical column
+numerical_cond_colname_1,s,h,"SPIMode",,,"Name of the numerical column"
+numerical_cond_element_1,i,h,1,1,,"Number of the selection element in the numerical column [optional]"
+numerical_cond_value_1,s,h,"40.5-41.5",,,"Selection ranges for numerical column"
+numerical_cond_backward_tol_1,r,h,0,,,"Backward rejection time in seconds for numerical column"
+numerical_cond_forward_tol_1,r,h, 0,,, "Forward rejection time in seconds for numerical column "
+
+## Second numerical column
+numerical_cond_colname_2,s,h,"OrbitRevPhase",,,"Name of the numerical column 2"
+numerical_cond_element_2,i,h,1,1,,"Number of the selection element in the numerical column 2 [optional]"
+numerical_cond_value_2,s,h,"0.15-0.85",,,"Selection ranges for numerical column 2"
+numerical_cond_backward_tol_2,r,h,0,,,"Backward rejection time in seconds for numerical column 2"
+numerical_cond_forward_tol_2,r,h,0,,, "Forward rejection time in seconds for numerical column 2"
+
+
+# 3rd numerical column
+numerical_cond_colname_3,s,h,"HVDetMean",,,"Name of the numerical column 3"
+numerical_cond_element_3,i,h,1,1,,"Number of the selection element in the numerical column 3 [optional]"
+#numerical_cond_value_3,s,h,"3.4-4.5",,,"Selection ranges for numerical column 3"
+#numerical_cond_value_3,s,h,"2.4-4.1",,,"Selection ranges for numerical column 3"
+numerical_cond_value_3,s,h,"2.05-4.5",,,"Selection ranges for numerical column 3"
+numerical_cond_backward_tol_3,r,h,0,,,"Backward rejection time in seconds for numerical column 3"
+numerical_cond_forward_tol_3,r,h,0,,, "Forward rejection time in seconds for numerical column 3"
+
+# 4th numerical column
+numerical_cond_colname_4,s,h,"FracGoodEvtsTot",,,"Name of the numerical column 3"
+numerical_cond_element_4,i,h,1,1,,"Number of the selection element in the numerical column 3 [optional]"
+#numerical_cond_value_4,s,h,"0.047-0.055",,,"Selection ranges for numerical column 3"
+numerical_cond_value_4,s,h,"0.00-0.1",,,"Selection ranges for numerical column 3"
+numerical_cond_backward_tol_4,r,h,0,,,"Backward rejection time in seconds for numerical column 3"
+numerical_cond_forward_tol_4,r,h,0,,, "Forward rejection time in seconds for numerical column 3"
+
+#-----------------------------------------------
+
+
+
+# Selection on general expression (optionnal)
+#--------------------------------------------------
+#select_GenrlSelExpr,s,h,"(.not.gtifilter('spi_gnrl_bti.fits[1]',TStart+7E-4,'START','STOP')&& .not. gtifilter('spi_gnrl_bti.fits[1]',TEnd-7E-4,'START','STOP') && (  (orbitRevFrac < 400 && ACSRate/GeSatTot > 360) && (ACSRate/GeSatTot < 385)  || (ACSRate/GeSatTot > 360) && (ACSRate/GeSatTot < 395) ) && ( (orbitRevFrac >= 46 && orbitRevFrac < 48) || (orbitRevFrac < 75 && (GeSatTot/SgleEvtsTotRate > 6) && (GeSatTot/SgleEvtsTotRate < 10.5)) || ( (GeSatTot/SgleEvtsTotRate > 6) && (GeSatTot/SgleEvtsTotRate < 8.5))) && (TempColdPlt[2]-TempColdPlt[4] > 0.5) && (TempColdPlt[2]-TempColdPlt[4] < 0.8) && (HVDetMean > 3.2 || orbitRevFrac > 950 ) && (IREM_TC3_Rate > 1) && (IREM_S32_Rate < 5)) && (Revolution != 236 && Revolution != 354 && Revolution != 711 && Revolution != 930 && Revolution != 1147 && Revolution != 1149 && Revolution != 1604 && Revolution != 1554 && Revolution != 1555 && Revolution != 1556 && Revolution != 1557 && Revolution != 1558) ",,,"User defined selection expression"
+#select_GenrlSelExpr,s,h,"",,,"User defined selection expression"
+select_GenrlSelExpr,s,h,"gtifilter('/afs/ipp-garching.mpg.de/mpe/gamma/instruments/integral/shared_analysis/cookbook/db_files/ScwDB_reduced_filterGTI.fits[1]',TStart,'TStart','Tend')",,,"User defined selection expression"
+select_GenrlSelExpr_backward_tol,r,h,0,,,"Backward rejection time in seconds for user defined expression"
+select_GenrlSelExpr_forward_tol,r,h,0,,, "Forward rejection time in seconds for user defined expression"
+#--------------------------------------------------
+
+
+
+select_PtgX_backward_tol,r,h,0,,,"Backward rejection time in seconds for X pointing"
+select_PtgX_forward_tol,r,h,0,,, "Forward rejection time in seconds for X pointing"
+
+
+# Selection on Z pointing (general) (optionnal)
+#--------------------------------------------------
+select_PtgZ_backward_tol,r,h,0,,,"Backward rejection time in seconds for Z pointing"
+select_PtgZ_forward_tol,r,h,0,,, "Forward rejection time in seconds for Z pointing"
+
+select_PtgZ_masks_num,i,h,0,0,,"number of masks for Z pointing"
+select_PtgZ_masks_globrev,i,h,0,0,1,"global reverse of masks result for Z pointing"
+
+select_PtgZ_masks_chi_list_1,r,h,0,-180,180,"chi center of the mask 1 for Z pointing"
+select_PtgZ_masks_psi_list_1,r,h,0,-90,90,"psi center of the mask 1 for Z pointing"
+select_PtgZ_masks_angle_list_1,r,h,0,,,"rotation center of the mask 1 for Z pointing"
+select_PtgZ_masks_coordsys_1,s,h,"G",,,"coordinate system of the mask 1 for Z pointing"
+select_PtgZ_masks_rev_1,i,h,0,0,1,"Reverts the effect of the mask 1 for Z pointing"
+select_PtgZ_masks_name_1,s,h,"Ellipse",,,"Name of the model of the mask 1 for Z pointing"
+select_PtgZ_masks_npar_1,i,h,4,0,,"Number of parameters passed for the mask 1 for Z pointing"
+select_PtgZ_masks_par_1,s,h,"0 0 80 40",,,"Parameters passed for the mask 1 for Z pointing"
+#---------------------------------------------------
+
+
+# Selection on X pointing (orbit parameters) (optionnal)
+#--------------------------------------------------
+select_OrbitPtgX_backward_tol,r,h,0,,,"Backward rejection time in seconds for X pointing (orbit parameters)"
+select_OrbitPtgX_forward_tol,r,h,0,,, "Forward rejection time in seconds for X pointing (orbit parameters)"
+select_OrbitPtgX_masks_num,i,h,0,0,,"number of masks for X pointing (orbit parameters)"
+select_OrbitPtgX_masks_globrev,i,h,0,0,1,"global reverse of masks result for X pointing (orbit parameters)"
+
+select_OrbitPtgX_masks_chi_list_1,r,h,0,-180,180,"chi center of the mask 1 for X pointing (orbit parameters)"
+select_OrbitPtgX_masks_psi_list_1,r,h,0,-90,90,"psi center of the mask 1 for X pointing (orbit parameters)"
+select_OrbitPtgX_masks_angle_list_1,r,h,0,,,"rotation center of the mask 1 for X pointing (orbit parameters)"
+select_OrbitPtgX_masks_coordsys_1,s,h,"G",,,"coordinate system of the mask 1 for X pointing (orbit parameters)"
+select_OrbitPtgX_masks_rev_1,i,h,0,0,1,"Reverts the effect of the mask 1 for X pointing (orbit parameters)"
+select_OrbitPtgX_masks_name_1,s,h,"Ellipse",,,"Name of the model of the mask 1 for X pointing (orbit parameters)"
+select_OrbitPtgX_masks_npar_1,i,h,4,0,,"Number of parameters passed for the mask 1 for X pointing (orbit parameters)"
+select_OrbitPtgX_masks_par_1,s,h,"0 0 80 40",,,"Parameters passed for the mask 1 for X pointing (orbit parameters)"
+#---------------------------------------------------
+
+
+# Selection on Z pointing (orbit parameters) (optionnal)
+#--------------------------------------------------
+select_OrbitPtgZ_backward_tol,r,h,0,,,"Backward rejection time in seconds for Z pointing (orbit parameters)"
+select_OrbitPtgZ_forward_tol,r,h,0,,, "Forward rejection time in seconds for Z pointing (orbit parameters)"
+select_OrbitPtgZ_masks_num,i,h,0,0,,"number of masks for Z pointing (orbit parameters)"
+select_OrbitPtgZ_masks_globrev,i,h,0,0,1,"global reverse of masks result for Z pointing (orbit parameters)"
+
+select_OrbitPtgZ_masks_chi_list_1,r,h,0,-180,180,"chi center of the mask 1 for Z pointing (orbit parameters)"
+select_OrbitPtgZ_masks_psi_list_1,r,h,0,-90,90,"psi center of the mask 1 for Z pointing (orbit parameters)"
+select_OrbitPtgZ_masks_angle_list_1,r,h,0,,,"rotation center of the mask 1 for Z pointing (orbit parameters)"
+select_OrbitPtgZ_masks_coordsys_1,s,h,"G",,,"coordinate system of the mask 1 for Z pointing (orbit parameters)"
+select_OrbitPtgZ_masks_rev_1,i,h,0,0,1,"Reverts the effect of the mask 1 for Z pointing (orbit parameters)"
+select_OrbitPtgZ_masks_name_1,s,h,"Ellipse",,,"Name of the model of the mask 1 for Z pointing (orbit parameters)"
+select_OrbitPtgZ_masks_npar_1,i,h,4,0,,"Number of parameters passed for the mask 1 for Z pointing (orbit parameters)"
+select_OrbitPtgZ_masks_par_1,s,h,"0 0 80 40",,,"Parameters passed for the mask 1 for Z pointing (orbit parameters)"
+#---------------------------------------------------
+
+##*************************************************************************

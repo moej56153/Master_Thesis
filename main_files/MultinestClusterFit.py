@@ -207,6 +207,40 @@ def sample_count_rates(
                     [co_vars[0], s_vars[0]]
                 ])
                 
+                # matrix_pos = np.array([
+                #     background_rate[c_i][d_i, e_i, p_i],
+                #     source_rate[c_i][1,d_i,e_i,p_i],
+                #     t_elapsed[c_i][1][d_i],
+                #     source_rate[c_i][0,d_i,e_i,p_i],
+                #     t_elapsed[c_i][0][d_i]
+                # ])
+                
+                # b_vars = interpolate_matrix_5_dim(
+                #     matrix_pos,
+                #     variance_matrix[:,:,:,:,:,:,0,0],
+                #     dimension_values,
+                #     b_int_funcs
+                # )
+                
+                # co_vars = interpolate_matrix_5_dim(
+                #     matrix_pos,
+                #     variance_matrix[:,:,:,:,:,:,0,1],
+                #     dimension_values,
+                #     c_int_funcs
+                # )
+                
+                # s_vars = interpolate_matrix_5_dim(
+                #     matrix_pos,
+                #     variance_matrix[:,:,:,:,:,:,1,1],
+                #     dimension_values,
+                #     s_int_funcs
+                # )
+                
+                # co_var_matrix2 = np.array([
+                #     [b_vars[0], co_vars[0]],
+                #     [co_vars[0], s_vars[0]]
+                # ])
+                
                 co_var_matrix2 = np.array([
                     [b_vars[1], co_vars[1]],
                     [co_vars[1], s_vars[1]]

@@ -1,0 +1,467 @@
+# spimodfit Version 3.2
+# Hubert Halloin, Andy Strong (2009)
+# adapted by Thomas Siegert (tsiegert@mpe.mpg.de; 23.02.2022) for general use
+#---------------------------------------------------
+
+
+#####################################################################################
+#####################################################################################
+#################################### INPUT DATA #####################################
+#####################################################################################
+#####################################################################################
+
+
+#####################
+# Observation Files #
+#####################
+#--------------------------------------------------
+counts_input_file,s,h,"/home/jmoeller/cookbook/SPI_cookbook/MT/Crab_fits/cookbook_dataset_02_0020-0600keV_SE_0665_6/spi/evts_det_spec.fits.gz",,," input count file"
+pointing_input_file,s,h,"/home/jmoeller/cookbook/SPI_cookbook/MT/Crab_fits/cookbook_dataset_02_0020-0600keV_SE_0665_6/spi/pointing.fits.gz",,," input pointing file"
+ebounds_input_file,s,h,"/home/jmoeller/cookbook/SPI_cookbook/MT/Crab_fits/cookbook_dataset_02_0020-0600keV_SE_0665_6/spi/energy_boundaries.fits.gz",,," input energy bounds file"
+deadtime-dol,s,h,"/home/jmoeller/cookbook/SPI_cookbook/MT/Crab_fits/cookbook_dataset_02_0020-0600keV_SE_0665_6/spi/dead_time.fits.gz",,,"DTI deadtime/livetime input file"
+gti-dol,s,h,"/home/jmoeller/cookbook/SPI_cookbook/MT/Crab_fits/cookbook_dataset_02_0020-0600keV_SE_0665_6/spi/gti.fits.gz",,,"GTI input file"
+background_input_file,s,h,"/home/jmoeller/cookbook/SPI_cookbook/MT/Crab_fits/cookbook_dataset_02_0020-0600keV_SE_0665_6/spi/bg-e0020-0600/output_bgmodel_conti_sep_idx.fits.gz" ,,,"input background file" 
+#--------------------------------------------------
+
+
+################################
+# Energy Rebinning in Channels #
+################################
+#--------------------------------------------------
+first_energy_bin,i,h,1,1,10000,"First selected bin"
+last_energy_bin,i,h,41,1,10000,"Last selected bin"
+m_energy_rebin,i,h,1,1,100,"number of bins per rebinned energy"
+#--------------------------------------------------
+energy_range_min,i,h,1,,,"minimum energy range sequence number as in ebounds file: 1,2,3..."
+energy_range_max,i,h,41,,,"maximum energy range sequence number as in ebounds file: 1,2,3..."
+#--------------------------------------------------
+
+
+#################
+# Point Sources #
+#################
+#--------------------------------------------------
+# OPTION 1: FITTING A SOURCE AT A POSITION GIVEN IN A CATALOGUE
+# REQUIRED INPUT, DO NOT LEAVE BLANK
+source-cat-dol,s,h,"/home/jmoeller/cookbook/SPI_cookbook/cats/cat_crab_pulsar.fits.gz",,,"input catalogue of sources "
+# IF NO SOURCE IS NEEDED USE OPTION 2 BELOW (COMMENT OPTION 1, UNCOMMENT OPTION 2)
+#--------------------------------------------------
+source_parameters_fit,i,h,1,0,1,"Sources fit parameter 1=yes" 
+source_var_coef,s,h,"0 d n",,,"Time variability definition : d(ays)/p(pointings) + i(ncrements)/n(nodes")
+sources_zenith_angle,r,h,20,0,," Sources maximum zenithal angle" 
+#--------------------------------------------------
+# OPTION 2: NO SOURCE FITTED (ONLY BG OR MAPS)
+# source-cat-dol,s,h,"/afs/ipp-garching.mpg.de/mpe/gamma/instruments/integral/shared_analysis/cookbook/cats/cat_no_src.fits.gz",,,"input catalogue of sources "
+#--------------------------------------------------
+# source_parameters_fit,i,h,0,0,1,"Sources fit parameter 1=yes" 
+# source_var_coef,s,h,"0 d n",,,"Time variability definition : d(ays)/p(pointings) + i(ncrements)/n(nodes")
+# sources_zenith_angle,r,h,20,0,," Sources maximum zenithal angle" 
+#--------------------------------------------------
+
+
+
+######################################
+# Extended Sources (Maps, Templates) #
+######################################
+#--------------------------------------------------
+# OPTION 1: INPUT A FITS IMAGE INDEX FILE, FOLD WITH spimodfit AND FIT
+# PARAMETERS TO CHANGE:
+# n_image_parameters, image-idx_01, image-idx_02, image-idx_03
+# HERE: 0 (NO INPUT), SPI 26Al MAP, HI 21cm MAP , NFW PROFILE LOS INTEGRATED
+#--------------------------------------------------
+convsky_input_file,s,h,"" ,,,"input convolved skymaps file"
+n_image_parameters,i,h,0,0,100,"number of image parameters to be loaded"
+image-idx_01,s,h,"/afs/ipp-garching.mpg.de/mpe/gamma/instruments/integral/shared_analysis/cookbook/maps/SPI_26Al_3deg_index.fits[1]",,,"input skymap image index file"
+image-idx_02,s,h,"/afs/ipp-garching.mpg.de/mpe/gamma/instruments/integral/shared_analysis/cookbook/maps/SPI_HI_21cm_index.fits.gz[1]",,,"input skymap image index file"
+image-idx_03,s,h,"/afs/ipp-garching.mpg.de/mpe/gamma/instruments/integral/shared_analysis/cookbook/maps/SPI_PBH_NFW_Idx.fits.gz[1]",,,"input skymap image index file"
+#--------------------------------------------------
+# SAVE CONVOLUTION OR NOT. 0 = NO, 1 = YES
+convsky_output,i,h,0,0,2,"0 : none, 1 : output convolved skymaps, >1 : output skymaps + point sources"
+convsky-idx,s,h,"convolved_sky_images_index.fits",,,"output convolved sky index file"
+convsky-int,s,h,"convolved_sky_images.fits" ,,,"output convolved sky file"
+#--------------------------------------------------
+#--------------------------------------------------
+# OPTION 2: INPUT ALREADY CONVOLVED SKY IMAGES (AVOID REPEATED CONVOLUTIONS)
+# PARAMETERS TO CHANGE:
+# convsky_input_file
+# HERE: OUTPUT FROM convsky-idx
+# !!!IMPORTANT!!! SEQUENCE OF MAPS MUST MATCH SEQUENCE OF MAPS FROM BEFORE
+# n_image_parameters, image-idx_01, image-idx_02, image-idx_03
+# HERE: 0 (NO INPUT), SPI 26Al MAP, HI 21cm MAP , NFW PROFILE LOS INTEGRATED
+#--------------------------------------------------
+# convsky_input_file,s,h,"convolved_sky_images_index.fits" ,,,"input convolved skymaps file"
+# n_image_parameters,i,h,0,0,100,"number of image parameters to be loaded"
+# image-idx_01,s,h,"/afs/ipp-garching.mpg.de/mpe/gamma/instruments/integral/shared_analysis/cookbook/maps/SPI_26Al_3deg_index.fits[1]",,,"input skymap image index file"
+# image-idx_02,s,h,"/afs/ipp-garching.mpg.de/mpe/gamma/instruments/integral/shared_analysis/cookbook/maps/SPI_HI_21cm_index.fits.gz[1]",,,"input skymap image index file"
+# image-idx_03,s,h,"/afs/ipp-garching.mpg.de/mpe/gamma/instruments/integral/shared_analysis/cookbook/maps/SPI_PBH_NFW_Idx.fits.gz[1]",,,"input skymap image index file"
+#--------------------------------------------------
+# DON'T SAVE CONVOLUTION AGAIN!
+# convsky_output,i,h,0,0,2,"0 : none, 1 : output convolved skymaps, >1 : output skymaps + point sources"
+# convsky-idx,s,h,"convolved_sky_images_index.fits",,,"output convolved sky index file"
+# convsky-int,s,h,"convolved_sky_images.fits" ,,,"output convolved sky file"
+#+++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+
+
+###############################
+# Background Model Parameters #
+###############################
+#--------------------------------------------------
+# OPTION 1: SEPARATE BACKGROUND MODEL FOR CONTINUUM AND LINES
+# PARAMETERS TO CHANGE:
+# collect_background_models
+# 0 = SEPARATE MODELS, 1 = COMBINED MODEL
+# IF 0, CHANGE ALL PARAMETERS BELOW CONSISTENTLY(!) FOR BACKGROUND MODEL 01 AND BACKGROUND MODEL 02
+#--------------------------------------------------
+collect_background_models,i,h,0,0,1,"Collect background components into one model (0/1)"
+#--------------------------------------------------
+# OPTION 1a: FIT BACKGROUND ONCE PER REVOLUTION AND DETECTOR FAILURE
+# CAN ALSO REPLACE all_revs.fits WITH EVERY N REVOLUTIONS WHERE N=0.003125 TO 30
+# CHECK /afs/ipp-garching.mpg.de/mpe/gamma/instruments/integral/shared_analysis/cookbook/revolutions/ FOR AVAILABILITY
+# background_var_coef_01,s,h,"&/afs/ipp-garching.mpg.de/mpe/gamma/instruments/integral/shared_analysis/cookbook/revolutions/all_revs.fits[1] col=TIME_PERIGEE d n, 1435.41635 1659.46 3337.5 3799.66740 d n",,,"Time variability definition : d(ays)/p(pointings) + i(ncrements)/n(nodes)"
+# background_var_coef_02,s,h,"&/afs/ipp-garching.mpg.de/mpe/gamma/instruments/integral/shared_analysis/cookbook/revolutions/all_revs.fits[1] col=TIME_PERIGEE d n, 1435.41635 1659.46 3337.5 3799.66740 d n",,,"Time variability definition : d(ays)/p(pointings) + i(ncrements)/n(nodes)"
+#--------------------------------------------------
+# OPTION 1b: FIT BACKGROUND ONCE PER POINTING
+background_var_coef_01,s,h,"1 p i",,,"Time variability definition : d(ays)/p(pointings) + i(ncrements)/n(nodes)"
+background_var_coef_02,s,h,"1 p i",,,"Time variability definition : d(ays)/p(pointings) + i(ncrements)/n(nodes)"
+#--------------------------------------------------
+# OPTION 1c: FIT BACKGROUND ONCE (ONE GLOBAL PARAMETER, NO RECOMMENDED)
+# background_var_coef_01,s,h,"0 d n",,,"Time variability definition : d(ays)/p(pointings) + i(ncrements)/n(nodes)"
+# background_var_coef_02,s,h,"0 d n",,,"Time variability definition : d(ays)/p(pointings) + i(ncrements)/n(nodes)"
+#--------------------------------------------------
+#--------------------------------------------------
+# OPTION 2: COMBINED BACKGROUND MODEL
+# PARAMETERS TO CHANGE:
+# collect_background_models
+# 0 = SEPARATE MODELS, 1 = COMBINED MODEL
+# IF 1, ONLY INCLUDE BACKGROUND MODEL 01
+#--------------------------------------------------
+# collect_background_models,i,h,1,0,1,"Collect background components into one model (0/1)"
+#--------------------------------------------------
+# OPTION 1a: FIT BACKGROUND ONCE PER REVOLUTION AND DETECTOR FAILURE
+# CAN ALSO REPLACE all_revs.fits WITH EVERY N REVOLUTIONS WHERE N=0.003125 TO 30
+# CHECK /afs/ipp-garching.mpg.de/mpe/gamma/instruments/integral/shared_analysis/cookbook/revolutions/ FOR AVAILABILITY
+# background_var_coef_01,s,h,"&/afs/ipp-garching.mpg.de/mpe/gamma/instruments/integral/shared_analysis/cookbook/revolutions/all_revs.fits[1] col=TIME_PERIGEE d n, 1435.41635 1659.46 3337.5 3799.66740 d n",,,"Time variability definition : d(ays)/p(pointings) + i(ncrements)/n(nodes)"
+#--------------------------------------------------
+# OPTION 1b: FIT BACKGROUND ONCE PER POINTING
+# background_var_coef_01,s,h,"1 p i",,,"Time variability definition : d(ays)/p(pointings) + i(ncrements)/n(nodes)"
+#--------------------------------------------------
+# OPTION 1c: FIT BACKGROUND ONCE (ONE GLOBAL PARAMETER, NO RECOMMENDED)
+# background_var_coef_01,s,h,"0 d n",,,"Time variability definition : d(ays)/p(pointings) + i(ncrements)/n(nodes)"
+#--------------------------------------------------
+
+
+
+
+##################
+# Results Output #
+##################
+#--------------------------------------------------
+# General Results
+#--------------------------------------------------
+results_file,s,h,"results.spimodfit.fits",,,"output fit results files" 
+background_covariance,i,h,0,0,1,"Record back covariance (0=No,1=Yes)
+#--------------------------------------------------
+# Background model
+#--------------------------------------------------
+background_output,i,h,0,0,1,"1=output fitted background"
+background-idx,s,h,"back_model_index.fits",,,"output background index file"
+background-int,s,h,"back_model.fits" ,,,"output background file"
+#--------------------------------------------------
+# Model residuals
+#--------------------------------------------------
+residuals_file,s,h,"residuals.fits",,,"Residues filename"
+residuals_output,i,h,0,0,1 ,"Residues output : 0=none,1=time history"
+back_proj_output,i,h ,0,0,1,"Back projection of residues on sky : 0=No,1=Yes" 
+#--------------------------------------------------
+# Spectra
+#--------------------------------------------------
+spectra_root_name,s,h,"spectra",,,"root for spectra filenames"
+spectra_output,i,h,2,0,2,"spectra output,0=none,1=per component type,2=all components+summed"
+#--------------------------------------------------
+
+
+
+
+
+
+
+
+##################################################################
+# DON'T TOUCH ANYTHING BELOW UNLESS YOU KNOW WHAT YOU ARE DOING! #
+########################### DO YOU? ##############################
+##################################################################
+
+
+
+
+# Title to be written in fits files
+#+++++++++++++++++++++++++++++++++++++++++++++++++
+title,s,h,"spimodfit run from MPE observer",,,"title to write as comment to FITS header"
+#+++++++++++++++++++++++++++++++++++++++++++++++++
+
+# excluded pointings (NOT WORKING PROPERLY)
+#+++++++++++++++++++++++++++++++++++++++++++++++++
+excluded_pointings,s,h,"",,,"excluded pointings definition"
+#+++++++++++++++++++++++++++++++++++++++++++++++++
+
+# General parameters
+#----------------------------------------------------
+# Enables debugging
+#+++++++++++++++++++++++++++++++++++++++++++++++++
+debug,i,h,0,-999,2,"0=silent,1,2 gives more verbose output"
+#+++++++++++++++++++++++++++++++++++++++++++++++++
+
+# Output fitted parameters on the standard outputs for IDL copy/paste
+#+++++++++++++++++++++++++++++++++++++++++++++++++
+output_idl,i,h,1,0,1," Screen output for IDL copy/paste (0=no,1=yes)"
+#+++++++++++++++++++++++++++++++++++++++++++++++++
+
+# Observation and IRF files
+#---------------------------------------------------
+
+# Input Detector selection
+#++++++++++++++++++++++++++++++++++++++++++++++++++
+detector_selection,s,h,"00-18",00,84,"Detector selection from the input OG"
+#++++++++++++++++++++++++++++++++++++++++++++++++++
+
+# Simulation of data
+#++++++++++++++++++++++++++++++++++++++++++++++++++
+simulate,i,h,0,0,1,"0= use SPI.-OBS.-PNT data,1=simulate" 
+#++++++++++++++++++++++++++++++++++++++++++++++++++ 
+
+# Data filtering
+#++++++++++++++++++++++++++++++++++++++++++++++++++
+data_filter_counts,i,h,-1,,,"filter out data with counts <= data_filter_counts"
+background_smooth,i,h,1,1,100,"number of energy bins for background smoothing,must be ODD"
+#++++++++++++++++++++++++++++++++++++++++++++++++++
+
+# IRFs
+#++++++++++++++++++++++++++++++++++++++++++++++++++
+n_irf,i,h,5,0,99,"Number of input IRF IN INCREASING TIME"
+irf_input_file_01,s,h,"/afs/ipp-garching.mpg.de/mpe/gamma/instruments/integral/data/ic/current/ic/spi/rsp/spi_irf_grp_0021.fits[GROUPING]",,,"input IRF file"
+irf_input_file_02,s,h,"/afs/ipp-garching.mpg.de/mpe/gamma/instruments/integral/data/ic/current/ic/spi/rsp/spi_irf_grp_0022.fits[GROUPING]",,,"input IRF file"
+irf_input_file_03,s,h,"/afs/ipp-garching.mpg.de/mpe/gamma/instruments/integral/data/ic/current/ic/spi/rsp/spi_irf_grp_0023.fits[GROUPING]",,,"input IRF file"
+irf_input_file_04,s,h,"/afs/ipp-garching.mpg.de/mpe/gamma/instruments/integral/data/ic/current/ic/spi/rsp/spi_irf_grp_0024.fits[GROUPING]",,,"input IRF file"
+irf_input_file_05,s,h,"/afs/ipp-garching.mpg.de/mpe/gamma/instruments/integral/data/ic/current/ic/spi/rsp/spi_irf_grp_0026.fits[GROUPING]",,,"input IRF file"
+precalculate_irf,i,h,0,0,1,"Precalculate IRF (0=No/1=Yes)"
+log_integration_step_irf,r,h,0.03,0,,"Log10 of IRF integration step in energy (0=no step)"
+#++++++++++++++++++++++++x++++++++++++++++++++++++++
+
+# Fitted components
+#---------------------------------------------------
+
+# Extended emission / images
+#++++++++++++++++++++++++++++++++++++++++++++++++++
+
+# Fitting options for image 1
+#......................................................
+image_energy_model_01,s,h,"constant",,,"Energy model for map 01"
+image_energy_model_pars_num_01,i,h,1,0,100,"Number of parameters for energy model 01"
+image_energy_model_pars_01,s,h,"1.0",,,"Parameters for energy model 01"
+image_IRF_gamma_cor_01,r,h,2.0,,,"correction indexes for IRF"
+image_det_rges_01,s,h,"00-18",,,"Fitted detector ID ranges"
+image_var_coef_01,s,h,"0.0 d i",,,"Time variability definition : d(ays)/p(pointings) + i(ncrements)/n(nodes)"
+image_var_order_01,i,h,0,0,5,"Variability order for images"
+image_parameters_01,r,h,1.0,,,"image reference parameter"
+image_parameters_min_01,r,h,-1E6,,,"image minimum parameter"
+image_parameters_max_01,r,h,1E6,,,"image maximum parameter"
+image_parameters_fit_01,i,h,1,0,1,"image fitted parameter"
+# dont fit, just convolve:    image_parameters_fit_01,i,h,0,0,1,"image fitted parameter"
+image_parameters_step_01,r,h,5.e-2,,,"image step for parameter"
+#......................................................
+
+# Fitting options for image 2
+#......................................................
+image_energy_model_02,s,h,"constant",,,"Energy model for map 02"
+image_energy_model_pars_num_02,i,h,1,0,100,"Number of parameters for energy model 02"
+image_energy_model_pars_02,s,h,"1.0",,,"Parameters for energy model 02"
+image_IRF_gamma_cor_02,r,h,2.0,,,"correction indexes for IRF"
+image_det_rges_02,s,h,"00-18",,,"Fitted detector ID ranges"
+image_var_coef_02,s,h,"0.0 d i",,,"Time variability definition : d(ays)/p(pointings) + i(ncrements)/n(nodes)"
+image_var_order_02,i,h,0,0,5,"Variability order for images"
+image_parameters_02,r,h,1.0,,,"image reference parameter"
+image_parameters_min_02,r,h,-1E6,,,"image minimum parameter"
+image_parameters_max_02,r,h,1E6,,,"image maximum parameter"
+image_parameters_fit_02,i,h,1,0,1,"image fitted parameter"
+# dont fit, just convolve:    image_parameters_fit_02,i,h,0,0,1,"image fitted parameter"
+image_parameters_step_02,r,h,5.e-2,,,"image step for parameter"
+#......................................................
+
+# Fitting options for image 3
+#......................................................
+image_energy_model_03,s,h,"constant",,,"Energy model for map 03"
+image_energy_model_pars_num_03,i,h,1,0,100,"Number of parameters for energy model 03"
+image_energy_model_pars_03,s,h,"1.0",,,"Parameters for energy model 03"
+image_IRF_gamma_cor_03,r,h,2.0,,,"correction indexes for IRF"
+image_det_rges_03,s,h,"00-18",,,"Fitted detector ID ranges"
+image_var_coef_03,s,h,"0.0 d i",,,"Time variability definition : d(ays)/p(pointings) + i(ncrements)/n(nodes)"
+image_var_order_03,i,h,0,0,5,"Variability order for images"
+image_parameters_03,r,h,1.0,,,"image reference parameter"
+image_parameters_min_03,r,h,-1E6,,,"image minimum parameter"
+image_parameters_max_03,r,h,1E6,,,"image maximum parameter"
+image_parameters_fit_03,i,h,1,0,1,"image fitted parameter"
+# dont fit, just convolve:    image_parameters_fit_03,i,h,0,0,1,"image fitted parameter"
+image_parameters_step_03,r,h,5.e-2,,,"image step for parameter"
+#......................................................
+
+
+
+# Global parameters
+# ..................................................
+image_init_from_file,i,h,0,0,1,"Init images from file (0=No,1=Yes)"
+image_init_file,s,h,"",,,"Images initialization file"
+skymap_system,s,h,G,,,"output skymap coordinate system C=celestial,G=Galactic"
+chi_0,r,h,-179.5 ,,,"Longitude of first pixel (degrees)"
+chi_1,r,h,+179.5 ,,,"Longitude of last pixel (degrees)"
+d_chi,r,h,1.0 ,,,"Longitude binsize (degrees)"
+psi_0,r,h,-89.5 ,,,"Latitude of first pixel (degrees)"
+psi_1,r,h,+89.5 ,,,"Latitude of last pixel (degrees)"
+d_psi,r,h,1.0 ,,,"Latitude binsize (degrees)"
+#...................................................
+
+
+# End of extended emission / images parameters
+#++++++++++++++++++++++++++++++++++++++++++++++++++
+source_flux_mode,i,h,0,0,2,"Calculation mode for sources' flux (<=0=default model,1=catalog model,>=2=catalog spectra"
+source_energy_model,s,h,"constant",,,"Energy modulation for sources"
+source_energy_model_pars_num,i,h,1,0,,"Number of parameters for sources' energy correction"
+source_energy_model_pars,s,h,"0.01",,,"Parameters for sources' energy correction"
+source_det_rges,s,h,"00-18",,,"Fitted detector ID ranges"
+source_var_order,i,h,0,0,,"Variability order for the sources"
+source_parameters,r,h,0.0001,0,,"Sources reference parameter" 
+source_parameters_min,r,h,-1E6,0,,"Sources minimum parameter" 
+source_parameters_max,r,h,1E6,0,,"Sources maximum parameter" 
+source_parameters_step,r,h,0.00001,0,,"Sources step parameter" 
+source_IRF_gamma_cor,r,h,2.0,0,,"correction index for IRF" 
+source_init_file,s,h,"",,,"Sources initialization file"
+source_init_from_file,i,h,0,0,1,"Init sources from file (0=No,1=Yes)"
+
+# End of point sources parameters
+#++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+# Background models
+#++++++++++++++++++++++++++++++++++++++++++++++++++
+n_background_loaded,i,h,2,0,100,"maximum number of loaded background components"
+
+# Global parameters
+# ..................................................
+background_init_file,s,h,"",,,"background initialization file"
+background_init_from_file,i,h,0,0,1,"Init background from file (0=No,1=Yes)"
+# ..................................................
+background_det_rges_01,s,h,"00-18",,,"Fitted detector ID ranges"
+background_var_order_01,i,h,0,0,5,"Variability order for background"
+background_parameters_01,r,h,1,,,"background reference parameter"
+background_parameters_min_01,r,h,-8E6,,,"background minimum parameter"
+background_parameters_max_01,r,h,8E6,,,"background maximum parameter"
+background_parameters_fit_01,i,h,1,,,"background fitted parameter flag"
+background_parameters_step_01,r,h,0.01,,,"background step for parameters"
+
+background_det_rges_02,s,h,"00-18",,,"Fitted detector ID ranges"
+background_var_order_02,i,h,0,0,5,"Variability order for background"
+background_parameters_02,r,h,1.0,,,"background reference parameter"
+background_parameters_min_02,r,h,-1E6,,,"background minimum parameter"
+background_parameters_max_02,r,h,1E6,,,"background maximum parameter"
+background_parameters_fit_02,i,h,1,,,"background fitted parameter flag"
+background_parameters_step_02,r,h,0.01,,,"background step for parameters"
+
+
+# Background multipliers
+#++++++++++++++++++++++++++++++++++++++++++++++++++
+n_backmul_components,i,h,0,,,"Number of back components multiplier groups"
+backmul_init_file,s,h,"",,,"Name of the multiplier initialisation file"
+backmul_init_from_file,i,h,0,0,1,"Initialisation from file (0/1)"
+backmul_comp_min_01,i,h,1,0,,"Back component range to multiply: lower index"
+backmul_comp_max_01,i,h,1,0,,"Back component range to multiply: upper index"
+backmul_det_rges_01,s,h,"01,02,03,04,05,06,07,08,09,10,11,12,13,14,15,16,17,18",,,"Fitted detector ID ranges"
+backmul_var_coef_01,s,h,"1435.403 1659.4 3337.42 3799.53 d n, &../rev_annealings.fits[1] col=TIME_PERIGEE d n",,,"Time variability definition: d(ays)/p(ointings) + i(ncrements)/n(odes)"
+backmul_parameters_01,r,h,1.0,,,"backmul reference parameter"
+backmul_parameters_min_01,r,h,0.1,,,"backmul minimum parameter"
+backmul_parameters_max_01,r,h,100.0,,,"backmul maximum parameter"
+backmul_parameters_fit_01,i,h,1,0,1,"backmul fitted parameter flag"
+backmul_parameters_step_01,r,h,0.005,,,"backmul step for parameter"
+#++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+# Fitting algorithm options
+# +++++++++++++++++++++++++++++++++++++++++++++++++
+
+# Maximum of likelihood fit
+#...............................................
+background_alpha_reg,r,h,0.0 ,0,1e10 ,"background regularization parameter"
+fit_method,i,h,3,1,3,"fitting algorithm: 1=quasi-Newton 2=modified Newton 3=Levenberg-Marquadt"
+init_from_chi2,i,h,1 ,0,1,"Init ML fitting from chi2 solution: 0=No,1=Yes"
+inversion_method,i,h,1,1,2,"hessian inversion method : 1=assumes positive definite,2=no positive definite assumption"
+num_func_eval,i,h,2000000,0,,"Maximum number of function evaluations"
+num_iterations,i,h,20000000,0,,"Maximum number of iterations"
+error_ML,i,h,1 ,0,1,"error computation from ML (0/1)"
+error_profile,i,h,0,0,2,"Errors from lkhd profile,0=No,1=interesting pars,2=all pars"
+error_profile_prob,r,h,0.683,0,1,"Confidence level of profile lkhd errors (0.683=>1sigma,etc.)"
+error_profile_proberr,r,h,0.01,0,1,"Accuracy of profile lkhd errors (fraction of confidence level)"
+#...............................................
+
+# MCMC 
+#...............................................
+error_MCMC,i,h,0 ,0,1,"error computation from MCMC (0/1)"
+n_sample,i,h,100000 ,1,1e6,"total number of MCMC samples"
+n_burn_in,i,h,1000 ,1,1e6,"number of MCMC samples for burn-in" 
+proposal_distribution,i,h,11,11,22," MCMC proposal distribution,11,21=uniform 12,22=Cauchy"
+n_theta_chain,i,h,10,0,,"Number of recorded parameters from the MCMC chain"
+#...............................................
+
+#---------------------------------------------------------------------
+
+
+
+# Output results files
+#--------------------------------------------------------------
+
+
+
+expo_map_output,i,h,0,0,1,"Output exposure map"
+
+# Exposure map coordinate system
+#..............................................
+skymap_system_expo,s,h,G,,,"exposure map coordinate system C=celestial,G=Galactic"
+#..............................................
+
+# Limits of the exposure map 
+#..............................................
+chi_0_expo,r,h,-179.5,,,"Longitude of first pixel (degrees)"
+chi_1_expo,r,h,+179.5,,,"Longitude of last pixel (degrees)"
+d_chi_expo,r,h,1.0 ,,,"Longitude binsize (degrees)"
+psi_0_expo,r,h,-89.5,,,"Latitude of first pixel (degrees)"
+psi_1_expo,r,h,+89.5,,,"Latitude of last pixel (degrees)"
+d_psi_expo,r,h,1.0,,,"Latitude binsize (degrees)"
+#.............................................. 
+
+#+++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+wavelets_output,i,h,0,0,1,"Wavelets transform of residues : 0=none,1=mean detector rate,2=mean+all detectors rates"
+
+# Model fit quality
+#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+fitquality_file,s,h,"fitquality.fits",,,"Fitquality filename"
+fitquality_output,i,h, 0      , 0,1  ,"fit quality output : 0=none, 1=time history"
+#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+# Light curves of the model components
+#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+lightcurves_file,s,h,"lightcurves.fits",,,"light curves filename"
+lightcurves_output,i,h,0,0,1,"1=light curves output"
+#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+# Updated cat of sources
+#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+sources_output_cat,s,h,"catalog.fits",,,"output catalogue of sources"
+#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+# New clobber parameter
+#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+clobber, i, h, 1, 0, 1,"Erase existing results file (0=No, 1=Yes)"
+#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+#-------------------------------------------------------------

@@ -1,8 +1,8 @@
 import os
 
-revolutions = "43,44,45"
+revolutions = "2210,2212,2214,2215,2217"
 
-folder_name = "0043_4_5"
+folder_name = "2210_2_4_5_7"
 
 
 local_path = "./main_files/spimodfit_fits"

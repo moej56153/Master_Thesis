@@ -142,7 +142,7 @@ def pyspi_real_bkg_fit_0374_post_ppc():
 
     bad_pointings = (
         "037400020010",
-        "037400160010",
+        # "037400160010",
         # "037400440010",
         )
     
@@ -213,9 +213,9 @@ def pyspi_real_bkg_fit_0374_post_ppc_far():
         "037400030010",
         "037400140010",
         "037400150010",
-        "037400230010",
-        "037400240010",
-        "037400430010",
+        # "037400230010",
+        # "037400240010",
+        # "037400430010",
         )
 
     for cluster in pointings2:
@@ -449,11 +449,12 @@ def pyspi_smf_bkg_fit_0374_post_ppc():
     pointings = []
 
     bad_pointings = (
-        "037400230010",
-        "037400270010",
-        "037400330010",
+        # "037400020010",
+        # "037400230010",
+        # "037400270010",
+        # "037400330010",
         "037400400010",
-        "037400430010",
+        # "037400430010",
         )
     
 
@@ -464,6 +465,10 @@ def pyspi_smf_bkg_fit_0374_post_ppc():
             pointings.append(cluster)
             
     pointings = tuple(pointings)
+    
+    save_clusters(pointings, fit_path)
+    
+    # return 0
     
     if rev=="0374":
         s = simulated_pl_0374
@@ -504,20 +509,20 @@ def pyspi_const_bkg_fit_0374_pre_ppc():
     if not os.path.exists(f"{fit_path}"):
         os.mkdir(f"{fit_path}")
     
-    pointings = PointingClusters(
-            (data_path,),
-            min_angle_dif=1.5,
-            max_angle_dif=10.,
-            max_time_dif=0.2,
-            radius_around_source=10.,
-            min_time_elapsed=300.,
-            cluster_size_range=(2,2),
-            center_ra=ra,
-            center_dec=dec,
-        ).pointings
-    save_clusters(pointings, fit_path)
+    # pointings = PointingClusters(
+    #         (data_path,),
+    #         min_angle_dif=1.5,
+    #         max_angle_dif=10.,
+    #         max_time_dif=0.2,
+    #         radius_around_source=10.,
+    #         min_time_elapsed=300.,
+    #         cluster_size_range=(2,2),
+    #         center_ra=ra,
+    #         center_dec=dec,
+    #     ).pointings
+    # save_clusters(pointings, fit_path)
     
-    # pointings = load_clusters(data_path)
+    pointings = load_clusters(fit_path)
     
     if rev=="0374":
         s = simulated_pl_0374
@@ -642,9 +647,10 @@ def pyspi_real_bkg_fit_0374_far_ind():
         with open(f"{folder}/source_parameters.pickle", "wb") as f:
             pickle.dump((val, cov), f)  
 
-pyspi_real_bkg_fit_0374_ind()
-pyspi_real_bkg_fit_0374_far_ind()
 
 
+# pyspi_real_bkg_fit_0374_post_ppc()
 
+# pyspi_real_bkg_fit_0374_post_ppc_far()
 
+pyspi_smf_bkg_fit_0374_post_ppc()

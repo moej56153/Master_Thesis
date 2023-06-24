@@ -1,0 +1,37 @@
+SMF Start-up:
+
+ssh jmoeller@ga05us.mpe.mpg.de
+cd /home/jmoeller/cookbook/SPI_cookbook/MT/Crab_fits
+kinit jmoeller@IPP-GARCHING.MPG.DE
+. init_ga05us.sh
+
+
+SMF Set-up:
+
+cd /home/jmoeller/cookbook/SPI_cookbook/MT/Crab_fits
+
+
+Transfer Script to SMF:
+
+cp Master_Thesis/main_files/spimodfit_fits/2210_2_4_5_7/{adjust4threeML_SE_02_2210_2_4_5_7.pro,background_model_SE_02_2210_2_4_5_7.pro,spimodfit.fit_Crab_SE_02_2210_2_4_5_7.par,spiselectscw.cookbook_dataset_02_0020-0600keV_SE_2210_2_4_5_7.par} /mnt/c/Users/moell/Desktop/
+cd Desktop
+scp adjust4threeML_SE_02_2210_2_4_5_7.pro background_model_SE_02_2210_2_4_5_7.pro spimodfit.fit_Crab_SE_02_2210_2_4_5_7.par spiselectscw.cookbook_dataset_02_0020-0600keV_SE_2210_2_4_5_7.par jmoeller@ga05us.mpe.mpg.de:/home/jmoeller/cookbook/SPI_cookbook/MT/Crab_fits/
+
+
+SMF Fitting:
+
+./submit-spiselectscw_ga05us.sh cookbook_dataset_02_0020-0600keV_SE_2210_2_4_5_7 &
+idl idl-startup.pro background_model_SE_02_2210_2_4_5_7.pro
+./submit-spimodfit_v3.2_ga05us.sh fit_Crab_SE_02_2210_2_4_5_7 clobber &
+less +F fit_Crab_SE_02_2210_2_4_5_7/spimodfit.log
+grep "Corresponding Pearson's chi2 stat / dof" fit_Crab_SE_02_2210_2_4_5_7/spimodfit.log
+cd fit_Crab_SE_02_2210_2_4_5_7
+./spimodfit_rmfgen.csh
+cd ..
+idl idl-startup.pro adjust4threeML_SE_02_2210_2_4_5_7.pro
+
+
+Transfer Results Back:
+
+scp jmoeller@ga05us.mpe.mpg.de:/home/jmoeller/cookbook/SPI_cookbook/MT/Crab_fits/fit_Crab_SE_02_2210_2_4_5_7/{spectral_response.rmf.fits,spectra_Crab_Nebula.fits,spectra_A0535+26a.fits} C:\Users\moell\Desktop
+cp /mnt/c/Users/moell/Desktop/{spectral_response.rmf.fits,spectra_Crab_Nebula.fits,spectra_A0535+26a.fits} Master_Thesis/main_files/spimodfit_fits/2210_2_4_5_7

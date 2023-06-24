@@ -43,9 +43,9 @@ real_vals = [6e-3, -2]
 
 folders = [
     f"{path}/pyspi_real_bkg/0374/pre_ppc",
-    f"{path}/pyspi_real_bkg/0374/post_ppc",
+    # f"{path}/pyspi_real_bkg/0374/post_ppc",
     f"{path}/pyspi_smf_bkg/0374/pre_ppc",
-    f"{path}/pyspi_smf_bkg/0374/post_ppc",
+    # f"{path}/pyspi_smf_bkg/0374/post_ppc",
     f"{path}/pyspi_const_bkg/0374/pre_ppc",
     
     f"{path}/spimodfit_fits/0374_real_bkg",
@@ -59,10 +59,10 @@ for i in range(len(folders)):
     d_M.append(mahalanobis_dist(val, cov, real_vals))
 
 names = [
-    "PySpi Real Bkg Pre-PPC",
-    "PySpi Real Bkg Post-PPC",
-    "PySpi SMF Bkg Pre-PPC",
-    "PySpi SMF Bkg Post-PPC",
+    "PySpi Real Bkg",
+    # "PySpi Real Bkg Post-PPC",
+    "PySpi SMF Bkg",
+    # "PySpi SMF Bkg Post-PPC",
     "PySpi Const Bkg",
     "Spimodfit Real Bkg",
     "Spimodfit SMF Bkg"
@@ -72,9 +72,9 @@ names = [f"{names[i]}: $d_M$ = {d_M[i]:.3f}" for i in range(len(d_M))]
 
 edgecolors = [
     "C0",
-    "C0",
+    # "C0",
     "C1",
-    "C1",
+    # "C1",
     "C2",
     
     "C0",
@@ -82,9 +82,9 @@ edgecolors = [
 ]
 linestyles = [
     "solid",
-    "dotted",
+    # "dotted",
     "solid",
-    "dotted",
+    # "dotted",
     "solid",
     "dashed",
     "dashed",

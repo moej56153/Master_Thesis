@@ -127,6 +127,9 @@ def crab_pulsar_sm_br_pl_ind_rev_fits(data_folder=data_folder, revolutions=revol
 
 # crab_pulsar_sm_br_pl_ind_rev_fits()
 
+revolutions = ["0043","0044","0045","0422","0966","0967","0970","1327","1328","1657","1658","1661","1662","1664","1667","1996","1999","2000"]
+
+revolutions += ["1268","1269","1278","1461","1462","1466","1468","1515","1516","1520","1528","1593","1597","1598","1599","1781","1784","1785","1789","1850","1856","1857","1921","1925","1927","1930","2058","2062","2063","2066","2126","2130","2134","2135","2137","2210","2212","2214","2215","2217"]
 
 def crab_pointing_clustering(data_folder=data_folder, revolutions=revolutions):
     for rev in revolutions:
@@ -134,7 +137,7 @@ def crab_pointing_clustering(data_folder=data_folder, revolutions=revolutions):
         
         pointings = PointingClusters(
             (path_d,),
-            min_angle_dif=1.5,
+            min_angle_dif=2.5,
             max_angle_dif=10.,
             max_time_dif=0.2,
             radius_around_source=10.,
@@ -145,4 +148,4 @@ def crab_pointing_clustering(data_folder=data_folder, revolutions=revolutions):
         ).pointings
         save_clusters(pointings, path_d)
 
-       
+crab_pointing_clustering()  
