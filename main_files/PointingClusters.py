@@ -187,9 +187,6 @@ class PointingClusters: #add min time diff
                                 
                 if not np.amin(time_elapsed[dets]) > self._min_time_elapsed:
                     good = False
-                
-                version = find_response_version(time_start)
-                rsp = ResponseRMFGenerator.from_time(time_start, dets[0], eb, emod, rsp_bases[version])
                  
                 try: # investigate why this is necessary
                     version = find_response_version(time_start)

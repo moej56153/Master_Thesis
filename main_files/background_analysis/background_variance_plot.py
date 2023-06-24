@@ -278,9 +278,9 @@ ratios = smf_setup_var_ratio_calculation(data_path_smf, pointing_path_0374_smf_p
 hist, bins = log_hist(ratios)
 ax[2].stairs(hist, x_locs, lw=4.0, color="C0", label=f"Pre-PPC: Mean={np.average(ratios):.3f}")
 
-ratios = smf_setup_var_ratio_calculation(data_path_smf, pointing_path_0374_smf_post)
-hist, bins = log_hist(ratios, bins)
-ax[2].stairs(hist, x_locs, lw=2., color="C1", label=f"Post-PPC: Mean={np.average(ratios):.3f}")
+# ratios = smf_setup_var_ratio_calculation(data_path_smf, pointing_path_0374_smf_post)
+# hist, bins = log_hist(ratios, bins)
+# ax[2].stairs(hist, x_locs, lw=2., color="C1", label=f"Post-PPC: Mean={np.average(ratios):.3f}")
 
 plt_tick_locs, tick_labels = x_ticks(bins)
 ax[2].set_xticks(plt_tick_locs, tick_labels)

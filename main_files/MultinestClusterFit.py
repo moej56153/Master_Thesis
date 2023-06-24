@@ -365,8 +365,13 @@ def interpolate_logarithmic(x1, x2, y1, y2, x):
 @njit
 def interpolate_powerlaw(x1, x2, y1, y2, x):
     B = np.log(y2 / y1) / np.log(x2 / x1)
-    A = y1 * x1**(-B)
-    return A * x**B
+    # A = y1 * x1**(-B)
+    # if np.isnan(y1 * (x / x1) ** B).any():
+    #     print(x1, x2, y1, y2, x)
+    #     print(y1 * (x / x1) ** B)
+    #     print()
+    # return A * x**B
+    return y1 * (x / x1) ** B
 
 @njit
 def interpolate_matrix_5_dim(position, matrix, dimension_values, interpolation_functions):
@@ -451,7 +456,7 @@ def multivariate_normal_numba(mean, covariance):
 
 
 @njit
-def calc_bmaxL_variance_matrix(b_array, s1_array, t1_array, s2_array, t2_array, num_samples=100000):
+def calc_bmaxL_variance_matrix(b_array, s1_array, t1_array, s2_array, t2_array, num_samples=10000):
     variance_matrix = np.zeros((len(b_array), len(s1_array), len(t1_array), len(s2_array), len(t2_array), 2, 2, 2))
     for b_i, b in enumerate(b_array):
         for s1_i, s1 in enumerate(s1_array):
@@ -946,12 +951,16 @@ class MultinestClusterFit:
         source_rate = tuple(source_rate)
         
         
-        b_int_funcs = (interpolate_linear, interpolate_linear, interpolate_logarithmic, interpolate_linear, interpolate_logarithmic)
-        c_int_funcs = (interpolate_logarithmic, interpolate_linear, interpolate_powerlaw, interpolate_linear, interpolate_logarithmic)
-        s_int_funcs = (interpolate_constant, interpolate_linear, interpolate_powerlaw, interpolate_constant, interpolate_constant)
+        # b_int_funcs = (interpolate_linear, interpolate_linear, interpolate_logarithmic, interpolate_linear, interpolate_logarithmic)
+        # c_int_funcs = (interpolate_logarithmic, interpolate_linear, interpolate_powerlaw, interpolate_linear, interpolate_logarithmic)
+        # s_int_funcs = (interpolate_constant, interpolate_linear, interpolate_powerlaw, interpolate_constant, interpolate_constant)
         
-        b_num = 7
-        s_num = 9
+        b_int_funcs = (interpolate_linear, interpolate_linear, interpolate_linear, interpolate_linear, interpolate_linear)
+        c_int_funcs = (interpolate_linear, interpolate_linear, interpolate_linear, interpolate_linear, interpolate_linear)
+        s_int_funcs = (interpolate_constant, interpolate_linear, interpolate_linear, interpolate_constant, interpolate_constant)
+        
+        b_num = 9
+        s_num = 12
         t_num = 5
         
         input_b = np.geomspace(b_range[0]*0.999, b_range[1]*1.001, b_num)

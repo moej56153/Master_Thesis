@@ -417,7 +417,8 @@ def pyspi_smf_bkg_fit_0374_pre_ppc():
         source_model,
         (30., 400.,),
         np.geomspace(18, 600, 50),
-        log_binning_function_for_x_number_of_bins(70),
+        # log_binning_function_for_x_number_of_bins(70),
+        no_rebinning,
         # true_values=true_values(),
         folder=fit_path,
     )
@@ -538,7 +539,8 @@ def pyspi_const_bkg_fit_0374_pre_ppc():
         source_model,
         (30., 400.,),
         np.geomspace(18, 600, 50),
-        log_binning_function_for_x_number_of_bins(70),
+        # log_binning_function_for_x_number_of_bins(70),
+        spimodfit_binning_SE,
         # true_values=true_values(),
         folder=fit_path,
     )
@@ -649,8 +651,9 @@ def pyspi_real_bkg_fit_0374_far_ind():
 
 
 
-# pyspi_real_bkg_fit_0374_post_ppc()
 
-# pyspi_real_bkg_fit_0374_post_ppc_far()
 
-pyspi_smf_bkg_fit_0374_post_ppc()
+pyspi_smf_bkg_fit_0374_pre_ppc()
+pyspi_const_bkg_fit_0374_pre_ppc()
+
+
