@@ -1,0 +1,480 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 3.2 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+
+\refsection{0}
+  \datalist[entry]{nty/global//global/global}
+    \entry{Biltzinger2022}{article}{}
+      \name{author}{3}{}{%
+        {{hash=223703a7e2a2a3f672b79432ea0097aa}{%
+           family={Biltzinger},
+           familyi={B\bibinitperiod},
+           given={Björn},
+           giveni={B\bibinitperiod}}}%
+        {{hash=023c2724f0bc88ec8f67a05245988ab5}{%
+           family={Burgess},
+           familyi={B\bibinitperiod},
+           given={J.\bibnamedelimi Michael},
+           giveni={J\bibinitperiod\bibinitdelim M\bibinitperiod}}}%
+        {{hash=a53fa3613dd04f0b49abd385b64fffb3}{%
+           family={Siegert},
+           familyi={S\bibinitperiod},
+           given={Thomas},
+           giveni={T\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {The Open Journal}%
+      }
+      \strng{namehash}{2726b62bd5ce80be8aef4dbba69598e7}
+      \strng{fullhash}{2726b62bd5ce80be8aef4dbba69598e7}
+      \strng{bibnamehash}{2726b62bd5ce80be8aef4dbba69598e7}
+      \strng{authorbibnamehash}{2726b62bd5ce80be8aef4dbba69598e7}
+      \strng{authornamehash}{2726b62bd5ce80be8aef4dbba69598e7}
+      \strng{authorfullhash}{2726b62bd5ce80be8aef4dbba69598e7}
+      \field{sortinit}{B}
+      \field{sortinithash}{d7095fff47cda75ca2589920aae98399}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Journal of Open Source Software}
+      \field{number}{71}
+      \field{title}{PySPI: A python analysis framework for INTEGRAL/SPI}
+      \field{volume}{7}
+      \field{year}{2022}
+      \true{nocite}
+      \field{pages}{4017}
+      \range{pages}{1}
+      \verb{doi}
+      \verb 10.21105/joss.04017
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.21105/joss.04017
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.21105/joss.04017
+      \endverb
+    \endentry
+    \entry{refId2}{article}{}
+      \name{author}{10}{}{%
+        {{hash=8eb5030200bc840b354f65cec7dffea3}{%
+           family={{Diehl, Roland}},
+           familyi={D\bibinitperiod}}}%
+        {{hash=6c5763b1946f53a103965a960cc053cd}{%
+           family={{Siegert, Thomas}},
+           familyi={S\bibinitperiod}}}%
+        {{hash=930fc4a6386abf7c5644e1ac6e104a27}{%
+           family={{Greiner, Jochen}},
+           familyi={G\bibinitperiod}}}%
+        {{hash=ef96374e143b57dc837d307fd4a1bfbf}{%
+           family={{Krause, Martin}},
+           familyi={K\bibinitperiod}}}%
+        {{hash=fed3ef03607935f2354ca62a5334ca2a}{%
+           family={{Kretschmer, Karsten}},
+           familyi={K\bibinitperiod}}}%
+        {{hash=fc11052ba40390adeefe204bf6af7229}{%
+           family={{Lang, Michael}},
+           familyi={L\bibinitperiod}}}%
+        {{hash=c41fd5b900c2aa4517fe3026dc0c1396}{%
+           family={{Pleintinger, Moritz}},
+           familyi={P\bibinitperiod}}}%
+        {{hash=3c5a84384c60655d7e9134eb8162c457}{%
+           family={{Strong, Andrew W.}},
+           familyi={S\bibinitperiod}}}%
+        {{hash=fb1df084916bc53790145a5ad340beff}{%
+           family={{Weinberger, Christoph}},
+           familyi={W\bibinitperiod}}}%
+        {{hash=54d19785af53f173aeb969847f376740}{%
+           family={{Zhang, Xiaoling}},
+           familyi={Z\bibinitperiod}}}%
+      }
+      \strng{namehash}{313e487d5c76fa3a1932821260746b80}
+      \strng{fullhash}{87a15a9ef4170e0bfdf70ab06fa4aa35}
+      \strng{bibnamehash}{313e487d5c76fa3a1932821260746b80}
+      \strng{authorbibnamehash}{313e487d5c76fa3a1932821260746b80}
+      \strng{authornamehash}{313e487d5c76fa3a1932821260746b80}
+      \strng{authorfullhash}{87a15a9ef4170e0bfdf70ab06fa4aa35}
+      \field{sortinit}{D}
+      \field{sortinithash}{6f385f66841fb5e82009dc833c761848}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{A\&A}
+      \field{title}{INTEGRAL/SPI line spectroscopy - Response and background characteristics}
+      \field{volume}{611}
+      \field{year}{2018}
+      \true{nocite}
+      \field{pages}{A12}
+      \range{pages}{-1}
+      \verb{doi}
+      \verb 10.1051/0004-6361/201731815
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.1051/0004-6361/201731815
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1051/0004-6361/201731815
+      \endverb
+    \endentry
+    \entry{Feroz_2019}{article}{}
+      \name{author}{4}{}{%
+        {{hash=ebfd569a75bf6ce09d2c809ca9cdd581}{%
+           family={Feroz},
+           familyi={F\bibinitperiod},
+           given={Farhan},
+           giveni={F\bibinitperiod}}}%
+        {{hash=e3a0fd8fc4f09ed7da18dee8125ec6e3}{%
+           family={Hobson},
+           familyi={H\bibinitperiod},
+           given={Michael\bibnamedelima P.},
+           giveni={M\bibinitperiod\bibinitdelim P\bibinitperiod}}}%
+        {{hash=e6be610530ff26a55fefc297774e51c6}{%
+           family={Cameron},
+           familyi={C\bibinitperiod},
+           given={Ewan},
+           giveni={E\bibinitperiod}}}%
+        {{hash=8c3374493630498b95b8535c69d50441}{%
+           family={Pettitt},
+           familyi={P\bibinitperiod},
+           given={Anthony\bibnamedelima N.},
+           giveni={A\bibinitperiod\bibinitdelim N\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {The Open Journal}%
+      }
+      \strng{namehash}{f369e9212d5710f613df58c70f39a314}
+      \strng{fullhash}{a4b169dc7d7e8bf74ba54322410a1d9e}
+      \strng{bibnamehash}{f369e9212d5710f613df58c70f39a314}
+      \strng{authorbibnamehash}{f369e9212d5710f613df58c70f39a314}
+      \strng{authornamehash}{f369e9212d5710f613df58c70f39a314}
+      \strng{authorfullhash}{a4b169dc7d7e8bf74ba54322410a1d9e}
+      \field{sortinit}{F}
+      \field{sortinithash}{2638baaa20439f1b5a8f80c6c08a13b4}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{The Open Journal of Astrophysics}
+      \field{month}{11}
+      \field{number}{1}
+      \field{title}{Importance Nested Sampling and the {MultiNest} Algorithm}
+      \field{volume}{2}
+      \field{year}{2019}
+      \true{nocite}
+      \verb{doi}
+      \verb 10.21105/astro.1306.2144
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.21105%2Fastro.1306.2144
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.21105%2Fastro.1306.2144
+      \endverb
+    \endentry
+    \entry{2020ApJ...899..131J}{article}{}
+      \name{author}{2}{}{%
+        {{hash=a7525cbfa7ab68c64be23119af679156}{%
+           family={{Jourdain}},
+           familyi={J\bibinitperiod},
+           given={E.},
+           giveni={E\bibinitperiod}}}%
+        {{hash=870f65ecb0872bfb195ed1b3dbab5415}{%
+           family={{Roques}},
+           familyi={R\bibinitperiod},
+           given={J.\bibnamedelimi P.},
+           giveni={J\bibinitperiod\bibinitdelim P\bibinitperiod}}}%
+      }
+      \strng{namehash}{b33ec0c16f6e939abe50d43b2a3d046c}
+      \strng{fullhash}{b33ec0c16f6e939abe50d43b2a3d046c}
+      \strng{bibnamehash}{b33ec0c16f6e939abe50d43b2a3d046c}
+      \strng{authorbibnamehash}{b33ec0c16f6e939abe50d43b2a3d046c}
+      \strng{authornamehash}{b33ec0c16f6e939abe50d43b2a3d046c}
+      \strng{authorfullhash}{b33ec0c16f6e939abe50d43b2a3d046c}
+      \field{extraname}{1}
+      \field{sortinit}{J}
+      \field{sortinithash}{b2f54a9081ace9966a7cb9413811edb4}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{eid}{131}
+      \field{eprintclass}{astro-ph.HE}
+      \field{eprinttype}{arXiv}
+      \field{journaltitle}{The Astrophysical Journal}
+      \field{month}{8}
+      \field{number}{2}
+      \field{title}{{2003-2019 Monitoring of the Crab Emission through INTEGRAL SPI, or Vice Versa}}
+      \field{volume}{899}
+      \field{year}{2020}
+      \true{nocite}
+      \field{pages}{131}
+      \range{pages}{1}
+      \verb{doi}
+      \verb 10.3847/1538-4357/aba8a4
+      \endverb
+      \verb{eprint}
+      \verb 2007.11519
+      \endverb
+      \keyw{Space observatories,X-ray sources,Gamma-ray sources,Astronomical radiation sources,1543,1822,633,89,Astrophysics - High Energy Astrophysical Phenomena}
+    \endentry
+    \entry{2009ApJ...704...17J}{article}{}
+      \name{author}{2}{}{%
+        {{hash=a7525cbfa7ab68c64be23119af679156}{%
+           family={{Jourdain}},
+           familyi={J\bibinitperiod},
+           given={E.},
+           giveni={E\bibinitperiod}}}%
+        {{hash=870f65ecb0872bfb195ed1b3dbab5415}{%
+           family={{Roques}},
+           familyi={R\bibinitperiod},
+           given={J.\bibnamedelimi P.},
+           giveni={J\bibinitperiod\bibinitdelim P\bibinitperiod}}}%
+      }
+      \strng{namehash}{b33ec0c16f6e939abe50d43b2a3d046c}
+      \strng{fullhash}{b33ec0c16f6e939abe50d43b2a3d046c}
+      \strng{bibnamehash}{b33ec0c16f6e939abe50d43b2a3d046c}
+      \strng{authorbibnamehash}{b33ec0c16f6e939abe50d43b2a3d046c}
+      \strng{authornamehash}{b33ec0c16f6e939abe50d43b2a3d046c}
+      \strng{authorfullhash}{b33ec0c16f6e939abe50d43b2a3d046c}
+      \field{extraname}{2}
+      \field{sortinit}{J}
+      \field{sortinithash}{b2f54a9081ace9966a7cb9413811edb4}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{eprintclass}{astro-ph.HE}
+      \field{eprinttype}{arXiv}
+      \field{journaltitle}{The Astrophysical Journal}
+      \field{month}{10}
+      \field{number}{1}
+      \field{title}{{The High-Energy Emission of the Crab Nebula from 20 keV TO 6 MeV with Integral SPI}}
+      \field{volume}{704}
+      \field{year}{2009}
+      \true{nocite}
+      \field{pages}{17\bibrangedash 24}
+      \range{pages}{8}
+      \verb{doi}
+      \verb 10.1088/0004-637X/704/1/17
+      \endverb
+      \verb{eprint}
+      \verb 0909.3437
+      \endverb
+      \keyw{gamma rays: observations,ISM: individual: Crab Nebula,supernova remnants,Astrophysics - High Energy Astrophysical Phenomena}
+    \endentry
+    \entry{2019ApJ...870...92R}{article}{}
+      \name{author}{2}{}{%
+        {{hash=e94d63d148767aeb56c29f4de4ab7003}{%
+           family={{Roques}},
+           familyi={R\bibinitperiod},
+           given={Jean-Pierre},
+           giveni={J\bibinithyphendelim P\bibinitperiod}}}%
+        {{hash=4bfbcf8df589607438a7ee17bfd82d88}{%
+           family={{Jourdain}},
+           familyi={J\bibinitperiod},
+           given={Elisabeth},
+           giveni={E\bibinitperiod}}}%
+      }
+      \strng{namehash}{38318126aa2a478dd9fb9306959c19ab}
+      \strng{fullhash}{38318126aa2a478dd9fb9306959c19ab}
+      \strng{bibnamehash}{38318126aa2a478dd9fb9306959c19ab}
+      \strng{authorbibnamehash}{38318126aa2a478dd9fb9306959c19ab}
+      \strng{authornamehash}{38318126aa2a478dd9fb9306959c19ab}
+      \strng{authorfullhash}{38318126aa2a478dd9fb9306959c19ab}
+      \field{sortinit}{R}
+      \field{sortinithash}{5e1c39a9d46ffb6bebd8f801023a9486}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{eid}{92}
+      \field{eprintclass}{astro-ph.HE}
+      \field{eprinttype}{arXiv}
+      \field{journaltitle}{The Astrophysical Journal}
+      \field{month}{1}
+      \field{number}{2}
+      \field{title}{{On the High-energy Emissions of Compact Objects Observed with INTEGRAL SPI: Event Selection Impact on Source Spectra and Scientific Results for the Bright Sources Crab Nebula, GS 2023+338 and MAXI J1820+070}}
+      \field{volume}{870}
+      \field{year}{2019}
+      \true{nocite}
+      \field{pages}{92}
+      \range{pages}{1}
+      \verb{doi}
+      \verb 10.3847/1538-4357/aaf1c9
+      \endverb
+      \verb{eprint}
+      \verb 1811.06391
+      \endverb
+      \keyw{gamma rays: general,X-rays: binaries,X-rays: individual: Crab Nebula,GS 2023+338,MAXI J1820+070,Astrophysics - High Energy Astrophysical Phenomena}
+    \endentry
+    \entry{refId1}{article}{}
+      \name{author}{6}{}{%
+        {{hash=6c5763b1946f53a103965a960cc053cd}{%
+           family={{Siegert, Thomas}},
+           familyi={S\bibinitperiod}}}%
+        {{hash=8eb5030200bc840b354f65cec7dffea3}{%
+           family={{Diehl, Roland}},
+           familyi={D\bibinitperiod}}}%
+        {{hash=fb1df084916bc53790145a5ad340beff}{%
+           family={{Weinberger, Christoph}},
+           familyi={W\bibinitperiod}}}%
+        {{hash=c8ac56262a8b0e5641c046a9ddfc6a4d}{%
+           family={{Pleintinger, Moritz M. M.}},
+           familyi={P\bibinitperiod}}}%
+        {{hash=930fc4a6386abf7c5644e1ac6e104a27}{%
+           family={{Greiner, Jochen}},
+           familyi={G\bibinitperiod}}}%
+        {{hash=54d19785af53f173aeb969847f376740}{%
+           family={{Zhang, Xiaoling}},
+           familyi={Z\bibinitperiod}}}%
+      }
+      \strng{namehash}{dc848edace4a8b11ae3224388725e94a}
+      \strng{fullhash}{b913c99ebb9acaa2d075b8e2b3f47c8f}
+      \strng{bibnamehash}{dc848edace4a8b11ae3224388725e94a}
+      \strng{authorbibnamehash}{dc848edace4a8b11ae3224388725e94a}
+      \strng{authornamehash}{dc848edace4a8b11ae3224388725e94a}
+      \strng{authorfullhash}{b913c99ebb9acaa2d075b8e2b3f47c8f}
+      \field{sortinit}{S}
+      \field{sortinithash}{b164b07b29984b41daf1e85279fbc5ab}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{A\&A}
+      \field{title}{Background modelling for spectroscopy with INTEGRAL/SPI}
+      \field{volume}{626}
+      \field{year}{2019}
+      \true{nocite}
+      \field{pages}{A73}
+      \range{pages}{-1}
+      \verb{doi}
+      \verb 10.1051/0004-6361/201834920
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.1051/0004-6361/201834920
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1051/0004-6361/201834920
+      \endverb
+    \endentry
+    \entry{refId0}{article}{}
+      \name{author}{28}{}{%
+        {{hash=2bf70170df615811e9343fe2de0b1fe0}{%
+           family={{Vedrenne, G.}},
+           familyi={V\bibinitperiod}}}%
+        {{hash=28a6f8e3dfa5451052091bd0dad62c75}{%
+           family={{Roques, J.-P.}},
+           familyi={R\bibinitperiod}}}%
+        {{hash=a517cf4ade414204669f39a35d2e9920}{%
+           family={{Schönfelder, V.}},
+           familyi={S\bibinitperiod}}}%
+        {{hash=5e9574d08b5d15b4820b38167207d396}{%
+           family={{Mandrou, P.}},
+           familyi={M\bibinitperiod}}}%
+        {{hash=3f2a1429282b9ef934962833c2287d2c}{%
+           family={{Lichti, G. G.}},
+           familyi={L\bibinitperiod}}}%
+        {{hash=106595e3c25508d7612a60c075d3fe99}{%
+           family={{von Kienlin, A.}},
+           familyi={v\bibinitperiod}}}%
+        {{hash=5bb13d87d14a63bcd5714c6b9a5b974e}{%
+           family={{Cordier, B.}},
+           familyi={C\bibinitperiod}}}%
+        {{hash=0b074e3a127b006bc2ccca7c1e37be6d}{%
+           family={{Schanne, S.}},
+           familyi={S\bibinitperiod}}}%
+        {{hash=1234d37a70dc5275c75f7a06cd1b4e87}{%
+           family={{Knödlseder, J.}},
+           familyi={K\bibinitperiod}}}%
+        {{hash=a13ef3d144c156a7833a53df8e2407a5}{%
+           family={{Skinner, G.}},
+           familyi={S\bibinitperiod}}}%
+        {{hash=20497025627d2c029dbce466f2e8d3d9}{%
+           family={{Jean, P.}},
+           familyi={J\bibinitperiod}}}%
+        {{hash=d8f98e5180fd372c6caa415adcae628d}{%
+           family={{Sanchez, F.}},
+           familyi={S\bibinitperiod}}}%
+        {{hash=e5d308d400e25ce15886aac53d35feb4}{%
+           family={{Caraveo, P.}},
+           familyi={C\bibinitperiod}}}%
+        {{hash=3cadff150116ec29aa8b4849d3282c08}{%
+           family={{Teegarden, B.}},
+           familyi={T\bibinitperiod}}}%
+        {{hash=ac616923a7f1c36d23da92ba315b2720}{%
+           family={{von Ballmoos, P.}},
+           familyi={v\bibinitperiod}}}%
+        {{hash=2ef26b0919e0a82b4b199fbef5ab5a14}{%
+           family={{Bouchet, L.}},
+           familyi={B\bibinitperiod}}}%
+        {{hash=dc4de98507f1194f30d68116c089ed4e}{%
+           family={{Paul, P.}},
+           familyi={P\bibinitperiod}}}%
+        {{hash=4c04e9fec51136a75c79cbc49f264c7b}{%
+           family={{Matteson, J.}},
+           familyi={M\bibinitperiod}}}%
+        {{hash=7170065307e743eb38b9961aff6e285f}{%
+           family={{Boggs, S.}},
+           familyi={B\bibinitperiod}}}%
+        {{hash=6f45d1741f73e6c9607cdb8615d98c02}{%
+           family={{Wunderer, C.}},
+           familyi={W\bibinitperiod}}}%
+        {{hash=d466ec72c417f59d990ed8db803abbb5}{%
+           family={{Leleux, P.}},
+           familyi={L\bibinitperiod}}}%
+        {{hash=437f6c13deac822ab2cad569baa9ea17}{%
+           family={{Weidenspointner, G.}},
+           familyi={W\bibinitperiod}}}%
+        {{hash=a25a3310fd58015f888010b67febec49}{%
+           family={{Durouchoux, Ph.}},
+           familyi={D\bibinitperiod}}}%
+        {{hash=ff7e16176847fa99a1632eeef505bfd7}{%
+           family={{Diehl, R.}},
+           familyi={D\bibinitperiod}}}%
+        {{hash=b17c6099ca568b69bdcc0ee556dcf575}{%
+           family={{Strong, A.}},
+           familyi={S\bibinitperiod}}}%
+        {{hash=169559fb4f09e17e1c1955423af01734}{%
+           family={{Cassé, M.}},
+           familyi={C\bibinitperiod}}}%
+        {{hash=b8b40c90307cdc59024080048a5a191d}{%
+           family={{Clair, M. A.}},
+           familyi={C\bibinitperiod}}}%
+        {{hash=7ecbda638cca614ddfd93a49344f2aa6}{%
+           family={{André, Y.}},
+           familyi={A\bibinitperiod}}}%
+      }
+      \strng{namehash}{db26ee0abc160f3bbc95f0a3ccf83641}
+      \strng{fullhash}{ea17eae11047aa0402ce5dbe5b12ed2f}
+      \strng{bibnamehash}{db26ee0abc160f3bbc95f0a3ccf83641}
+      \strng{authorbibnamehash}{db26ee0abc160f3bbc95f0a3ccf83641}
+      \strng{authornamehash}{db26ee0abc160f3bbc95f0a3ccf83641}
+      \strng{authorfullhash}{ea17eae11047aa0402ce5dbe5b12ed2f}
+      \field{sortinit}{V}
+      \field{sortinithash}{afb52128e5b4dc4b843768c0113d673b}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{A\&A}
+      \field{number}{1}
+      \field{title}{SPI: The spectrometer aboard INTEGRAL}
+      \field{volume}{411}
+      \field{year}{2003}
+      \true{nocite}
+      \field{pages}{L63\bibrangedash L70}
+      \range{pages}{-1}
+      \verb{doi}
+      \verb 10.1051/0004-6361:20031482
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.1051/0004-6361:20031482
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1051/0004-6361:20031482
+      \endverb
+    \endentry
+  \enddatalist
+\endrefsection
+\endinput
+
