@@ -91,10 +91,10 @@ def s_1A_0535_262_pl(model, piv):
     
     pl = Powerlaw()
     pl.piv = piv
-    pl.K.prior = Log_uniform_prior(lower_bound=1e-10, upper_bound=1e-2)
-    pl.index.prior = Uniform_prior(lower_bound=-3.5, upper_bound=-0.5)
+    pl.K.prior = Log_uniform_prior(lower_bound=1e-15, upper_bound=1e-3)
+    pl.index.prior = Uniform_prior(lower_bound=-8, upper_bound=0)
     component1 = SpectralComponent("pl", shape=pl)
-    ps = PointSource("_1A_0535__262", ra=ra, dec=dec, components=[component1])
+    ps = PointSource("A_0535_262", ra=ra, dec=dec, components=[component1])
     
     model.add_source(ps)
     return model
