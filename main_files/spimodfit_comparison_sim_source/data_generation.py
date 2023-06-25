@@ -270,8 +270,8 @@ def spimodfit_real_bkg():
 # Spimodfit backgroud
 # put bg_e0020-0600/ in this folder
 
-data_path2 = f"./main_files/spimodfit_comparison_sim_source/pyspi_smf_bkg/{revolution}"
-smf_data_path2 = f"./main_files/spimodfit_comparison_sim_source/smf_smf_bkg/{revolution}"
+data_path2 = f"./main_files/spimodfit_comparison_sim_source/pyspi_smf_bkg_2/{revolution}"
+smf_data_path2 = f"./main_files/spimodfit_comparison_sim_source/smf_smf_bkg_2/{revolution}"
 
 def smf_bkg():
     os.popen(f"cp {spimodfit_folder}/energy_boundaries.fits.gz {data_path2}/energy_boundaries.fits")
@@ -393,7 +393,7 @@ def smf_bkg():
     os.popen(f"cp {spimodfit_folder}/dead_time.fits.gz {smf_data_path2}/dead_time.fits.gz")
     
     
-# smf_bkg()
+smf_bkg()
 
 
 
@@ -498,5 +498,5 @@ def pyspi_const_bkg():
     os.popen(f"cp {data_path}/pointing.fits {data_path3}/pointing.fits")
 
 
-pyspi_const_bkg()
+# pyspi_const_bkg()
 

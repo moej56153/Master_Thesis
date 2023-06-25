@@ -382,7 +382,7 @@ def pyspi_real_bkg_fit_0374_post_ppc_triple():
 def pyspi_smf_bkg_fit_0374_pre_ppc():
     rev = "0374"
     ra, dec = 10, -40
-    data_path = f"./main_files/spimodfit_comparison_sim_source/pyspi_smf_bkg/{rev}"
+    data_path = f"./main_files/spimodfit_comparison_sim_source/pyspi_smf_bkg_2/{rev}"
     fit_path = f"{data_path}/pre_ppc"
     
     if not os.path.exists(f"{fit_path}"):
@@ -654,6 +654,6 @@ def pyspi_real_bkg_fit_0374_far_ind():
 
 
 pyspi_smf_bkg_fit_0374_pre_ppc()
-pyspi_const_bkg_fit_0374_pre_ppc()
+# pyspi_const_bkg_fit_0374_pre_ppc()
 
 
