@@ -68,6 +68,31 @@
       \verb https://doi.org/10.21105/joss.04017
       \endverb
     \endentry
+    \entry{HURA}{online}{}
+      \name{author}{1}{}{%
+        {{hash=63be37eb23dc88361a0deca071ffd509}{%
+           family={Cmglee},
+           familyi={C\bibinitperiod}}}%
+      }
+      \strng{namehash}{63be37eb23dc88361a0deca071ffd509}
+      \strng{fullhash}{63be37eb23dc88361a0deca071ffd509}
+      \strng{bibnamehash}{63be37eb23dc88361a0deca071ffd509}
+      \strng{authorbibnamehash}{63be37eb23dc88361a0deca071ffd509}
+      \strng{authornamehash}{63be37eb23dc88361a0deca071ffd509}
+      \strng{authorfullhash}{63be37eb23dc88361a0deca071ffd509}
+      \field{sortinit}{C}
+      \field{sortinithash}{4d103a86280481745c9c897c925753c0}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{HURA hexagonal coded aperture mask principle}
+      \field{year}{2016}
+      \verb{urlraw}
+      \verb https://commons.wikimedia.org/wiki/File:HURA_hexagonal_coded_aperture_mask_principle.svg
+      \endverb
+      \verb{url}
+      \verb https://commons.wikimedia.org/wiki/File:HURA_hexagonal_coded_aperture_mask_principle.svg
+      \endverb
+    \endentry
     \entry{refId2}{article}{}
       \name{author}{10}{}{%
         {{hash=8eb5030200bc840b354f65cec7dffea3}{%
@@ -311,6 +336,59 @@
       \endverb
       \keyw{gamma rays: general,X-rays: binaries,X-rays: individual: Crab Nebula,GS 2023+338,MAXI J1820+070,Astrophysics - High Energy Astrophysical Phenomena}
     \endentry
+    \entry{dissertation}{thesis}{}
+      \name{author}{1}{}{%
+        {{hash=a53fa3613dd04f0b49abd385b64fffb3}{%
+           family={Siegert},
+           familyi={S\bibinitperiod},
+           given={Thomas},
+           giveni={T\bibinitperiod}}}%
+      }
+      \list{institution}{1}{%
+        {Technische Universität München}%
+      }
+      \list{language}{1}{%
+        {en}%
+      }
+      \strng{namehash}{a53fa3613dd04f0b49abd385b64fffb3}
+      \strng{fullhash}{a53fa3613dd04f0b49abd385b64fffb3}
+      \strng{bibnamehash}{a53fa3613dd04f0b49abd385b64fffb3}
+      \strng{authorbibnamehash}{a53fa3613dd04f0b49abd385b64fffb3}
+      \strng{authornamehash}{a53fa3613dd04f0b49abd385b64fffb3}
+      \strng{authorfullhash}{a53fa3613dd04f0b49abd385b64fffb3}
+      \field{sortinit}{S}
+      \field{sortinithash}{b164b07b29984b41daf1e85279fbc5ab}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{Using the gamma-ray telescope SPI, the origin of positrons in the Milky Way was investigated by measuring high-resolution spectra of electron-positron annihilation as well as radioactive decay from beta-plus-unstable nuclei in space. The variety of positron source types and different annihilation regions in the Galaxy have been disentangled by detailed imaging and spectroscopic analyses. Dark matter could be excluded as dominant source whereas microquasars have been consolidated as significant contributors.}
+      \field{title}{Positron-Annihilation Spectroscopy throughout the Milky Way}
+      \field{type}{phdthesis}
+      \field{year}{2017}
+      \true{nocite}
+      \field{pages}{302}
+      \range{pages}{1}
+    \endentry
+    \entry{SMF_Cookbook}{misc}{}
+      \name{author}{1}{}{%
+        {{hash=6c5763b1946f53a103965a960cc053cd}{%
+           family={{Siegert, Thomas}},
+           familyi={S\bibinitperiod}}}%
+      }
+      \strng{namehash}{6c5763b1946f53a103965a960cc053cd}
+      \strng{fullhash}{6c5763b1946f53a103965a960cc053cd}
+      \strng{bibnamehash}{6c5763b1946f53a103965a960cc053cd}
+      \strng{authorbibnamehash}{6c5763b1946f53a103965a960cc053cd}
+      \strng{authornamehash}{6c5763b1946f53a103965a960cc053cd}
+      \strng{authorfullhash}{6c5763b1946f53a103965a960cc053cd}
+      \field{sortinit}{S}
+      \field{sortinithash}{b164b07b29984b41daf1e85279fbc5ab}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{\url{https://www-cms.mpe.mpg.de/gamma/instruments/integral/spi/documentation/cookbook/cookbook.pdf}}
+      \field{title}{Cookbook for SPI Analysis at MPE}
+      \field{year}{2022}
+      \true{nocite}
+    \endentry
     \entry{refId1}{article}{}
       \name{author}{6}{}{%
         {{hash=6c5763b1946f53a103965a960cc053cd}{%
@@ -461,7 +539,6 @@
       \field{title}{SPI: The spectrometer aboard INTEGRAL}
       \field{volume}{411}
       \field{year}{2003}
-      \true{nocite}
       \field{pages}{L63\bibrangedash L70}
       \range{pages}{-1}
       \verb{doi}
