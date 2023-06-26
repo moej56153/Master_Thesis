@@ -55,9 +55,9 @@ def crab_sm_br_pl(model, piv=100):
     pl.piv = piv
     pl.alpha.min_value = -2.5
     pl.K.prior = Log_uniform_prior(lower_bound=5e-4, upper_bound=1e-3)
-    pl.alpha.prior = Uniform_prior(lower_bound=-2.2, upper_bound=-1.8)
-    pl.beta.prior = Uniform_prior(lower_bound=-5.0, upper_bound=-1.9)
-    pl.break_energy.prior = Log_uniform_prior(lower_bound=50, upper_bound=500)
+    pl.alpha.prior = Uniform_prior(lower_bound=-2.3, upper_bound=-1.6)
+    pl.beta.prior = Uniform_prior(lower_bound=-5.0, upper_bound=-1.8)
+    pl.break_energy.prior = Log_uniform_prior(lower_bound=10, upper_bound=500)
     pl.break_scale.prior = Uniform_prior(lower_bound=0.0, upper_bound=1.5)
     pl.break_scale.free = True
     component1 = SpectralComponent("pl", shape=pl)
@@ -91,7 +91,7 @@ def s_1A_0535_262_pl(model, piv):
     
     pl = Powerlaw()
     pl.piv = piv
-    pl.K.prior = Log_uniform_prior(lower_bound=1e-15, upper_bound=1e-3)
+    pl.K.prior = Log_uniform_prior(lower_bound=1e-15, upper_bound=1e-4)
     pl.index.prior = Uniform_prior(lower_bound=-8, upper_bound=0)
     component1 = SpectralComponent("pl", shape=pl)
     ps = PointSource("A_0535_262", ra=ra, dec=dec, components=[component1])

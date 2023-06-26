@@ -1,12 +1,12 @@
 # Fdb version 3
-["biber Master_Thesis"] 1687737228 "Master_Thesis.bcf" "Master_Thesis.bbl" "Master_Thesis" 1687738008
-  "Bibliography.bib" 1687735316 6258 1408673e7ba5e15c700e1e5044b6e220 ""
-  "Master_Thesis.bcf" 1687738008 107498 832531018c19ce8b4576b634cad33d28 "pdflatex"
+["biber Master_Thesis"] 1687787882 "Master_Thesis.bcf" "Master_Thesis.bbl" "Master_Thesis" 1687793262
+  "Bibliography.bib" 1687747560 6245 3dd438f957d315b33c2f4ce6b1e37b9e ""
+  "Master_Thesis.bcf" 1687793262 108014 b4039828cf6a81efc72c8c956e10b935 "pdflatex"
   (generated)
   "Master_Thesis.bbl"
   "Master_Thesis.blg"
-["pdflatex"] 1687738007 "/home/moej56153/Master_Thesis/LaTeX/Master_Thesis/Master_Thesis.tex" "Master_Thesis.pdf" "Master_Thesis" 1687738008
-  "/home/moej56153/Master_Thesis/LaTeX/Master_Thesis/Master_Thesis.tex" 1687738007 5302 5cad73e7ed33cfd5c0eb2c2e8bd557b7 ""
+["pdflatex"] 1687793260 "/home/moej56153/Master_Thesis/LaTeX/Master_Thesis/Master_Thesis.tex" "Master_Thesis.pdf" "Master_Thesis" 1687793262
+  "/home/moej56153/Master_Thesis/LaTeX/Master_Thesis/Master_Thesis.tex" 1687793260 9960 45a03a3b2830b5405b9ede841dfc7cbe ""
   "/usr/local/texlive/2022/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/local/texlive/2022/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex7.tfm" 1246382020 1004 54797486969f23fa377b128694d548df ""
   "/usr/local/texlive/2022/texmf-dist/fonts/tfm/public/cm/cmbx10.tfm" 1136768653 1328 c834bbb027764024c09d3d2bf908b5f0 ""
@@ -19,6 +19,7 @@
   "/usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb" 1248133631 34811 78b52f49e893bcba91bd7581cdc144c0 ""
   "/usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb" 1248133631 32080 340ef9bf63678554ee606688e7b5339d ""
   "/usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmcsc10.pfb" 1248133631 32001 6aeea3afe875097b1eb0da29acd61e28 ""
+  "/usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb" 1248133631 36299 5f9df58c2139e7edcf37c8fca4bd384d ""
   "/usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb" 1248133631 35752 024fb6c41858982481f6968b5fc26508 ""
   "/usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb" 1248133631 32722 d7379af29a190c3f453aba36302ff5a9 ""
   "/usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb" 1248133631 32362 179c33bbf43f19adbb3825bb4e36e57a ""
@@ -107,13 +108,16 @@
   "Images/General/MPE_logo_189x180px.jpg" 1687651193 38173 ce171cfe861d3d085116199618871e70 ""
   "Images/General/PH.pdf" 1687651187 29769 a749026c2e6afdb43e5b659c3e7a08b5 ""
   "Images/General/SPI_cut_view_verdenne_2003.PNG" 1687721869 427278 a32e5b87645bf49ca1e23a282d822456 ""
+  "Images/General/SPI_event_types_roland_2017.PNG" 1687721876 403328 733a26f8f5dfaa75ff7023edc1b62ff9 ""
+  "Images/General/Siegert_PHD_P13.PNG" 1687721891 148905 0ce0cc919ebebf0d6b9f6e4b28ba3802 ""
+  "Images/General/Siegert_PHD_Pointings_pattern.PNG" 1687721886 191994 5084369f57357431962a39082d9af813 ""
   "Images/General/tumlogo.pdf" 1687651175 2778 f995ab1814bd20b353b4d380c33678f1 ""
-  "Master_Thesis.aux" 1687738008 2596 e9666f8cbd56ad12c3365071a035907f "pdflatex"
-  "Master_Thesis.bbl" 1687737229 22363 4c188b6fdf16743722ef22f28c278cd2 "biber Master_Thesis"
-  "Master_Thesis.out" 1687738008 284 de4d8f5ee312d0b529dcd8f6e363c515 "pdflatex"
-  "Master_Thesis.run.xml" 1687738008 2370 e91adfa0f260121ce63445f894f8986b "pdflatex"
-  "Master_Thesis.tex" 1687738007 5302 5cad73e7ed33cfd5c0eb2c2e8bd557b7 ""
-  "Master_Thesis.toc" 1687738008 205 850f62858d3c24ad8d77a931edf2ccf7 "pdflatex"
+  "Master_Thesis.aux" 1687793262 5768 1ee2d7816861e836e8280753b16764c8 "pdflatex"
+  "Master_Thesis.bbl" 1687787883 22290 34b28a6bda210b5c5f1c09ea0d9d527c "biber Master_Thesis"
+  "Master_Thesis.out" 1687793262 221 75b383d390fb7387b677dd9506c31a1b "pdflatex"
+  "Master_Thesis.run.xml" 1687793262 2370 e91adfa0f260121ce63445f894f8986b "pdflatex"
+  "Master_Thesis.tex" 1687793260 9960 45a03a3b2830b5405b9ede841dfc7cbe ""
+  "Master_Thesis.toc" 1687793262 145 6ebd7c89a2f0df2dc360fcda0ea460ed "pdflatex"
   (generated)
   "Master_Thesis.aux"
   "Master_Thesis.bcf"

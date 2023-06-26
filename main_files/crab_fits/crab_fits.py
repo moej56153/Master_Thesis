@@ -170,7 +170,7 @@ def crab_pulsar_sm_br_pl_ind_rev_fits(data_folder=data_folder, revolutions=revol
         multinest_fit = MultinestClusterFit(
             pointings,
             source_model,
-            (20., 400.),
+            (24., 400.),
             np.geomspace(18, 600, 50),
             log_binning_function_for_x_number_of_bins(70),
             # true_values=true_values(),
@@ -179,6 +179,13 @@ def crab_pulsar_sm_br_pl_ind_rev_fits(data_folder=data_folder, revolutions=revol
         multinest_fit.parameter_fit_distribution()
         multinest_fit.text_summaries(pointing_combinations=True, reference_values=False, parameter_fit_constraints=False)
         multinest_fit.ppc()
+        
+        p = ["Crab K", "Crab alpha", "Crab beta", "Crab break_energy", "Crab break_scale", "A 0535 262 K", "A 0535 262 index"]
+        val = np.array([i[1] for i in multinest_fit._cc.analysis.get_summary(parameters=p).values()])
+        cov = multinest_fit._cc.analysis.get_covariance(parameters=p)[1]
+
+        with open(f"{path_f}/source_parameters.pickle", "wb") as f:
+            pickle.dump((val, cov), f)
 
 ####
 
@@ -262,10 +269,95 @@ def crab_pulsar_pl_comb_rev_fits(data_folder=data_folder, combined_fits=combined
             pickle.dump((val, cov), f)
 
 
+def crab_pulsar_sm_br_pl_comb_rev_fits(data_folder=data_folder, combined_fits=combined_fits_weak_pulsar, fit_folder=fit_folder):
+    source_model = define_sources((
+        (crab_sm_br_pl, (100,)),
+        (s_1A_0535_262_pl, (100,)),
+    ))
+    
+    
+    for folder_name, revs in combined_fits.items():
+        path_f = f"{fit_folder}/{folder_name}"
+        if not os.path.exists(f"{path_f}"):
+            os.mkdir(f"{path_f}")
+        path_ff = f"{fit_folder}/{folder_name}/sm_br_pl_w_p"
+        if not os.path.exists(f"{path_ff}"):
+            os.mkdir(f"{path_ff}")
+        
+        pointings = ()
+        for rev in revs:
+            path_d = f"{data_folder}/{rev}"
+            r_pointings = load_clusters(path_d)
+            outliers = load_outliers(outliers_folder, rev)
+            pointings += remove_outlier_clusters(r_pointings, outliers)
+        
+        multinest_fit = MultinestClusterFit(
+            pointings,
+            source_model,
+            (24., 400),
+            np.geomspace(24, 600, 50),
+            log_binning_function_for_x_number_of_bins(70),
+            # true_values=true_values(),
+            folder=path_ff,
+        )
+        multinest_fit.parameter_fit_distribution()
+        multinest_fit.text_summaries(pointing_combinations=True, reference_values=False, parameter_fit_constraints=False)
+        multinest_fit.ppc()
+        
+        p = ["Crab K", "Crab alpha", "Crab beta", "Crab break_energy", "Crab break_scale", "A 0535 262 K", "A 0535 262 index"]
+        val = np.array([i[1] for i in multinest_fit._cc.analysis.get_summary(parameters=p).values()])
+        cov = multinest_fit._cc.analysis.get_covariance(parameters=p)[1]
+
+        with open(f"{path_ff}/source_parameters.pickle", "wb") as f:
+            pickle.dump((val, cov), f)
 
 
-# crab_pulsar_pl_ind_rev_fits()
-crab_pulsar_pl_comb_rev_fits()
+def crab_pulsar_lower_band_comb_rev_fits(data_folder=data_folder, combined_fits=combined_fits_weak_pulsar, fit_folder=fit_folder):
+    source_model = define_sources((
+        (crab_lower_band, (100,)),
+        (s_1A_0535_262_pl, (100,)),
+    ))
+    
+    
+    for folder_name, revs in combined_fits.items():
+        path_f = f"{fit_folder}/{folder_name}"
+        if not os.path.exists(f"{path_f}"):
+            os.mkdir(f"{path_f}")
+        path_ff = f"{fit_folder}/{folder_name}/lower_band_w_p"
+        if not os.path.exists(f"{path_ff}"):
+            os.mkdir(f"{path_ff}")
+        
+        pointings = ()
+        for rev in revs:
+            path_d = f"{data_folder}/{rev}"
+            r_pointings = load_clusters(path_d)
+            outliers = load_outliers(outliers_folder, rev)
+            pointings += remove_outlier_clusters(r_pointings, outliers)
+        
+        multinest_fit = MultinestClusterFit(
+            pointings,
+            source_model,
+            (24., 400),
+            np.geomspace(24, 600, 50),
+            log_binning_function_for_x_number_of_bins(70),
+            # true_values=true_values(),
+            folder=path_ff,
+        )
+        multinest_fit.parameter_fit_distribution()
+        multinest_fit.text_summaries(pointing_combinations=True, reference_values=False, parameter_fit_constraints=False)
+        multinest_fit.ppc()
+        
+        p = ["Crab K", "Crab alpha", "A 0535 262 K", "A 0535 262 index"]
+        val = np.array([i[1] for i in multinest_fit._cc.analysis.get_summary(parameters=p).values()])
+        cov = multinest_fit._cc.analysis.get_covariance(parameters=p)[1]
+
+        with open(f"{path_ff}/source_parameters.pickle", "wb") as f:
+            pickle.dump((val, cov), f)
+
+
+# crab_pulsar_sm_br_pl_ind_rev_fits(revolutions=["1664"])
+# crab_pulsar_pl_comb_rev_fits()
+crab_pulsar_lower_band_comb_rev_fits()
 
 def crab_pointing_clustering(data_folder=data_folder, revolutions=revolutions):
     bad_revs = []

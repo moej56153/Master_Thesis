@@ -1,17 +1,17 @@
 [0] Config.pm:306> INFO - This is Biber 2.18
 [0] Config.pm:309> INFO - Logfile is 'Master_Thesis.blg'
-[41] biber:340> INFO - === Mon Jun 26, 2023, 01:53:49
-[49] Biber.pm:418> INFO - Reading 'Master_Thesis.bcf'
-[89] Biber.pm:975> INFO - Using all citekeys in bib section 0
-[97] Biber.pm:4401> INFO - Processing section 0
-[103] Biber.pm:4592> INFO - Looking for bibtex file 'Bibliography.bib' for section 0
-[104] bibtex.pm:1713> INFO - LaTeX decoding ...
-[114] bibtex.pm:1518> INFO - Found BibTeX data source 'Bibliography.bib'
-[199] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
-[199] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
-[199] Biber.pm:4221> INFO - Sorting list 'nty/global//global/global' of type 'entry' with template 'nty' and locale 'en-US'
-[199] Biber.pm:4227> INFO - No sort tailoring available for locale 'en-US'
-[209] bbl.pm:654> INFO - Writing 'Master_Thesis.bbl' with encoding 'UTF-8'
-[215] bbl.pm:757> INFO - Output to Master_Thesis.bbl
-[215] Biber.pm:130> WARN - legacy month field 'nov' in entry 'Feroz_2019' is not an integer - this will probably not sort properly.
-[215] Biber.pm:132> INFO - WARNINGS: 1
+[44] biber:340> INFO - === Mon Jun 26, 2023, 15:58:03
+[53] Biber.pm:418> INFO - Reading 'Master_Thesis.bcf'
+[94] Biber.pm:975> INFO - Using all citekeys in bib section 0
+[102] Biber.pm:4401> INFO - Processing section 0
+[109] Biber.pm:4592> INFO - Looking for bibtex file 'Bibliography.bib' for section 0
+[110] bibtex.pm:1713> INFO - LaTeX decoding ...
+[121] bibtex.pm:1518> INFO - Found BibTeX data source 'Bibliography.bib'
+[207] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[207] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
+[207] Biber.pm:4221> INFO - Sorting list 'nty/global//global/global' of type 'entry' with template 'nty' and locale 'en-US'
+[208] Biber.pm:4227> INFO - No sort tailoring available for locale 'en-US'
+[217] bbl.pm:654> INFO - Writing 'Master_Thesis.bbl' with encoding 'UTF-8'
+[225] bbl.pm:757> INFO - Output to Master_Thesis.bbl
+[225] Biber.pm:130> WARN - legacy month field 'nov' in entry 'Feroz_2019' is not an integer - this will probably not sort properly.
+[225] Biber.pm:132> INFO - WARNINGS: 1

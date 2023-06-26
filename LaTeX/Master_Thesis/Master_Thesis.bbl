@@ -140,7 +140,6 @@
       \field{title}{INTEGRAL/SPI line spectroscopy - Response and background characteristics}
       \field{volume}{611}
       \field{year}{2018}
-      \true{nocite}
       \field{pages}{A12}
       \range{pages}{-1}
       \verb{doi}
@@ -293,7 +292,7 @@
       \endverb
       \keyw{gamma rays: observations,ISM: individual: Crab Nebula,supernova remnants,Astrophysics - High Energy Astrophysical Phenomena}
     \endentry
-    \entry{2019ApJ...870...92R}{article}{}
+    \entry{Roques}{article}{}
       \name{author}{2}{}{%
         {{hash=e94d63d148767aeb56c29f4de4ab7003}{%
            family={{Roques}},
@@ -325,7 +324,6 @@
       \field{title}{{On the High-energy Emissions of Compact Objects Observed with INTEGRAL SPI: Event Selection Impact on Source Spectra and Scientific Results for the Bright Sources Crab Nebula, GS 2023+338 and MAXI J1820+070}}
       \field{volume}{870}
       \field{year}{2019}
-      \true{nocite}
       \field{pages}{92}
       \range{pages}{1}
       \verb{doi}
@@ -364,7 +362,6 @@
       \field{title}{Positron-Annihilation Spectroscopy throughout the Milky Way}
       \field{type}{phdthesis}
       \field{year}{2017}
-      \true{nocite}
       \field{pages}{302}
       \range{pages}{1}
     \endentry

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2022.8.6)  26 JUN 2023 02:06
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2022.8.6)  26 JUN 2023 17:27
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -608,17 +608,17 @@ Package biblatex Info: ... file 'Master_Thesis.bbl' found.
  (./Master_Thesis.bbl)
 Package biblatex Info: Reference section=0 on input line 21.
 Package biblatex Info: Reference segment=0 on input line 21.
-<Images/General/MPE_logo_189x180px.jpg, id=16, 189.70876pt x 180.675pt>
+<Images/General/MPE_logo_189x180px.jpg, id=12, 189.70876pt x 180.675pt>
 File: Images/General/MPE_logo_189x180px.jpg Graphic file (type jpg)
 <use Images/General/MPE_logo_189x180px.jpg>
 Package pdftex.def Info: Images/General/MPE_logo_189x180px.jpg  used on input line 25.
 (pdftex.def)             Requested size: 29.87349pt x 28.45274pt.
-<Images/General/PH.pdf, id=17, 29.8716pt x 29.8716pt>
+<Images/General/PH.pdf, id=13, 29.8716pt x 29.8716pt>
 File: Images/General/PH.pdf Graphic file (type pdf)
 <use Images/General/PH.pdf>
 Package pdftex.def Info: Images/General/PH.pdf  used on input line 27.
 (pdftex.def)             Requested size: 28.45303pt x 28.45274pt.
-<Images/General/tumlogo.pdf, id=18, 53.24893pt x 28.45631pt>
+<Images/General/tumlogo.pdf, id=14, 53.24893pt x 28.45631pt>
 File: Images/General/tumlogo.pdf Graphic file (type pdf)
 <use Images/General/tumlogo.pdf>
 Package pdftex.def Info: Images/General/tumlogo.pdf  used on input line 28.
@@ -635,52 +635,167 @@ pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has b
                    \relax 
 l.73 
       [1]
-<Images/General/SPI_cut_view_verdenne_2003.PNG, id=40, 609.02531pt x 914.66719pt>
+<Images/General/SPI_cut_view_verdenne_2003.PNG, id=35, 609.02531pt x 914.66719pt>
 File: Images/General/SPI_cut_view_verdenne_2003.PNG Graphic file (type png)
 <use Images/General/SPI_cut_view_verdenne_2003.PNG>
 Package pdftex.def Info: Images/General/SPI_cut_view_verdenne_2003.PNG  used on input line 87.
-(pdftex.def)             Requested size: 248.81876pt x 373.6901pt.
-
-
-Package wrapfig Warning: Collision between wrapping environments on input line 102.
-
-<Images/General/HURA_hexagonal_coded_aperture_mask_principle.svg.png, id=45, 1027.84pt x 1027.84pt>
+(pdftex.def)             Requested size: 272.29372pt x 408.95862pt.
+ [2 <./Images/General/SPI_cut_view_verdenne_2003.PNG>]
+<Images/General/HURA_hexagonal_coded_aperture_mask_principle.svg.png, id=54, 1027.84pt x 1027.84pt>
 File: Images/General/HURA_hexagonal_coded_aperture_mask_principle.svg.png Graphic file (type png)
 <use Images/General/HURA_hexagonal_coded_aperture_mask_principle.svg.png>
-Package pdftex.def Info: Images/General/HURA_hexagonal_coded_aperture_mask_principle.svg.png  used on input line 104.
+Package pdftex.def Info: Images/General/HURA_hexagonal_coded_aperture_mask_principle.svg.png  used on input line 118.
 (pdftex.def)             Requested size: 154.9261pt x 154.92215pt.
+<Images/General/Siegert_PHD_Pointings_pattern.PNG, id=60, 1177.39874pt x 882.29625pt>
+File: Images/General/Siegert_PHD_Pointings_pattern.PNG Graphic file (type png)
+<use Images/General/Siegert_PHD_Pointings_pattern.PNG>
+Package pdftex.def Info: Images/General/Siegert_PHD_Pointings_pattern.PNG  used on input line 130.
+(pdftex.def)             Requested size: 469.47046pt x 351.8083pt.
 
-Package wrapfig Warning: Stationary wrapfigure forced to float on input line 110.
 
-[2 <./Images/General/SPI_cut_view_verdenne_2003.PNG>]
+LaTeX Warning: `h' float specifier changed to `ht'.
 
-Package wrapfig Warning: Stationary wrapfigure forced to float on input line 118.
+<Images/General/Siegert_PHD_P13.PNG, id=65, 1692.3225pt x 688.07062pt>
+File: Images/General/Siegert_PHD_P13.PNG Graphic file (type png)
+<use Images/General/Siegert_PHD_P13.PNG>
+Package pdftex.def Info: Images/General/Siegert_PHD_P13.PNG  used on input line 137.
+(pdftex.def)             Requested size: 469.47046pt x 190.87361pt.
 
-[3] [4 <./Images/General/HURA_hexagonal_coded_aperture_mask_principle.svg.png>]
-Overfull \hbox (1.65987pt too wide) in paragraph at lines 128--128
-[]\OT1/cmr/m/n/10 Thomas Siegert. ``Positron-Annihilation Spec-troscopy through-
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[3 <./Images/General/HURA_hexagonal_coded_aperture_mask_principle.svg.png>] [4 <./Images/General/Siegert_PHD_Pointings_pattern.PNG> <./Images/General/Siegert_PHD_P13.PNG>]
+<Images/General/SPI_event_types_roland_2017.PNG, id=90, 703.87968pt x 993.7125pt>
+File: Images/General/SPI_event_types_roland_2017.PNG Graphic file (type png)
+<use Images/General/SPI_event_types_roland_2017.PNG>
+Package pdftex.def Info: Images/General/SPI_event_types_roland_2017.PNG  used on input line 147.
+(pdftex.def)             Requested size: 272.29372pt x 384.40761pt.
+ [5
+
+ <./Images/General/SPI_event_types_roland_2017.PNG>]
+Overfull \hbox (5.1928pt too wide) in paragraph at lines 167--167
+[]\OT1/cmr/m/n/10 Bj^^?orn Biltzinger, J. Michael Burgess,
  []
 
-[5] (./Master_Thesis.aux)
+
+Underfull \hbox (badness 4132) in paragraph at lines 167--167
+\OT1/cmr/m/n/10 TE-GRAL/SPI''. In: \OT1/cmr/m/it/10 Jour-nal of
+ []
+
+
+Underfull \hbox (badness 1490) in paragraph at lines 167--167
+[]\OT1/cmr/m/n/10 Cmglee. \OT1/cmr/m/it/10 HURA hexag-o-nal coded
+ []
+
+
+Overfull \hbox (5.2689pt too wide) in paragraph at lines 167--167
+\OT1/cmtt/m/n/10 coded _ aperture _ mask _ principle .
+ []
+
+
+Overfull \hbox (12.84998pt too wide) in paragraph at lines 167--167
+[]\OT1/cmr/m/n/10 Diehl, Roland et al. ``IN-TE-GRAL/SPI
+ []
+
+
+Underfull \hbox (badness 6063) in paragraph at lines 167--167
+\OT1/cmr/m/n/10 back-ground char-ac-ter-is-tics''. In:
+ []
+
+
+Underfull \hbox (badness 1210) in paragraph at lines 167--167
+\OT1/cmr/m/n/10 Nest Al-go-rithm''. In: \OT1/cmr/m/it/10 The Open
+ []
+
+
+Underfull \hbox (badness 1389) in paragraph at lines 167--167
+[]\OT1/cmr/m/n/10 E. Jour-dain and J. P. Roques.
+ []
+
+
+Overfull \hbox (0.89557pt too wide) in paragraph at lines 167--167
+\OT1/cmr/m/n/10 Emis-sion through IN-TE-GRAL SPI,
+ []
+
+
+Underfull \hbox (badness 1019) in paragraph at lines 167--167
+\OT1/cmr/m/n/10 p. 131. \OT1/cmr/m/sc/10 doi\OT1/cmr/m/n/10 : []$\OT1/cmtt/m/n/10 10 . 3847 / 1538 -[]
+ []
+
+
+Underfull \hbox (badness 6236) in paragraph at lines 167--167
+[]\OT1/cmr/m/n/10 Jean-Pierre Roques and Elis-a-
+ []
+
+
+Underfull \hbox (badness 3333) in paragraph at lines 167--167
+\OT1/cmr/m/n/10 beth Jour-dain. ``On the High-
+ []
+
+
+Underfull \hbox (badness 1014) in paragraph at lines 167--167
+\OT1/cmr/m/n/10 SPI: Event Se-lec-tion Im-pact on
+ []
+
+
+Underfull \hbox (badness 1642) in paragraph at lines 167--167
+\OT1/cmr/m/n/10 p. 92. \OT1/cmr/m/sc/10 doi\OT1/cmr/m/n/10 : []$\OT1/cmtt/m/n/10 10 . 3847 / 1538 -[]
+ []
+
+[6]
+Overfull \hbox (19.74951pt too wide) in paragraph at lines 167--167
+[]\OT1/cmr/m/n/10 Thomas Siegert. ``Positron-Annihilation
+ []
+
+
+Underfull \hbox (badness 2753) in paragraph at lines 167--167
+\OT1/cmr/m/it/10 Anal-y-sis at MPE\OT1/cmr/m/n/10 . []$\OT1/cmtt/m/n/10 https : / /
+ []
+
+
+Underfull \hbox (badness 4156) in paragraph at lines 167--167
+\OT1/cmtt/m/n/10 www -[] cms . mpe . mpg . de /
+ []
+
+
+Underfull \hbox (badness 3701) in paragraph at lines 167--167
+[]\OT1/cmr/m/n/10 Siegert, Thomas et al. ``Back-
+ []
+
+
+Underfull \hbox (badness 2951) in paragraph at lines 167--167
+\OT1/cmtt/m/n/10 0004 -[] 6361 / 201834920$[]\OT1/cmr/m/n/10 . \OT1/cmr/m/sc/10 url\OT1/cmr/m/n/10 :
+ []
+
+
+Underfull \hbox (badness 1881) in paragraph at lines 167--167
+\OT1/cmr/m/sc/10 doi\OT1/cmr/m/n/10 : []$\OT1/cmtt/m/n/10 10 . 1051 / 0004 -[] 6361 :
+ []
+
+
+Underfull \hbox (badness 1406) in paragraph at lines 167--167
+\OT1/cmtt/m/n/10 org / 10 . 1051 / 0004 -[] 6361 :
+ []
+
+[7] (./Master_Thesis.aux)
 Package rerunfilecheck Info: File `Master_Thesis.out' has not changed.
-(rerunfilecheck)             Checksum: DE4D8F5EE312D0B529DCD8F6E363C515;284.
+(rerunfilecheck)             Checksum: 75B383D390FB7387B677DD9506C31A1B;221.
 Package logreq Info: Writing requests to 'Master_Thesis.run.xml'.
 \openout1 = `Master_Thesis.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 18826 strings out of 478023
- 336539 string characters out of 5838676
- 1049808 words of memory out of 5000000
- 37064 multiletter control sequences out of 15000+600000
+ 18857 strings out of 478023
+ 337591 string characters out of 5838676
+ 1047996 words of memory out of 5000000
+ 37084 multiletter control sequences out of 15000+600000
  472644 words of font info for 40 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 72i,5n,77p,1219b,1431s stack positions out of 10000i,1000n,20000p,200000b,200000s
-</usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmcsc10.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
-Output written on Master_Thesis.pdf (6 pages, 784887 bytes).
+ 72i,6n,77p,1219b,1515s stack positions out of 10000i,1000n,20000p,200000b,200000s
+</usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmcsc10.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
+Output written on Master_Thesis.pdf (8 pages, 1414511 bytes).
 PDF statistics:
- 173 PDF objects out of 1000 (max. 8388607)
- 133 compressed objects within 2 object streams
- 26 named destinations out of 1000 (max. 500000)
- 50 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 226 PDF objects out of 1000 (max. 8388607)
+ 171 compressed objects within 2 object streams
+ 34 named destinations out of 1000 (max. 500000)
+ 57 words of extra memory for PDF output out of 10000 (max. 10000000)
 

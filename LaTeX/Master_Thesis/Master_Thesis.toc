@@ -1,3 +1,2 @@
 \contentsline {section}{\numberline {1}About INTEGRAL}{2}{section.1}%
 \contentsline {subsection}{\numberline {1.1}About SPI}{2}{subsection.1.1}%
-\contentsline {section}{\numberline {2}Test}{3}{section.2}%
