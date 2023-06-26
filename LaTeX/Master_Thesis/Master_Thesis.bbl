@@ -55,7 +55,6 @@
       \field{title}{PySPI: A python analysis framework for INTEGRAL/SPI}
       \field{volume}{7}
       \field{year}{2022}
-      \true{nocite}
       \field{pages}{4017}
       \range{pages}{1}
       \verb{doi}
@@ -66,6 +65,71 @@
       \endverb
       \verb{url}
       \verb https://doi.org/10.21105/joss.04017
+      \endverb
+    \endentry
+    \entry{3ml}{software}{}
+      \name{author}{7}{}{%
+        {{hash=023c2724f0bc88ec8f67a05245988ab5}{%
+           family={Burgess},
+           familyi={B\bibinitperiod},
+           given={J.\bibnamedelimi Michael},
+           giveni={J\bibinitperiod\bibinitdelim M\bibinitperiod}}}%
+        {{hash=9c335635320bd7696ced8e3b3dd17755}{%
+           family={Fleischhack},
+           familyi={F\bibinitperiod},
+           given={Henrike},
+           giveni={H\bibinitperiod}}}%
+        {{hash=2277a1e7ce68f69ec6243e00224a748f}{%
+           family={Vianello},
+           familyi={V\bibinitperiod},
+           given={Giacomo},
+           giveni={G\bibinitperiod}}}%
+        {{hash=7ba12b9eeb22d31fa2606bf7e2b0ee87}{%
+           family={Eckert},
+           familyi={E\bibinitperiod},
+           given={Dominique},
+           giveni={D\bibinitperiod}}}%
+        {{hash=ff12dd215584a420d775f221fe88ebfb}{%
+           family={Di\bibnamedelima Lalla},
+           familyi={D\bibinitperiod\bibinitdelim L\bibinitperiod},
+           given={Niccolo},
+           giveni={N\bibinitperiod}}}%
+        {{hash=99fcee796e1dd77cca9a475247f489a4}{%
+           family={Omodei},
+           familyi={O\bibinitperiod},
+           given={Nicola},
+           giveni={N\bibinitperiod}}}%
+        {{hash=223703a7e2a2a3f672b79432ea0097aa}{%
+           family={Biltzinger},
+           familyi={B\bibinitperiod},
+           given={Björn},
+           giveni={B\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Zenodo}%
+      }
+      \strng{namehash}{918772548ebbf1fcd88c96325bf9ad0b}
+      \strng{fullhash}{665dbba871df890d9396f2121d338397}
+      \strng{bibnamehash}{918772548ebbf1fcd88c96325bf9ad0b}
+      \strng{authorbibnamehash}{918772548ebbf1fcd88c96325bf9ad0b}
+      \strng{authornamehash}{918772548ebbf1fcd88c96325bf9ad0b}
+      \strng{authorfullhash}{665dbba871df890d9396f2121d338397}
+      \field{sortinit}{B}
+      \field{sortinithash}{d7095fff47cda75ca2589920aae98399}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{month}{11}
+      \field{title}{{The Multi-Mission Maximum Likelihood framework (3ML)}}
+      \field{version}{2.2.4}
+      \field{year}{2021}
+      \verb{doi}
+      \verb 10.5281/zenodo.5646954
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.5281/zenodo.5646954
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.5281/zenodo.5646954
       \endverb
     \endentry
     \entry{HURA}{online}{}
@@ -194,7 +258,6 @@
       \field{title}{Importance Nested Sampling and the {MultiNest} Algorithm}
       \field{volume}{2}
       \field{year}{2019}
-      \true{nocite}
       \verb{doi}
       \verb 10.21105/astro.1306.2144
       \endverb
@@ -384,7 +447,6 @@
       \field{howpublished}{\url{https://www-cms.mpe.mpg.de/gamma/instruments/integral/spi/documentation/cookbook/cookbook.pdf}}
       \field{title}{Cookbook for SPI Analysis at MPE}
       \field{year}{2022}
-      \true{nocite}
     \endentry
     \entry{refId1}{article}{}
       \name{author}{6}{}{%
@@ -421,7 +483,6 @@
       \field{title}{Background modelling for spectroscopy with INTEGRAL/SPI}
       \field{volume}{626}
       \field{year}{2019}
-      \true{nocite}
       \field{pages}{A73}
       \range{pages}{-1}
       \verb{doi}
@@ -546,6 +607,61 @@
       \endverb
       \verb{url}
       \verb https://doi.org/10.1051/0004-6361:20031482
+      \endverb
+    \endentry
+    \entry{astromodels}{software}{}
+      \name{author}{5}{}{%
+        {{hash=2277a1e7ce68f69ec6243e00224a748f}{%
+           family={Vianello},
+           familyi={V\bibinitperiod},
+           given={Giacomo},
+           giveni={G\bibinitperiod}}}%
+        {{hash=023c2724f0bc88ec8f67a05245988ab5}{%
+           family={Burgess},
+           familyi={B\bibinitperiod},
+           given={J.Michael},
+           giveni={J\bibinitperiod}}}%
+        {{hash=9c335635320bd7696ced8e3b3dd17755}{%
+           family={Fleischhack},
+           familyi={F\bibinitperiod},
+           given={Henrike},
+           giveni={H\bibinitperiod}}}%
+        {{hash=ff12dd215584a420d775f221fe88ebfb}{%
+           family={Di\bibnamedelima Lalla},
+           familyi={D\bibinitperiod\bibinitdelim L\bibinitperiod},
+           given={Niccolo},
+           giveni={N\bibinitperiod}}}%
+        {{hash=99fcee796e1dd77cca9a475247f489a4}{%
+           family={Omodei},
+           familyi={O\bibinitperiod},
+           given={Nicola},
+           giveni={N\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Zenodo}%
+      }
+      \strng{namehash}{459dd43e2a0469b21eed7af679177012}
+      \strng{fullhash}{f91df37a33386c94f33fc961ce46252d}
+      \strng{bibnamehash}{459dd43e2a0469b21eed7af679177012}
+      \strng{authorbibnamehash}{459dd43e2a0469b21eed7af679177012}
+      \strng{authornamehash}{459dd43e2a0469b21eed7af679177012}
+      \strng{authorfullhash}{f91df37a33386c94f33fc961ce46252d}
+      \field{sortinit}{V}
+      \field{sortinithash}{afb52128e5b4dc4b843768c0113d673b}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{month}{11}
+      \field{title}{astromodels}
+      \field{version}{2.2.2}
+      \field{year}{2021}
+      \verb{doi}
+      \verb 10.5281/zenodo.5646925
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.5281/zenodo.5646925
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.5281/zenodo.5646925
       \endverb
     \endentry
   \enddatalist

@@ -2,7 +2,7 @@ import sys, os
 sys.path.insert(0, os.path.abspath('./main_files'))
 
 import numpy as np
-from astromodels import Powerlaw, SmoothlyBrokenPowerLaw, Line, Log_uniform_prior, Uniform_prior, PointSource, SpectralComponent, Model
+from astromodels import Powerlaw, Broken_powerlaw, SmoothlyBrokenPowerLaw, Line, Log_uniform_prior, Uniform_prior, PointSource, SpectralComponent, Model
 from CustomAstromodels import C_Band
 
 def define_sources(source_funcs):    
@@ -60,6 +60,23 @@ def crab_sm_br_pl(model, piv=100):
     pl.break_energy.prior = Log_uniform_prior(lower_bound=10, upper_bound=500)
     pl.break_scale.prior = Uniform_prior(lower_bound=0.0, upper_bound=1.5)
     pl.break_scale.free = True
+    component1 = SpectralComponent("pl", shape=pl)
+    ps = PointSource("Crab", ra=ra, dec=dec, components=[component1])
+    
+    model.add_source(ps)
+    return model
+
+def crab_br_pl_100(model, piv=100):
+    ra, dec = 83.6333, 22.0144
+    
+    pl = Broken_powerlaw()
+    pl.piv = piv
+    pl.alpha.min_value = -2.5
+    pl.K.prior = Log_uniform_prior(lower_bound=5e-4, upper_bound=1e-3)
+    pl.alpha.prior = Uniform_prior(lower_bound=-2.3, upper_bound=-1.6)
+    pl.beta.prior = Uniform_prior(lower_bound=-3., upper_bound=-1.8)
+    pl.xb = 100.
+    pl.xb.free = False
     component1 = SpectralComponent("pl", shape=pl)
     ps = PointSource("Crab", ra=ra, dec=dec, components=[component1])
     
