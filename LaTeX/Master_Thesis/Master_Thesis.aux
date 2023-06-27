@@ -61,7 +61,9 @@
 \abx@aux@segm{0}{0}{SMF_Cookbook}
 \@writefile{lof}{\contentsline {figure}{\numberline {1.5}{\ignorespaces Illustrations of different event types measured by SPI. Incoming source photons (green) may be absorbed in one detector (1), multiple detectors (2), or be self-vetoed by interacting with the ACS (3). Cosmic particles may interact with surrounding structures, resulting in background photons (blue)(4,5,6). Although the ACS helps suppress these events, they still occur. \blx@tocontentsinit {0}\cite {refId2}\relax }}{5}{figure.caption.11}\protected@file@percent }
 \newlabel{event_types}{{1.5}{5}{Illustrations of different event types measured by SPI. Incoming source photons (green) may be absorbed in one detector (1), multiple detectors (2), or be self-vetoed by interacting with the ACS (3). Cosmic particles may interact with surrounding structures, resulting in background photons (blue)(4,5,6). Although the ACS helps suppress these events, they still occur. \cite {refId2}\relax }{figure.caption.11}{}}
+\newlabel{sec spurious events}{{1.1.1}{5}{Spurious Events}{section*.12}{}}
 \@writefile{toc}{\contentsline {section}{\numberline {1.2}About Spimodfit}{5}{section.1.2}\protected@file@percent }
+\newlabel{about smf}{{1.2}{5}{About Spimodfit}{section.1.2}{}}
 \abx@aux@cite{0}{refId1}
 \abx@aux@segm{0}{0}{refId1}
 \abx@aux@cite{0}{refId1}
@@ -84,22 +86,103 @@
 \abx@aux@segm{0}{0}{Feroz_2019}
 \abx@aux@cite{0}{astromodels}
 \abx@aux@segm{0}{0}{astromodels}
+\newlabel{eq: max lik back}{{2.4}{8}{Likelihood Calculation}{equation.2.1.4}{}}
 \newlabel{log_likelihood final}{{2.5}{8}{Likelihood Calculation}{equation.2.1.5}{}}
 \newlabel{total log likelihood}{{2.6}{8}{Likelihood Calculation}{equation.2.1.6}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.1.2}General Procedure: Summary}{8}{subsection.2.1.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {2.2}Pure Simulation}{8}{section.2.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {2.3}Mixed Simulation and Spimodfit Comparison}{8}{section.2.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {2.4}Posterior Predictive Check (PPC) and Background Analysis}{8}{section.2.4}\protected@file@percent }
-\newlabel{sec:PPC Back}{{2.4}{8}{Posterior Predictive Check (PPC) and Background Analysis}{section.2.4}{}}
-\@writefile{toc}{\contentsline {chapter}{\numberline {A}List of Source Models}{9}{appendix.A}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {2.2}Pure Simulation}{9}{section.2.2}\protected@file@percent }
+\newlabel{sec: pure sim}{{2.2}{9}{Pure Simulation}{section.2.2}{}}
+\newlabel{step pure sim back}{{2}{9}{Pure Simulation}{Item.7}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.2.1}Consistency, Accuracy, and Precision}{9}{subsection.2.2.1}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {2.1}{\ignorespaces Repeated fits for exactly identical datasets.\relax }}{10}{figure.caption.14}\protected@file@percent }
+\newlabel{fig ident}{{2.1}{10}{Repeated fits for exactly identical datasets.\relax }{figure.caption.14}{}}
+\newlabel{d_M exp}{{2.9}{10}{Consistency, Accuracy, and Precision}{equation.2.2.9}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.2.2}Energy Range}{10}{subsection.2.2.2}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {2.2}{\ignorespaces Repeated fits for newly generated datasets, using the same exact same baseline before random poisson samples are drawn in the dataset generation. Also shown is the mean fit value for 64 fits (only 8 shown here), as well as the confidence interval of said mean.\relax }}{11}{figure.caption.15}\protected@file@percent }
+\newlabel{fig ident new gen}{{2.2}{11}{Repeated fits for newly generated datasets, using the same exact same baseline before random poisson samples are drawn in the dataset generation. Also shown is the mean fit value for 64 fits (only 8 shown here), as well as the confidence interval of said mean.\relax }{figure.caption.15}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.2.3}Number of Energy Bins}{11}{subsection.2.2.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.2.4}Fitting Different Powerlaws}{11}{subsection.2.2.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.2.5}Second Source}{11}{subsection.2.2.5}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {2.3}{\ignorespaces The distribution of Mahalanobis distances from the 64 fits from figure \ref {fig ident new gen} compared to the expected distribution from equation \ref {d_M exp}. Also shown is the distribution of Mahalanobis distances around the mean values from the 64 fits, instead of the true values.\relax }}{12}{figure.caption.16}\protected@file@percent }
+\newlabel{fig d_M distribution}{{2.3}{12}{The distribution of Mahalanobis distances from the 64 fits from figure \ref {fig ident new gen} compared to the expected distribution from equation \ref {d_M exp}. Also shown is the distribution of Mahalanobis distances around the mean values from the 64 fits, instead of the true values.\relax }{figure.caption.16}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.2.6}Data Scaling}{12}{subsection.2.2.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.2.7}Angular Distances between SCWs}{12}{subsection.2.2.7}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.2.8}Angular Distance between Source and Cluster}{12}{subsection.2.2.8}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {2.4}{\ignorespaces Identical dataset fitted using only the specified energy ranges. Also note the different number of standard deviations shown in the confidence intervals.\relax }}{13}{figure.caption.17}\protected@file@percent }
+\newlabel{fig energy range}{{2.4}{13}{Identical dataset fitted using only the specified energy ranges. Also note the different number of standard deviations shown in the confidence intervals.\relax }{figure.caption.17}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.2.9}Cluster Size}{13}{subsection.2.2.9}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.2.10}Fitting the Source Position}{13}{subsection.2.2.10}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {2.5}{\ignorespaces Identical dataset fitted using different numbers of energy bins $N_B$.\relax }}{14}{figure.caption.18}\protected@file@percent }
+\newlabel{fig num bins}{{2.5}{14}{Identical dataset fitted using different numbers of energy bins $N_B$.\relax }{figure.caption.18}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2.6}{\ignorespaces Count spectra with different simulated powerlaw sources fitted. The source luminosity is changed across the different rows and the source index is changed across columns. The pivot value of the powerlaws used is at $piv=100$keV, meaning that the central plot of the bottom row shows a Crab-like source.\relax }}{15}{figure.caption.19}\protected@file@percent }
+\newlabel{fig diff powerlaws}{{2.6}{15}{Count spectra with different simulated powerlaw sources fitted. The source luminosity is changed across the different rows and the source index is changed across columns. The pivot value of the powerlaws used is at $piv=100$keV, meaning that the central plot of the bottom row shows a Crab-like source.\relax }{figure.caption.19}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2.7}{\ignorespaces Powerlaw with $index=-8$ fitted using response matrices of different sizes. $N(E_{in})$ describes the number of energy bins used to describe the source model and $N(E_{out})$ the number of energy bins used for the SPI counts. The confidence interval ellipses show 10 standard deviations each.\relax }}{16}{figure.caption.20}\protected@file@percent }
+\newlabel{fig large index}{{2.7}{16}{Powerlaw with $index=-8$ fitted using response matrices of different sizes. $N(E_{in})$ describes the number of energy bins used to describe the source model and $N(E_{out})$ the number of energy bins used for the SPI counts. The confidence interval ellipses show 10 standard deviations each.\relax }{figure.caption.20}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2.8}{\ignorespaces The effects of a second source, which is not included in the source model of the fit, on the quality of the fit for the primary source. The different plots show results for different angular distances between the two sources, as stated in the respective titles. The titles further show the amount of standard deviations illustrated by the ellipses. Finally, see the legend at the bottom right for the powerlaw parameters of the second source. All powerlaws are normalized at $piv=200$keV.\relax }}{17}{figure.caption.21}\protected@file@percent }
+\newlabel{fig sec source}{{2.8}{17}{The effects of a second source, which is not included in the source model of the fit, on the quality of the fit for the primary source. The different plots show results for different angular distances between the two sources, as stated in the respective titles. The titles further show the amount of standard deviations illustrated by the ellipses. Finally, see the legend at the bottom right for the powerlaw parameters of the second source. All powerlaws are normalized at $piv=200$keV.\relax }{figure.caption.21}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2.9}{\ignorespaces Fit results from scaling the amount of lifetime $t$ in each SCW or the amount of SCWs used.\relax }}{18}{figure.caption.22}\protected@file@percent }
+\newlabel{fig data scaling}{{2.9}{18}{Fit results from scaling the amount of lifetime $t$ in each SCW or the amount of SCWs used.\relax }{figure.caption.22}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2.10}{\ignorespaces Fit results for two SCWs with different angular distances $d_p$ (in degrees) between them. The center between the two SCWs is always orientated directly towards the source.\relax }}{18}{figure.caption.23}\protected@file@percent }
+\newlabel{fig pointing distances}{{2.10}{18}{Fit results for two SCWs with different angular distances $d_p$ (in degrees) between them. The center between the two SCWs is always orientated directly towards the source.\relax }{figure.caption.23}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2.11}{\ignorespaces Two SCWs with an angular distance of $4^\circ $ between them are clustered, and then rotated so that the center between them is $d_S$ degrees away from the source. The fit results for different results are shown.\relax }}{19}{figure.caption.24}\protected@file@percent }
+\newlabel{fig source distance}{{2.11}{19}{Two SCWs with an angular distance of $4^\circ $ between them are clustered, and then rotated so that the center between them is $d_S$ degrees away from the source. The fit results for different results are shown.\relax }{figure.caption.24}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2.12}{\ignorespaces The same dataset fitted repeatedly using clusters sizes $S_C$ of two and three.\relax }}{19}{figure.caption.25}\protected@file@percent }
+\newlabel{fig cluster size}{{2.12}{19}{The same dataset fitted repeatedly using clusters sizes $S_C$ of two and three.\relax }{figure.caption.25}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2.13}{\ignorespaces The posterior parameter distribution when fitting the source position along with spectral parameters. The dashed black lines indicate the true values.\relax }}{20}{figure.caption.26}\protected@file@percent }
+\newlabel{fig pos fit}{{2.13}{20}{The posterior parameter distribution when fitting the source position along with spectral parameters. The dashed black lines indicate the true values.\relax }{figure.caption.26}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {2.3}Mixed Simulation and Spimodfit Comparison}{21}{section.2.3}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {2.14}{\ignorespaces Fit results \relax }}{21}{figure.caption.27}\protected@file@percent }
+\newlabel{fig smf comparison}{{2.14}{21}{Fit results \relax }{figure.caption.27}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {2.4}Posterior Predictive Check (PPC) and Background Analysis}{22}{section.2.4}\protected@file@percent }
+\newlabel{sec:PPC Back}{{2.4}{22}{Posterior Predictive Check (PPC) and Background Analysis}{section.2.4}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.4.1}PPCs: Theory}{22}{subsection.2.4.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{General Procedure}{22}{section*.28}\protected@file@percent }
+\newlabel{PPC general}{{2.4.1}{22}{General Procedure}{section*.28}{}}
+\newlabel{Posterior sample}{{2}{22}{General Procedure}{Item.12}{}}
+\newlabel{ppc calc count rates}{{3}{22}{General Procedure}{Item.13}{}}
+\newlabel{ppc poisson sample}{{4}{22}{General Procedure}{Item.14}{}}
+\@writefile{toc}{\contentsline {subsubsection}{PySPI Application}{22}{section*.29}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.4.2}PPCs: PySPI Implementation}{24}{subsection.2.4.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.4.3}Background Analysis}{24}{subsection.2.4.3}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {2.15}{\ignorespaces \relax }}{25}{figure.caption.30}\protected@file@percent }
+\newlabel{fig back spec}{{2.15}{25}{\relax }{figure.caption.30}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {A}List of Source Models}{26}{appendix.A}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\newlabel{powerlaw}{{A.1}{9}{Powerlaw}{equation.A.0.1}{}}
+\newlabel{powerlaw}{{A.1}{26}{Powerlaw}{equation.A.0.1}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {B}Science Window Clustering Algorithm}{28}{appendix.B}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{Clustering Algorithm}{{B}{28}{Science Window Clustering Algorithm}{appendix.B}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {B.1}Clustering Conditions}{28}{section.B.1}\protected@file@percent }
+\newlabel{list:conditions}{{B.1}{28}{Clustering Conditions}{section.B.1}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {B.2}Clustering Algorithm}{28}{section.B.2}\protected@file@percent }
+\newlabel{itm: region1}{{3a}{29}{Clustering Algorithm}{Item.19}{}}
+\newlabel{itm: region2}{{3b}{29}{Clustering Algorithm}{Item.20}{}}
+\newlabel{itm: region4}{{3d}{29}{Clustering Algorithm}{Item.22}{}}
+\newlabel{itm: initial clustering 1}{{4(a)i}{29}{Clustering Algorithm}{Item.26}{}}
+\newlabel{itm: initial clustering 2}{{4(a)ii}{29}{Clustering Algorithm}{Item.27}{}}
+\newlabel{itm: improvement1}{{4b}{29}{Clustering Algorithm}{Item.30}{}}
+\newlabel{itm: clustering path1}{{4(b)iiiA}{30}{Clustering Algorithm}{Item.34}{}}
+\newlabel{itm: reclustering1}{{4(b)ivA}{30}{Clustering Algorithm}{Item.38}{}}
+\newlabel{itm: reclustering2}{{4(b)ivB}{30}{Clustering Algorithm}{Item.39}{}}
+\abx@aux@cite{0}{SMF_Cookbook}
+\abx@aux@segm{0}{0}{SMF_Cookbook}
+\@writefile{toc}{\contentsline {chapter}{\numberline {C}Spimodfit Procedure}{31}{appendix.C}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{smf procedure}{{C}{31}{Spimodfit Procedure}{appendix.C}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {C.1}Fitting the Crab Nebula}{31}{section.C.1}\protected@file@percent }
+\newlabel{Spimodfit crab steps}{{C.1}{31}{Fitting the Crab Nebula}{section.C.1}{}}
+\newlabel{scw select}{{2}{31}{Fitting the Crab Nebula}{Item.45}{}}
+\newlabel{step background}{{3}{31}{Fitting the Crab Nebula}{Item.46}{}}
+\newlabel{Source directory}{{4}{31}{Fitting the Crab Nebula}{Item.47}{}}
+\newlabel{Spectrum file}{{5}{31}{Fitting the Crab Nebula}{Item.48}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {C.2}Fitting other Sources}{32}{section.C.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {C.3}Fitting Custom Data}{32}{section.C.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {C.4}Spimodfit Background}{32}{section.C.4}\protected@file@percent }
+\newlabel{spimodfit bkg}{{C.4}{32}{Spimodfit Background}{section.C.4}{}}
 \abx@aux@nociteall
-\@writefile{toc}{\contentsline {chapter}{\numberline {B}Science Window Clustering Algorithm}{10}{appendix.B}\protected@file@percent }
-\@writefile{lof}{\addvspace {10\p@ }}
-\@writefile{lot}{\addvspace {10\p@ }}
-\newlabel{Clustering Algorithm}{{B}{10}{Science Window Clustering Algorithm}{appendix.B}{}}
 \abx@aux@read@bbl@mdfivesum{ACD7A199B7B506ABD5D5215D25C903FC}
 \abx@aux@defaultrefcontext{0}{Biltzinger2022}{nty/global//global/global}
 \abx@aux@defaultrefcontext{0}{3ml}{nty/global//global/global}
@@ -114,4 +197,4 @@
 \abx@aux@defaultrefcontext{0}{refId1}{nty/global//global/global}
 \abx@aux@defaultrefcontext{0}{refId0}{nty/global//global/global}
 \abx@aux@defaultrefcontext{0}{astromodels}{nty/global//global/global}
-\gdef \@abspage@last{12}
+\gdef \@abspage@last{35}
