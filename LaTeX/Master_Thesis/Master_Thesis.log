@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2022.8.6)  28 JUN 2023 04:04
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2022.8.6)  28 JUN 2023 05:26
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -534,6 +534,12 @@ LaTeX Warning: Label `' multiply defined.
 
 LaTeX Warning: Label `' multiply defined.
 
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
 )
 \openout1 = `Master_Thesis.aux'.
 
@@ -653,7 +659,7 @@ Package pdftex.def Info: Images/General/tumlogo.pdf  used on input line 29.
 pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.42 ...C.4}Spimodfit Background}{40}{section.C.4}
+l.42 ...C.4}Spimodfit Background}{42}{section.C.4}
                                                   % [1
 
 ])
@@ -911,44 +917,64 @@ File: Images/Crab_Fits/crab_low_energy_pl.pdf Graphic file (type pdf)
 <use Images/Crab_Fits/crab_low_energy_pl.pdf>
 Package pdftex.def Info: Images/Crab_Fits/crab_low_energy_pl.pdf  used on input line 688.
 (pdftex.def)             Requested size: 352.10284pt x 261.24074pt.
-<Images/Crab_Fits/0043__sm_br_pl_parameters.pdf, id=1626, 1033.29066pt x 1033.29066pt>
-File: Images/Crab_Fits/0043__sm_br_pl_parameters.pdf Graphic file (type pdf)
-<use Images/Crab_Fits/0043__sm_br_pl_parameters.pdf>
-Package pdftex.def Info: Images/Crab_Fits/0043__sm_br_pl_parameters.pdf  used on input line 700.
-(pdftex.def)             Requested size: 469.47046pt x 469.47002pt.
+<Images/Crab_Fits/crab_brk_pl_100.pdf, id=1626, 468.50343pt x 491.73145pt>
+File: Images/Crab_Fits/crab_brk_pl_100.pdf Graphic file (type pdf)
+<use Images/Crab_Fits/crab_brk_pl_100.pdf>
+Package pdftex.def Info: Images/Crab_Fits/crab_brk_pl_100.pdf  used on input line 697.
+(pdftex.def)             Requested size: 352.10284pt x 369.5555pt.
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
 [32
 
- <./Images/Crab_Fits/crab_low_energy_pl.pdf>] [33 <./Images/Crab_Fits/0043__sm_br_pl_parameters.pdf>]
-Appendix A.
-[34
+ <./Images/Crab_Fits/crab_low_energy_pl.pdf>]
+<Images/Crab_Fits/crab_c_band.pdf, id=1680, 441.28113pt x 366.65758pt>
+File: Images/Crab_Fits/crab_c_band.pdf Graphic file (type pdf)
+<use Images/Crab_Fits/crab_c_band.pdf>
+Package pdftex.def Info: Images/Crab_Fits/crab_c_band.pdf  used on input line 706.
+(pdftex.def)             Requested size: 352.10284pt x 292.57675pt.
 
-] [35]
-Appendix B.
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[33 <./Images/Crab_Fits/crab_brk_pl_100.pdf>]
+<Images/Crab_Fits/0043__sm_br_pl_parameters.pdf, id=1756, 1033.29066pt x 1033.29066pt>
+File: Images/Crab_Fits/0043__sm_br_pl_parameters.pdf Graphic file (type pdf)
+<use Images/Crab_Fits/0043__sm_br_pl_parameters.pdf>
+Package pdftex.def Info: Images/Crab_Fits/0043__sm_br_pl_parameters.pdf  used on input line 714.
+(pdftex.def)             Requested size: 469.47046pt x 469.47002pt.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[34 <./Images/Crab_Fits/crab_c_band.pdf>] [35 <./Images/Crab_Fits/0043__sm_br_pl_parameters.pdf>]
+Appendix A.
 [36
 
-] [37] [38]
+] [37]
+Appendix B.
+[38
+
+] [39] [40]
 Appendix C.
-[39
+[41
 
 ]
-Overfull \hbox (3.02542pt too wide) in paragraph at lines 968--969
+Overfull \hbox (3.02542pt too wide) in paragraph at lines 982--983
 [][][]\OT1/cmtt/m/n/10 /home/jmoeller/cookbook/SPI_cookbook/examples/Crab/cookbook_dataset_02_0020-0600keV_SE/spi 
  []
 
 
-Overfull \hbox (5.38089pt too wide) in paragraph at lines 970--971
+Overfull \hbox (5.38089pt too wide) in paragraph at lines 984--985
 []\OT1/cmr/m/n/10 is cre-ated, which in-cludes the rel-e-vant data files to be used in the fit. Here we can edit [][]\OT1/cmtt/m/n/10 evts_det_spec.fits.gz
  []
 
 
-Overfull \hbox (5.96242pt too wide) in paragraph at lines 979--980
+Overfull \hbox (5.96242pt too wide) in paragraph at lines 993--994
 []\OT1/cmr/m/n/10 is cre-ated, con-tain-ing the files [][]\OT1/cmtt/m/n/10 output_bgmodel-conti.fits.gz []\OT1/cmr/m/n/10 and [][]\OT1/cmtt/m/n/10 output_bgmodel-lines.fits.gz[]\OT1/cmr/m/n/10 . These
  []
 
-[40] [41] [42
+[42] [43] [44
 
 ] (./Master_Thesis.aux)
 
@@ -961,18 +987,18 @@ Package logreq Info: Writing requests to 'Master_Thesis.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 19477 strings out of 478023
- 355735 string characters out of 5838676
+ 19495 strings out of 478023
+ 356335 string characters out of 5838676
  1065324 words of memory out of 5000000
- 37479 multiletter control sequences out of 15000+600000
+ 37491 multiletter control sequences out of 15000+600000
  473892 words of font info for 44 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  72i,16n,77p,1334b,1519s stack positions out of 10000i,1000n,20000p,200000b,200000s
 {/usr/local/texlive/2022/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc}</usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmcsc10.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/cm-super/sfrm1000.pfb>
-Output written on Master_Thesis.pdf (43 pages, 3190877 bytes).
+Output written on Master_Thesis.pdf (45 pages, 3231160 bytes).
 PDF statistics:
- 2002 PDF objects out of 2073 (max. 8388607)
- 923 compressed objects within 10 object streams
- 225 named destinations out of 1000 (max. 500000)
- 496 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 2149 PDF objects out of 2487 (max. 8388607)
+ 950 compressed objects within 10 object streams
+ 229 named destinations out of 1000 (max. 500000)
+ 506 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -29,14 +29,14 @@
 \contentsline {chapter}{\numberline {3}Crab Nebula Fits: Results}{32}{chapter.3}%
 \contentsline {section}{\numberline {3.1}Powerlaw}{32}{section.3.1}%
 \contentsline {section}{\numberline {3.2}Broken Powerlaw}{32}{section.3.2}%
-\contentsline {section}{\numberline {3.3}Band Function}{32}{section.3.3}%
-\contentsline {section}{\numberline {3.4}Smoothly Broken Powerlaw}{32}{section.3.4}%
-\contentsline {chapter}{\numberline {A}List of Source Models}{34}{appendix.A}%
-\contentsline {chapter}{\numberline {B}Science Window Clustering Algorithm}{36}{appendix.B}%
-\contentsline {section}{\numberline {B.1}Clustering Conditions}{36}{section.B.1}%
-\contentsline {section}{\numberline {B.2}Clustering Algorithm}{36}{section.B.2}%
-\contentsline {chapter}{\numberline {C}Spimodfit Procedure}{39}{appendix.C}%
-\contentsline {section}{\numberline {C.1}Fitting the Crab Nebula}{39}{section.C.1}%
-\contentsline {section}{\numberline {C.2}Fitting other Sources}{40}{section.C.2}%
-\contentsline {section}{\numberline {C.3}Fitting Custom Data}{40}{section.C.3}%
-\contentsline {section}{\numberline {C.4}Spimodfit Background}{40}{section.C.4}%
+\contentsline {section}{\numberline {3.3}Band Function}{33}{section.3.3}%
+\contentsline {section}{\numberline {3.4}Smoothly Broken Powerlaw}{34}{section.3.4}%
+\contentsline {chapter}{\numberline {A}List of Source Models}{36}{appendix.A}%
+\contentsline {chapter}{\numberline {B}Science Window Clustering Algorithm}{38}{appendix.B}%
+\contentsline {section}{\numberline {B.1}Clustering Conditions}{38}{section.B.1}%
+\contentsline {section}{\numberline {B.2}Clustering Algorithm}{38}{section.B.2}%
+\contentsline {chapter}{\numberline {C}Spimodfit Procedure}{41}{appendix.C}%
+\contentsline {section}{\numberline {C.1}Fitting the Crab Nebula}{41}{section.C.1}%
+\contentsline {section}{\numberline {C.2}Fitting other Sources}{42}{section.C.2}%
+\contentsline {section}{\numberline {C.3}Fitting Custom Data}{42}{section.C.3}%
+\contentsline {section}{\numberline {C.4}Spimodfit Background}{42}{section.C.4}%

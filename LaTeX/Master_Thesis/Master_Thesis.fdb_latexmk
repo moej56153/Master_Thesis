@@ -1,12 +1,12 @@
 # Fdb version 3
-["biber Master_Thesis"] 1687917858 "Master_Thesis.bcf" "Master_Thesis.bbl" "Master_Thesis" 1687917881
+["biber Master_Thesis"] 1687922766 "Master_Thesis.bcf" "Master_Thesis.bbl" "Master_Thesis" 1687922803
   "Bibliography.bib" 1687819236 7292 6e64afde3f84c86acf639b689654f821 ""
-  "Master_Thesis.bcf" 1687917881 108660 026827308103cfac9a0f7ca4f24fb0ba "pdflatex"
+  "Master_Thesis.bcf" 1687922803 108660 026827308103cfac9a0f7ca4f24fb0ba "pdflatex"
   (generated)
   "Master_Thesis.bbl"
   "Master_Thesis.blg"
-["pdflatex"] 1687917879 "/home/moej56153/Master_Thesis/LaTeX/Master_Thesis/Master_Thesis.tex" "Master_Thesis.pdf" "Master_Thesis" 1687917881
-  "/home/moej56153/Master_Thesis/LaTeX/Master_Thesis/Master_Thesis.tex" 1687917875 80085 dc246b4b21ab8a9e26a13ab63f4b6a40 ""
+["pdflatex"] 1687922802 "/home/moej56153/Master_Thesis/LaTeX/Master_Thesis/Master_Thesis.tex" "Master_Thesis.pdf" "Master_Thesis" 1687922803
+  "/home/moej56153/Master_Thesis/LaTeX/Master_Thesis/Master_Thesis.tex" 1687922801 80375 5cb9b8f1e226e44fcb9b5e6720ba852e ""
   "/usr/local/texlive/2022/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc" 1136849721 2900 1537cc8184ad1792082cd229ecc269f4 ""
   "/usr/local/texlive/2022/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/local/texlive/2022/texmf-dist/fonts/tfm/jknappen/ec/tcrm1000.tfm" 1136768653 1536 e07581a4bb3136ece9eeb4c3ffab8233 ""
@@ -113,6 +113,8 @@
   "/usr/local/texlive/2022/texmf-var/web2c/pdftex/pdflatex.fmt" 1659796557 2864956 6da04ef14f1cd92938e9173fd8072890 ""
   "/usr/local/texlive/2022/texmf.cnf" 1659796533 455 5b996dcaa0eb4ef14a83b026bc0a008c ""
   "Images/Crab_Fits/0043__sm_br_pl_parameters.pdf" 1687787943 524678 4eb646880f76b957d9f3063ee3ef40dd ""
+  "Images/Crab_Fits/crab_brk_pl_100.pdf" 1687921377 27098 c4b4ad68bd5d8c0d1b50e2b29065a76b ""
+  "Images/Crab_Fits/crab_c_band.pdf" 1687922682 23853 ab8e858bf90010ad45e72581d065835a ""
   "Images/Crab_Fits/crab_low_energy_pl.pdf" 1687793335 17139 efbb0ec7737f106adeb71897e90b8321 ""
   "Images/General/HURA_hexagonal_coded_aperture_mask_principle.svg.png" 1687721858 248416 12043e957ef28a7102627776ca357767 ""
   "Images/General/MPE_logo_189x180px.jpg" 1687651193 38173 ce171cfe861d3d085116199618871e70 ""
@@ -147,12 +149,12 @@
   "Images/Pure_Simulation/large_index_combined_plot_10sig.pdf" 1687038198 18579 65dcdee1ae58a6a640e2e1c21f8d6db9 ""
   "Images/Pure_Simulation/source_position.pdf" 1687042872 260009 5e0df46f155bed7e6cb5c737dd66caa7 ""
   "Images/SMF_Comparison/spimodfit_comparison_combined_plot.pdf" 1687537314 21010 a3f63b30b520413c38e59e4ee17e84e3 ""
-  "Master_Thesis.aux" 1687917881 27317 27120b8097109de9e4f7f4b758a2d755 "pdflatex"
-  "Master_Thesis.bbl" 1687917858 26640 acd7a199b7b506abd5d5215d25c903fc "biber Master_Thesis"
-  "Master_Thesis.out" 1687917881 6834 477862c965a27c64c2ecc7e8d7294194 "pdflatex"
-  "Master_Thesis.run.xml" 1687917881 2370 e91adfa0f260121ce63445f894f8986b "pdflatex"
-  "Master_Thesis.tex" 1687917875 80085 dc246b4b21ab8a9e26a13ab63f4b6a40 ""
-  "Master_Thesis.toc" 1687917881 3584 5d2a3a4be281900effe2bbbee120799a "pdflatex"
+  "Master_Thesis.aux" 1687922803 27683 808c1221462542a186bfea8a1d7430b8 "pdflatex"
+  "Master_Thesis.bbl" 1687922766 26640 acd7a199b7b506abd5d5215d25c903fc "biber Master_Thesis"
+  "Master_Thesis.out" 1687922803 6834 477862c965a27c64c2ecc7e8d7294194 "pdflatex"
+  "Master_Thesis.run.xml" 1687922803 2370 e91adfa0f260121ce63445f894f8986b "pdflatex"
+  "Master_Thesis.tex" 1687922801 80375 5cb9b8f1e226e44fcb9b5e6720ba852e ""
+  "Master_Thesis.toc" 1687922803 3584 6eda2bf7ff69b8bd3dd0f6e0210241bb "pdflatex"
   (generated)
   "Master_Thesis.aux"
   "Master_Thesis.bcf"
