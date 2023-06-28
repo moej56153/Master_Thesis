@@ -13,6 +13,7 @@
 \usepackage{biblatex}
 \addbibresource{Bibliography.bib}
 \usepackage{wrapfig}
+\usepackage{subcaption}
 
 \title{PySPI for Persistent Sources}
 \author{Möller, Julius}
@@ -451,7 +452,7 @@ So far we have only been using SCW clusters of size two ($S_C=2$) in the fits. F
 Naturally we are not restricted to fitting spectral parameters of sources. The source position, for example, can also be included as parameters in the fit. The resulting posterior distributions of such a fit are shown in figure \ref{fig pos fit}. The results show a high degree of accuracy and precision, with all parameters within one standard deviation.
 
 
-\section{Mixed Simulation and Spimodfit Comparison}
+\section{Mixed Simulation and Spimodfit Comparison} \label{sec: smf comparison}
 
 
 
@@ -509,28 +510,28 @@ To quantify this bias we will have to do some math. The following equations are 
 
 For every bin and every SCW there exists a true source count rate $s_1$ and $s_2$ as well as a true background count rate $b$. The source count rates vary between the SCWs of one cluster, whereas the background count rate is constant. If $t_1$ and $t_2$ are the lifetimes of the SCWs, the actually measured counts $b_{1m}, b_{2m}, s_{1m}$ and $s_{2m}$ from the respective sources will be Poisson distributed
 
-\begin{align*}
+\begin{align} \label{eq measured counts}
     B_{1m} &= P(bt_1) \\
     B_{2m} &= P(bt_2) \\
     S_{1m} &= P(s_1t_1) \\
     S_{2m} &= P(s_2t_2)
-\end{align*}
+\end{align}
 
 so that the total number of measured counts $C_{1m}$ and $C_{2m}$ are simply
 
-\begin{align*}
+\begin{align} \label{eq tot counts ppc}
     C_{1m} &= B_{1m} + S_{1m} \\
     C_{2m} &= B_{2m} + S_{2m}.
-\end{align*}
+\end{align}
 
 Arriving at an equation for the distributions $C_{1m}$ and $C_{2m}$ is our goal for the PPC analysis. We may assume that true source count rates $s_1$ and $s_2$ equal those predicted by our source model from the posterior samples, since testing that assumption is the whole point of doing the PPC analysis to begin with. The true background count rate $b$, however, remains unknown to us. Instead we can only calculate the maximum likelihood background $b_M$, as described previously. In order to be able to draw samples from the probability distributions $C_{1m}$ and $C_{2m}$ we must relate relate the distributions of the quantities that we do know ($s_1, s_2, t_1, t_2, b_M$) to those that we wish to know ($C_{1m}, C_{2m}$ and therefore $B_{1m}, B_{2m}, S_{1m}, S_{2m}$):
 
-\begin{align*}
+\begin{align} \label{eq ppc dif}
     B_{d1} &= B_{1m} - b_Mt_1 \\
     B_{d2} &= B_{2m} - b_Mt_2 \\
     S_{d1} &= S_{1m} - s_1t_1 \\
     S_{d2} &= S_{2m} - s_2t_2.
-\end{align*}
+\end{align}
 
 $B_{d1}$ and $B_{d2}$ tell us the difference between quantities we have readily available ($b_Mt_1$ and $b_Mt_2$) to those directly necessary in the PPC analysis ($B_{1m}$ and $B_{2m}$). This means that if we calculate their variances and approximate the resulting distribution as normal we can directly draw random samples according to the distribution of $B_{1m}$ and $B_{2m}$, without having to know the true background rate $b$. Furthermore, we also have to consider that the distribution of $b_M$, which we utilize in $B_{d1}$ and $B_{d2}$, is correlated with the distribution $S_{1m}$ and $S_{2m}$. Hence, we not only have to calculate the variances of $B_{d1}$ and $B_{d2}$, but also the covariances of $B_{d1}$ with $S_{d1}$ and $B_{d2}$ with $S_{d2}$, respectively. To draw a random sample from $B_{1m}$, $S_{1m}$, $B_{2m}$ and $S_{2m}$we thus sample from a multivariate normal with mean $\mu$ and covariance matrix $cov$:
 
@@ -542,16 +543,16 @@ $B_{d1}$ and $B_{d2}$ tell us the difference between quantities we have readily 
       b_Mt_2 \\ s_2t_2
   \end{pmatrix} 
 \end{align}
-\begin{align}
+\begin{align} \label{eq: covs mats}
     cov_1 &= \begin{bmatrix}
-        variance(B_{d1}) & covariance(B_{d1}, S_{d1})\\ covariance(B_{d1}, S_{d1}) & variance(S_{d1})
+        \text{variance}(B_{d1}) & \text{covariance}(B_{d1}, S_{d1})\\ \text{covariance}(B_{d1}, S_{d1}) & \text{variance}(S_{d1})
     \end{bmatrix} \\
     cov_2 &= \begin{bmatrix}
-      variance(B_{d2}) & covariance(B_{d2}, S_{d2})\\ covariance(B_{d2}, S_{d2}) & variance(S_{d2})
+      \text{variance}(B_{d2}) & \text{covariance}(B_{d2}, S_{d2})\\ \text{covariance}(B_{d2}, S_{d2}) & \text{variance}(S_{d2})
   \end{bmatrix}
 \end{align}
 Hence: 
-\begin{align}
+\begin{align} \label{eq mult var norm ppc}
     \begin{pmatrix}
         B_{1m} \\ S_{1m}
     \end{pmatrix}
@@ -565,16 +566,111 @@ This works because the expected value of the maximum likelihood background rate 
 
 Now that we have understood the motivation, the tricky part is actually calculating these variances. Considering the already complicated distribution of the maximum likelihood background (equation \ref{eq: max lik back})
 
-\begin{equation*}
+\begin{equation}\label{eq max lik back 2}
   b_M = \frac{1}{2} \left[ \frac{C_t}{t_t} - s_t + \sqrt{\left( \frac{C_t}{t_t} - s_t\right)^2 + 4 \left( \frac{C_1s_2+C_2s_1}{t_t}-s_1s_2\right)}\right]
-\end{equation*}
+\end{equation}
 
 where $C_1$ and $C_2$ are Poisson distributions, solving for the covariance matrices $cov_1$ and $cov_2$ analytically seems nearly impossible.
 
 
 \subsection{PPCs: PySPI Implementation}
 
+Fortunately, instead of solving for $cov_1$ and $cov_2$ from equation \ref{eq: covs mats} analytically, it is possible to approximate the result through numerical sampling. Given some background rate $b$, source rates $s_1$ and $s_2$, and lifetimes $t_1$ and $t_2$, we can numerically sample the detected count rates $B_{1m}, S_{1m}, B_{2m}, S_{1m}$ (equations \ref{eq measured counts}), which allows us to calculate the maximum likelihood background $b_M$ (equation \ref{eq max lik back 2}) and therefore $B_{d1},S_{d1},B_{d2}$ and $S_{d2}$ (equations \ref{eq ppc dif}). If we repeat this often enough (e.g. 10000 times) we can thus estimate $cov_1$ and $cov_2$ (equations \ref{eq: covs mats}). Since $E(b_M) = b$ it is irrelevant that we don't know $b$ and we can use $cov_1$ and $cov_2$ sampled using $b_M$ instead. Finally we make use of equations \ref{eq mult var norm ppc} and \ref{eq tot counts ppc} to be able to sample $C_{1m}$ and $C_{2m}$, as was our goal.
+
+One issue with this approach is that the sample covariance matrix is only true at the input parameters ($b_M,s_1,s_2,t_1,t_2$) we used to sample it. Although taking 10000 samples to estimate the matrix doesn't take long, it definitely takes too long to do so for every combination of input parameters encountered in a typical SPI fit. The solution is to find the minimum and maximum of each of the five input parameters encountered in the data after a fit, estimate the covariance via sampling at a grid covering a range of values between the minimum and maximum for each of the input parameters, and then interpolate the matrix along the grid for any possible input combination encountered. 
+
+\begin{figure}[h]
+  \centering
+  \makebox[\textwidth][c]{\includegraphics[width=1.1\textwidth]{Images/PPC_and_Background_Analysis/PPC_scaling_different_1_bright_short.pdf}}%
+  \caption{The scaling behavior of elements of the covariance matrix $cov_1$ as a function of its input parameters over select intervals (purple). In green we see how different interpolation functions (constant, linear, logarithmic, powerlaw) could be used in an attempt to match the scaling behavior by interpolating from the first to the last data-point. }
+  \label{fig ppc scaling}
+\end{figure}
+
+Figure \ref{fig ppc scaling} shows have elements of the covariance matrix scale when the different input parameters are changed. Note that the scaling behavior changes quite significantly depending on where in the input parameters space one looks, so figure \ref{fig ppc scaling} is not representative for all input ranges. Initially the plan was to approximate the scaling of each matrix element and input parameter pair through a different scaling function. However, this has been found to lead to numerical instabilities, so linear scaling was implemented across the board.
+
+For a typical SPI fit of a Crab-like source with logarithmically space energy bins the $b_M$ will usually vary within two orders of magnitude, $s_1$ and $s_2$ will vary between three orders of magnitude, and $t_1$ and $t_2$ will stay within one order of magnitude. It has been found that using 9 grid values along the $b_M$ axis, 12 grid values along the $s_1$ and $s_2$ axes, and 5 grid values along the $t_1$ and $t_2$ axes (all spaced logarithmically) are sufficient to accurately interpolate the covariance matrix for all possible input parameters. This means that the covariance matrix is independently sampled (using 10000 samples each) at $9\cdot12^2\cdot5^2=32400$ different input combinations. For each input combination encountered after the fit in the PPC analysis, the closest $2^5=32$ grid points are selected and interpolated to reach the final covariance matrix, which is then used to sample the measured counts using the multivariate normal distribution. 
+
+There are many ways to further numerically optimize this procedure, such as taking advantage of the inherent symmetry in the covariance matrix from both detectors or using more accurate scaling behavior in the interpolation functions, but since the actual PySPI fits still take much longer than the PPC covariance computation this has been left as a project for the future.
+
+
+\subsection{PPCs: Results}
+
+\begin{figure}[h]
+  \centering
+  \begin{subfigure}{0.5\textwidth}
+    \centering
+    \includegraphics[width=0.9\linewidth]{Images/PPC_and_Background_Analysis/037400070010_037400090010_cdf.pdf}
+    %\caption{A subfigure}
+    %\label{fig:sub1}
+  \end{subfigure}%
+  \begin{subfigure}{.5\textwidth}
+    \centering
+    \includegraphics[width=.9\linewidth]{Images/PPC_and_Background_Analysis/037400030010_037400050010_cdf.pdf}
+    %\caption{A subfigure}
+    %\label{fig:sub2}
+  \end{subfigure}
+  \caption{Example of a cluster with a "good" CDF distribution (left) and a cluster with a "bad" CDF distribution (right). Also shown next to the SCW IDs of the pointings are the proportion of counts on the left half and the central half. The solid black line shows the ideal distribution. Both of these clusters were taken from the same fit.}
+  \label{fig ppc cdf ex good and bad}
+  \end{figure}
+
+
+
+For each cluster in the fit the CDF distribution will be analyzed. This means that the PPC distribution of expected counts based on the posterior distribution of the source model parameters is computed, and then the actual count number of the data is compared to this distribution. The percentile in which the real count data can be sorted the predicted count distribution is recorded, leading to the CDF distribution when aggregated over all bins. If the source model matches the data well then we expect the CDF to be evenly distributed along all percentiles. Example of clusters with "good" and "bad" CDFs are shown in figure \ref{fig ppc cdf ex good and bad}. After having conducted a fit and plotted CDF distributions for all clusters, the "bad" clusters can be identified and removed from the list of clusters. The fit is then executed again using only "good" clusters, yielding (hopefully) improved results.
+
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=\textwidth]{Images/PPC_and_Background_Analysis/combined_plot_0374_ppc_normal.pdf}
+  \caption{}
+  \label{}
+\end{figure}
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=\textwidth]{Images/PPC_and_Background_Analysis/combined_plot_0374_ppc_far.pdf}
+  \caption{}
+  \label{}
+\end{figure}
+
+To test our newly developed PPC capabilities, we shall use the same count spectrum using real background counts from revolution 0374 and a simulated Crab-like powerlaw that we already used in section \ref{sec: smf comparison}. We will fit the data twice: one time with SCW clusters where we set the minimum angular distance between pointings in clusters to $1.5^\circ$, and one time where we set it to $2.5^\circ$ (see appendix \ref{Clustering Algorithm} for more info on the clustering algorithm). Since consecutive SPI pointings are often $2.1^\circ$ apart, this change makes the difference between pairing up consecutive SCWs together (e.g. 03740003 with 03740004, 03740005 with 03740006) and pairing up offset consecutive SCWs together (e.g. 03740003 with 03740005, 03740004 with 03740006). This can be both advantageous and disadvantageous. As shown in figure \ref{fig pointing distances} the optimal angular distance between pointings lies closer to $4.0^\circ$, so using a minimum distance $2.5^\circ$ should improve fit precision in that regard. However, larger time windows between SCWs increases the probability for background count rates to change, meaning that a minimum distance of $2.5^\circ$ could also decrease fit quality. 
+
+
+\begin{figure}[h]
+  \centering
+  \begin{subfigure}{0.5\textwidth}
+    \centering
+    \includegraphics[width=0.9\linewidth]{Images/PPC_and_Background_Analysis/004400910010_004400940010_cdf.pdf}
+    %\caption{A subfigure}
+    %\label{fig:sub1}
+  \end{subfigure}%
+  \begin{subfigure}{.5\textwidth}
+    \centering
+    \includegraphics[width=.9\linewidth]{Images/PPC_and_Background_Analysis/Total_cdf.pdf}
+    %\caption{A subfigure}
+    %\label{fig:sub2}
+  \end{subfigure}
+  \caption{}
+  \label{}
+\end{figure}
+
+
+
+
 \subsection{Background Analysis}
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=\textwidth]{Images/PPC_and_Background_Analysis/background_variance.pdf}
+  \caption{}
+  \label{}
+\end{figure}
+
+\begin{wrapfigure}{R}{0.50\textwidth}
+  \includegraphics[width=\linewidth]{Images/PPC_and_Background_Analysis/037400020010_037400030010_cdf_smf_bkg.pdf}
+  \vspace{-00pt}
+  \caption{}
+  \vspace{-00pt}
+  \label{}
+\end{wrapfigure}
 
 \begin{figure}[h]
   \centering
@@ -582,6 +678,30 @@ where $C_1$ and $C_2$ are Poisson distributions, solving for the covariance matr
   \caption{}
   \label{fig back spec}
 \end{figure}
+
+
+\chapter{Crab Nebula Fits: Results}
+
+\section{Powerlaw}
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.75\textwidth]{Images/Crab_Fits/crab_low_energy_pl.pdf}
+  \caption{}
+  \label{}
+\end{figure}
+
+\section{Broken Powerlaw}
+
+\section{Band Function}
+
+\section{Smoothly Broken Powerlaw}
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=\textwidth]{Images/Crab_Fits/0043__sm_br_pl_parameters.pdf}
+  \caption{}
+  \label{}
+\end{figure}
+
 
 
 \appendix
