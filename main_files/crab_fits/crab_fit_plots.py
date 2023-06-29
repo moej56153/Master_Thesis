@@ -90,11 +90,11 @@ def crab_low_energy_powerlaw_combined_plot(fit_dict=combined_fits_weak_pulsar):
         
     fig, axes = plt.subplots(nrows=2)
     
-    axes[0].errorbar(years, pyspi_Ks, pyspi_Ks_errors, label="PySPI")
-    axes[0].errorbar(years, smf_Ks, smf_Ks_errors, label="Spimodfit")
+    axes[0].errorbar(years, pyspi_Ks, pyspi_Ks_errors, label="PySPI", capsize=2.5, linestyle='dotted')
+    axes[0].errorbar(years, smf_Ks, smf_Ks_errors, label="Spimodfit", capsize=2.5, linestyle='dotted')
     
-    axes[1].errorbar(years, pyspi_indices, pyspi_indices_errors, label="PySPI")
-    axes[1].errorbar(years, smf_indices, smf_indices_errors, label="Spimodfit")
+    axes[1].errorbar(years, pyspi_indices, pyspi_indices_errors, label="PySPI", capsize=2.5, linestyle='dotted')
+    axes[1].errorbar(years, smf_indices, smf_indices_errors, label="Spimodfit", capsize=2.5, linestyle='dotted')
     
     axes[1].legend()
     
@@ -158,8 +158,8 @@ def crab_broken_powerlaw_100_combined_plot(fit_dict=combined_fits_weak_pulsar):
         smf_alphas.append(smf_val[1])
         smf_alphas_errors.append(smf_cov[1,1]**0.5)
         
-        smf_betas.append(smf_val[1])
-        smf_betas_errors.append(smf_cov[1,1]**0.5)
+        smf_betas.append(smf_val[2])
+        smf_betas_errors.append(smf_cov[2,2]**0.5)
         
     paper_years = years[:3]
     
@@ -174,17 +174,17 @@ def crab_broken_powerlaw_100_combined_plot(fit_dict=combined_fits_weak_pulsar):
         
     fig, axes = plt.subplots(nrows=3, figsize=(7, 7))
     
-    axes[0].errorbar(years, pyspi_Ks, pyspi_Ks_errors, label="PySPI", capsize=2.5)
-    axes[0].errorbar(years, smf_Ks, smf_Ks_errors, label="Spimodfit", capsize=2.5)
-    axes[0].errorbar(paper_years, paper_Ks, paper_Ks_errors, label="Jourdain and Roques (2009)", capsize=2.5)
+    axes[0].errorbar(years, pyspi_Ks, pyspi_Ks_errors, label="PySPI", capsize=2.5, linestyle='dotted')
+    axes[0].errorbar(years, smf_Ks, smf_Ks_errors, label="Spimodfit", capsize=2.5, linestyle='dotted')
+    axes[0].errorbar(paper_years, paper_Ks, paper_Ks_errors, label="Jourdain and Roques (2009)", capsize=2.5, linestyle='dotted')
     
-    axes[1].errorbar(years, pyspi_alphas, pyspi_alphas_errors, label="PySPI", capsize=2.5)
-    axes[1].errorbar(years, smf_alphas, smf_alphas_errors, label="Spimodfit", capsize=2.5)
-    axes[1].errorbar(paper_years, paper_alphas, paper_alphas_errors, label="Jourdain and Roques (2009)", capsize=2.5)
+    axes[1].errorbar(years, pyspi_alphas, pyspi_alphas_errors, label="PySPI", capsize=2.5, linestyle='dotted')
+    axes[1].errorbar(years, smf_alphas, smf_alphas_errors, label="Spimodfit", capsize=2.5, linestyle='dotted')
+    axes[1].errorbar(paper_years, paper_alphas, paper_alphas_errors, label="Jourdain and Roques (2009)", capsize=2.5, linestyle='dotted')
     
-    axes[2].errorbar(years, pyspi_betas, pyspi_betas_errors, label="PySPI", capsize=2.5)
-    axes[2].errorbar(years, smf_betas, smf_betas_errors, label="Spimodfit", capsize=2.5)
-    axes[2].errorbar(paper_years, paper_betas, paper_betas_errors, label="Jourdain and Roques (2009)", capsize=2.5)
+    axes[2].errorbar(years, pyspi_betas, pyspi_betas_errors, label="PySPI", capsize=4, linestyle='dotted')
+    axes[2].errorbar(years, smf_betas, smf_betas_errors, label="Spimodfit", capsize=4, linestyle='dotted')
+    axes[2].errorbar(paper_years, paper_betas, paper_betas_errors, label="Jourdain and Roques (2009)", capsize=4, linestyle='dotted')
     
     
     axes[2].set_xlabel("Year")
@@ -256,12 +256,12 @@ def crab_c_band_combined_plot(fit_dict=combined_fits_weak_pulsar):
         
     fig, axes = plt.subplots(nrows=2)#, figsize=(7, 7))
     
-    axes[0].errorbar(years, pyspi_Ks, pyspi_Ks_errors, label="PySPI", capsize=2.5)
-    axes[0].errorbar(years, smf_Ks, smf_Ks_errors, label="Spimodfit", capsize=2.5)
+    axes[0].errorbar(years, pyspi_Ks, pyspi_Ks_errors, label="PySPI", capsize=2.5, linestyle='dotted')
+    axes[0].errorbar(years, smf_Ks, smf_Ks_errors, label="Spimodfit", capsize=2.5, linestyle='dotted')
     axes[0].errorbar(paper_years, paper_Ks, paper_Ks_errors, label="Roques and Jourdain (2018)", capsize=2.5, linestyle='')
     
-    axes[1].errorbar(years, pyspi_alphas, pyspi_alphas_errors, label="PySPI", capsize=2.5)
-    axes[1].errorbar(years, smf_alphas, smf_alphas_errors, label="Spimodfit", capsize=2.5)
+    axes[1].errorbar(years, pyspi_alphas, pyspi_alphas_errors, label="PySPI", capsize=2.5, linestyle='dotted')
+    axes[1].errorbar(years, smf_alphas, smf_alphas_errors, label="Spimodfit", capsize=2.5, linestyle='dotted')
     axes[1].errorbar(paper_years, paper_alphas, paper_alphas_errors, label="Roques and Jourdain (2018)", capsize=2.5, linestyle='')
     
 
@@ -280,4 +280,38 @@ def crab_c_band_combined_plot(fit_dict=combined_fits_weak_pulsar):
 
 # crab_low_energy_powerlaw_combined_plot()
 # crab_broken_powerlaw_100_combined_plot()
-crab_c_band_combined_plot()
+# crab_c_band_combined_plot()
+
+combined_fits_all = {
+    "0043_4_5": ["0043", "0044", "0045"],
+    "0422": ["0422"],
+    "0665_6": ["0665", "0666"],
+    "0966_7_70": ["0966", "0967", "0970"],
+    "1268_9_78": ["1268", "1269", "1278"],
+    "1327_8": ["1327", "1328"],
+    "1461_2_6_8": ["1461", "1462", "1466", "1468"],
+    "1515_6_20_8": ["1515", "1516", "1520", "1528"],
+    "1593_7_8_9": ["1593", "1597", "1598", "1599"],
+    "1657_8_61_2_4_7": ["1657", "1658", "1661", "1662", "1664", "1667"],
+    "1781_4_5_9": ["1781", "1784", "1785", "1789"],
+    "1850_6_7": ["1850", "1856", "1857"],
+    "1921_5_7_30": ["1921", "1925", "1927", "1930"],
+    "1996_9_2000": ["1996", "1999", "2000"],
+    "2058_62_3_6": ["2058", "2062", "2063", "2066"],
+}
+
+def print_dates():
+    years = []
+    for folder, revolutions in combined_fits_all.items():
+        with fits.open(f"{data_path}/{revolutions[0]}/pointing.fits") as file:
+            t = Table.read(file[1])
+            time_start = np.array(t["TSTART"]) + 2451544.5
+            time_start = [at.Time(f"{i}", format="jd").datetime for i in time_start]
+        years.append(time_start[-1])
+    for i, folder in enumerate(combined_fits_all.keys()):
+        print(folder)
+        print(years[i])
+        print()
+
+# print_dates()
+

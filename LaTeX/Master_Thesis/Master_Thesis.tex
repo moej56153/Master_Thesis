@@ -14,6 +14,7 @@
 \addbibresource{Bibliography.bib}
 \usepackage{wrapfig}
 \usepackage{subcaption}
+\usepackage{float}
 
 \title{PySPI for Persistent Sources}
 \author{Möller, Julius}
@@ -41,7 +42,7 @@
         
         \vspace{3cm}
         \Huge
-        PySpi for Persistent Sources
+        PySPI for Persistent Sources
         
         \vspace{3cm}
         
@@ -67,10 +68,24 @@
     \end{center}
 \end{titlepage}
 
+\thispagestyle{plain}
+
+
+\vspace*{6cm}
+\LARGE
+\textbf{Abstract}
+\newline
+
+\normalsize
+In this thesis, a new method of analyzing persistent sources in SPI data was developed for PySPI. The method was tested under a variety of circumstances for simulated data, showing no statistically significant systematic errors, although a slight random error is detected. Using mixed simulations with real background data, the method is compared to Spimodfit where it delivers fits with significantly improved accuracy. A PPC analysis method was developed to identify and remove outlier SCW clusters. Finally, the method is applied to fitting the Crab Nebula, where it is compared to Spimodfit and other published SPI analysis methods.
 
 \tableofcontents
 
 \pagebreak
+
+
+
+
 
 \chapter{Introduction}
 \label{Introduction}
@@ -104,9 +119,9 @@ SPI, the instrument used in this thesis and illustrated in figure \ref{SPI cut v
 
 
 \subsubsection*{Detectors}
-SPIs detectors are composed of an hexagonal array of 19 reverse-electrode n-type germanium detectors. With a mean crystal weight of 951g and mean volume of $178\text{cm}^3$, the total geometrical area for a flux parallel to the axis is $508\text{cm}^2$. Under normal working conditions, a voltage of 4000V is applied to each detector independently, and this voltage is variable between zero and 5000V. 
+SPIs detectors are composed of a hexagonal array of 19 reverse-electrode n-type germanium detectors. With a mean crystal weight of 951g and a mean volume of $178\text{cm}^3$, the total geometrical area for a flux parallel to the axis is $508\text{cm}^2$. Under normal working conditions, a voltage of 4000V is applied to each detector independently and this voltage is variable between zero and 5000V. 
 
-The germanium detectors require temperatures below 100K to work effectively, preferably as low as 85K in order to slow the effects of radiation damage. To accomplish this, SPI is equipped with an active cryogenic system. The Ge array is fixed on a Be plate, which is placed inside the cryostat. The plate is connected to the Stirling cycle cryocoolers to provide active cooling. 
+The germanium detectors require temperatures below 100K to work effectively, preferably as low as 85K in order to slow the effects of radiation damage. To accomplish this, SPI is equipped with an active cryogenic system. The Ge detector array is fixed on a Be plate, which is placed inside the cryostat. The plate is connected to the Stirling cycle cryocoolers to provide active cooling. 
 
 Despite the low temperatures and hexagonal design to reduce the probability of hole traps in the semiconductor, radiation damage will inevitably accumulate over the course of a year or more. To combat this issue the detectors can undergo an annealing process, in which they are held at a temperature of $105^\circ \text{C}$ over the course of one or two days, depending on the damage. An annealing process of two days is enough to fully recover the energy resolution after radiation damage leading to a 20\% increase in the FWHM at 1.3MeV \cite{refId0}.
 
@@ -118,7 +133,7 @@ Each detector is connected to a preamplifier, which outputs the charge integrate
 
 In order to suppress background events, SPI is equipped with Pulse Shape Discrimination (PSD) electronics. The idea is that localized beta decays in the detector material, which would otherwise be indistinguishable from photon energy deposits, only interact in a small volume of the detector, resulting in a single current pulse in the preamplifier. Gamma-rays, which primarily deposit energy via multiple compton scatterings in the detector volume, thus lead to a broader signal. 
 
-Each detector is connected to its own PSD electronic system, which is only triggered in a certain energy range. The lower level threshold (LLD) is configurable, and has been varied between 400keV and 750keV over the missions lifetime, where as the upper level threshold (ULD) is fixed at around 8MeV. Naturally, processing and analyzing the shape of a signal takes time, and when another event is measured within this time it is stored without any PSD information. The PSD electronics thus have an efficiency that can be approximated around 85\% \cite{Roques}.
+Each detector is connected to its own PSD electronic system, which is only triggered in a certain energy range. The lower level threshold (LLD) is configurable, and has been varied between 400keV and 750keV over the mission's lifetime, where as the upper level threshold (ULD) is fixed at around 8MeV. Naturally, processing and analyzing the shape of a signal takes a certain amount of time, and when another event is measured within this time it is stored without any PSD information. The PSD electronics thus have an efficiency that can be approximated around 85\% \cite{Roques}.
 
 
 
@@ -155,7 +170,7 @@ To further prevent unnecessary background counts in the detectors an anticoincid
   \label{spegert_pointings_pattern_close_up}
 \end{figure}
 
-Before any photons can reach the array of detectors, they must pass through the coded aperture mask made of a 3cm thick tungsten alloy, located 1.71m above. The $120^\circ$ rotationally symmetric mask is composed of 127 hexagonal tiles (63 opaque and 64 transparent to gamma radiation in the operating energy range) measuring 60mm side to side, and is inscribed within a circle with 720mm diameter. The effect that the mask has on incoming source beams is illustrated in figure \ref{HURA}, and the way this might influence the number of source counts measured in the detector array is visualized for an example source in figures \ref{spegert_pointings_pattern} and \ref{spegert_pointings_pattern_close_up}. This illustrates how we may infer both the source spectrum and position from the detector counts using multiple offset pointings of an astronomical source.
+Before any photons can reach the array of detectors, they must pass through the coded aperture mask made of a 3cm thick tungsten alloy, located 1.71m above the detector plane. The $120^\circ$ rotationally symmetric mask is composed of 127 hexagonal tiles (63 opaque and 64 transparent to gamma radiation in the operating energy range) measuring 60mm side to side, and is inscribed within a circle with 720mm diameter. The effect that the mask has on incoming source beams is illustrated in figure \ref{HURA}, and the way this might influence the number of source counts measured in the detector array is visualized for an example source in figures \ref{spegert_pointings_pattern} and \ref{spegert_pointings_pattern_close_up}. This illustrates how we may infer both the source spectrum and position from the detector counts using multiple offset pointings of an astronomical source.
 
 
 
@@ -187,7 +202,7 @@ SPI also suffers from so called spurious events. These may occur when high-energ
 
 
 
-Given the complexities discussed above, and many more not discussed, it is clear that working with SPI data is no trivial task. Although SPIs Instrument Response Function (IRF) are readily available to be used, there is no stand-alone background model. Since the background counts dominate source counts in almost all circumstances, it is no surprise that several independent methods to analyze SPI data have been developed. One such method is Spimodfit, developed primarily by Thomas Siegert at MPE \cite{refId1} \cite{SMF_Cookbook}.
+Given the complexities discussed above, and many more not discussed, it is clear that working with SPI data is no trivial task. Although SPIs Instrument Response Function (IRF) is readily available to be used, there is no stand-alone background model. Since the background counts dominate source counts in almost all circumstances, it is no surprise that several independent methods to analyze SPI data have been developed. One such method is Spimodfit, developed primarily by Thomas Siegert at MPE \cite{refId1} \cite{SMF_Cookbook}.
 
 \begin{wrapfigure}{R}{0.55\textwidth}
   \includegraphics[width=\linewidth]{Images/General/SMF_background_pattern_siegert_2019.PNG}
@@ -204,9 +219,11 @@ Spimodfit will be used extensively in this thesis as a reference point regarding
 
 
 \section{PySPI and the Goal of this Thesis}
-PySPI is a python analysis framework for Gamma-Ray Burst (GRB) data from SPI \cite{Biltzinger2022}. It is designed to take user inputs like the time of the GRB and energy bins, automatically download relevant data files, and to construct a response and time series, which can then be used as a plugin for 3ML \cite{3ml}.
+PySPI is a python analysis framework for Gamma-Ray Burst (GRB) data from SPI, developed primarily by Björn Blitzinger at MPE \cite{Biltzinger2022}. It is designed to take user inputs like the time of the GRB and energy bins, automatically download relevant data files, and to construct a response and time series, which can then be used as a plugin for 3ML \cite{3ml}.
 
 Momentarily, PySPI is only built to work with transient sources. The goal of this thesis is to extend PySPIs functionality to be able to analyze persistent sources as well. Unlike transient sources, whose time-sensitive nature circumvents the need for an accurate background description, persistent sources are not so easily distinguished from background counts and thus do necessitate a way to deal with SPIs dominant background.
+
+The methodology implemented in this thesis was developed in collaboration with Björn Blitzinger and Jochen Greiner.
 
 \chapter{Theory and Simulation}
 
@@ -252,7 +269,7 @@ An important detail is that the expected value of the maximum likelihood backgro
 \begin{equation}
   E(b_M) = b
 \end{equation}
-Depending how the random samples of the poisson distributions are drawn, it is possible for the maximum likelihood background to be less than zero $b_M<0$. One might be tempted to impose a lower limit of 0 since the physical background rate cannot be lower than 0, but this would actually be a big mistake since the introduced asymmetry means that the expected value of the maximum likelihood background is no longer equal to the true rate $E(b_M) \neq b$, which in turn prevents a bayesian fitting algorithm from correctly determining the true source parameters.
+Depending how the random samples of the poisson distributions are drawn, it is possible for the maximum likelihood background to be less than zero $b_M<0$. One might be tempted to impose a lower limit of 0 since the physical background rate cannot be lower than 0, but this would actually be a big mistake. The introduced asymmetry would mean that the expected value of the maximum likelihood background is no longer equal to the true rate $E(b_M) \neq b$, which in turn prevents a bayesian fitting algorithm from correctly determining the true source parameters.
 
 
 \subsection{General Procedure: Summary}
@@ -271,13 +288,13 @@ The general procedure for fitting persistent sources with PySPI can thus be summ
 \section{Pure Simulation}\label{sec: pure sim}
 Before any real sources are fitted, it makes sense to test the SPI fitting method on a purely simulated count spectrum. This not only allows us to see exactly how well the fit performs since we know the true model parameters of any sources in the simulated spectrum, but it also allows us to test under which conditions the fit may or may not fail.
 
-To begin a simulated count spectrum is required, consisting of source and background counts. For the following simulations this is done in the following way, unless otherwise specified:
+To begin, a simulated count spectrum is required, consisting of source and background counts. For the following simulations this is done in the following way, unless otherwise specified:
 
 \begin{enumerate} 
   \item Choose a real SPI revolution as a baseline. It is mostly irrelevant which revolution is chosen. For this analysis revolution 0374 is used. We will use the SPI orientations of the SCWs in this revolution as the orientations of our simulated SCWs in order to achieve realistic conditions. 
-  \item \label{step pure sim back}Generate a background spectrum. In order to have a realistic background spectrum, the background counts from one SCW are taken and duplicated to all other SCWs and then poisson distributed. The lifetimes (total active measuring time of each detector in each SCW) for each SCW are also duplicated to match each other. This way the background count rates are identical for all SCWs, yet also realistic, in the sense that the spectrum could that of an actual SPI SCW.
-  \item Define spectrum of the source to be simulated, as well as position. In this case powerlaws as shown in equation \ref{powerlaw} are used, and the position of the sources is chosen to be central to as many SCWs in the revolution as possible ($RA=10^\circ, DEC=-40^\circ$ in equatorial coordinates). Although the exact parameters used in the following sections will vary, most powerlaw spectra are chosen to be comparable to the Crab Nebula in terms of luminosity and index.
-  \item Use the SPI Instrument Response Function (IRF) to calculate the expected source count rates in each energy bin in each detector for each SCW. Multiply these by the respective lifetimes (effectively the active measuring time) of the detectors in the SCWs, and finally draw a sample of a Poisson distribution with the respective means to attain the measured counts of the simulated source for each energy bin in each detector in each SCW.
+  \item \label{step pure sim back}Generate a background spectrum. In order to have a realistic background spectrum, the background counts from one SCW are taken and duplicated to all other SCWs and then poisson distributed. The lifetimes (total active measuring time of each detector in each SCW) for each SCW are also duplicated correspondingly. This way the background count rates are identical for all SCWs, yet also realistic, in the sense that the spectrum could be that of an actual SPI SCW.
+  \item Define the spectrum of the source to be simulated, as well as position. In this case powerlaws as shown in equation \ref{powerlaw} are used, and the position of the sources is chosen to be central to as many SCWs in the revolution as possible ($RA=10^\circ, DEC=-40^\circ$ in equatorial coordinates). Although the exact parameters used in the following sections will vary, most powerlaw spectra are chosen to be comparable to the Crab Nebula in terms of luminosity and index.
+  \item Use the SPI Instrument Response Function (IRF) to calculate the expected source count rates in each energy bin in each detector for each SCW. Multiply these by the respective lifetimes of the detectors in the SCWs, and finally draw a sample of a Poisson distribution with the respective means to attain the measured counts of the simulated source for each energy bin in each detector in each SCW.
   \item Add the source counts to the background counts to acquire the total counts.
 \end{enumerate}
 
@@ -309,7 +326,7 @@ The first test is how consistent the fitting is with exactly identical inputs. T
   \label{fig ident new gen}
 \end{figure}
 
-Although the previous test gave us great insight into the consistency of the fits, it told us nothing about their accuracy. To test this we have to regenerate the simulated source spectrum, so that every random poisson sample is redrawn. The results of this are shown in figure \ref{fig ident new gen}. As expected, the results are now distribution with much greater variance around the true values. Based on the 8 fits shown, the suspicion of a systematic error may arise. This is why this process (generating a new count spectrum and fitting it) was repeated a total of 64 times. We see that the mean values of these 64 fits, and the confidence interval of the mean (taking the sample variance and the variance of individual fits into consideration) match the true values well at 1.63 standard deviations distance. We may thus conclude that we do not have a statistically significant systematic error, at least for the parameters used to set-up this fit.
+Although the previous test gave us great insight into the consistency of the fits, it told us nothing about their accuracy. To test this we have to regenerate the simulated source spectrum, so that every random poisson sample is redrawn. The results of this are shown in figure \ref{fig ident new gen}. As expected, the results are now distribution with much greater variance around the true values. Based on the 8 fits shown, the suspicion of a systematic error may arise. This is why this process (generating a new count spectrum and fitting it) was repeated a total of 64 times. We see that the mean values of these 64 fits and the confidence interval of the mean (taking the sample variance and the variance of individual fits into consideration) match the true values well at 1.63 standard deviations distance. We may thus conclude that we do not have a statistically significant systematic error, at least for the parameters used to set-up this fit.
 
 
 \begin{figure}[h]
@@ -328,6 +345,7 @@ We may thus compare the distributions of the Mahalanobis distances from our 64 f
 
 Figure \ref{fig d_M distribution} also shows the distributions of Mahalanobis distances around the mean values of the 64 fits, as opposed to the known true values. After Bessel correcting the fit variances to adjust for biases in the sample mean we see a nearly identical distribution, further supporting the claim that there is no systematic error in the fit. 
 
+\FloatBarrier
 
 \subsection{Energy Range}
 
@@ -388,8 +406,9 @@ The exception to this are steep powerlaws with $index=-8$, for which the fit pre
 
 In practical applications there are almost always going to be additional sources within SPI's field of view that are not considered in the source model. This invalidates the assumption that background count rates are constant in corresponding bins within clusters. In order to judge the severity of this, we shall simulate a second source within SPI's field of view (not included in the source model) to observe to ramifications of the fit on the primary source, as is shown in figure \ref{fig sec source}. 
 
-When the two sources are close to each other, the normalization and index shift in accordance to the second source as expected. At 5 degrees apart most fits start to achieve a decent level of quality, and at 15 degrees or more the impact is negligible. The impact is largest when the second source has a large (on an absolute scale) index. We conclude that it is very important to included all sources within $5^\circ$ and luminosity larger than 10\% of the primary source.
+When the two sources are close to each other, the normalization and index shift in accordance to the second source as expected. At 5 degrees apart most fits start to achieve a decent level of quality, and at 15 degrees or more the impact is negligible. The impact is largest when the second source has a large (on an absolute scale) index. We conclude that it is very important to include all sources within $5^\circ$ and luminosity larger than 10\% of the primary source.
 
+\FloatBarrier
 
 \subsection{Data Scaling}
 
@@ -403,7 +422,7 @@ When the two sources are close to each other, the normalization and index shift 
 Generally speaking, more data will produce better results in any fit. We can test the scaling behavior of the fit quality with the amount of data available to PySpi by scaling the amount of lifetime in each SCW and by scaling the amount of SCWs used in the fit, as shown in figure \ref{fig data scaling}. Unsurprisingly, the fit quality scales very similarly with both of these parameters. The scaling further implies that even larger datasets will produce even smaller uncertainties and errors in the fit. 
 
 
-\subsection{Angular Distances between SCWs}
+\subsection{Angular Distance between SCWs}
 
 \begin{figure}[h]
   \centering
@@ -422,11 +441,13 @@ For this simulation and the next one the count spectrum was not simulated using 
 \begin{figure}[h]
   \centering
   \includegraphics[width=\textwidth]{Images/Pure_Simulation/combined_plot_source_distances.pdf}
-  \caption{Two SCWs with an angular distance of $4^\circ$ between them are clustered, and then rotated so that the center between them is $d_S$ degrees away from the source. The fit results for different results are shown.}
+  \caption{Two SCWs with an angular distance of $4^\circ$ between them are clustered, and then rotated so that the center between them is $d_S$ degrees away from the source. The fit results for different distances are shown.}
   \label{fig source distance}
 \end{figure}
 
 A similar yet equally important parameter for the SCW clustering algorithm is the maximum angular distance between pointings and the source. This is explored in figure \ref{fig source distance}. Anything within 9 degrees of the source provides equally good results, but as the distance approaches the edge SPIs $16^\circ$ field of view, the fit precision drastically worsens. 
+
+\FloatBarrier
 
 
 \subsection{Cluster Size}
@@ -438,18 +459,19 @@ A similar yet equally important parameter for the SCW clustering algorithm is th
   \label{fig cluster size}
 \end{figure}
 
-So far we have only been using SCW clusters of size two ($S_C=2$) in the fits. Figure \ref{fig cluster size} compares fits using cluster size $S_C=2$ to $S_C=3$. Although the difference is not large, we do see a consistent improvement in both the distance from the true values and the uncertainty size of the fit parameters. Even larger clusters may accentuate this improvement even further. However, in practical applications larger cluster sizes also have downsides. For one, calculating the maximum likelihood background value becomes more complex, and secondly, the the assumption of a constant background count-rate within SCW clusters may become harder to fulfill, since larger cluster sizes necessarily mean larger temporal and spatial differences in the SCWs of the clusters.
+So far we have only been using SCW clusters of size two ($S_C=2$) in the fits. Figure \ref{fig cluster size} compares fits using cluster size $S_C=2$ to $S_C=3$. Although the difference is not large, we do see a consistent improvement in the the uncertainty size of the fit parameters. Even larger clusters may accentuate this improvement even further. However, in practical applications larger cluster sizes also have downsides. For one, calculating the maximum likelihood background value becomes more complex, and secondly, the the assumption of a constant background count-rate within SCW clusters may become harder to fulfill, since larger cluster sizes necessarily mean larger temporal and spatial differences in the SCWs of the clusters.
+
 
 \subsection{Fitting the Source Position}
 
 \begin{figure}[h]
   \centering
-  \includegraphics[width=\textwidth]{Images/Pure_Simulation/source_position.pdf}
+  \makebox[\textwidth][c]{\includegraphics[width=1.1\textwidth]{Images/Pure_Simulation/source_position.pdf}}%
   \caption{The posterior parameter distribution when fitting the source position along with spectral parameters. The dashed black lines indicate the true values.}
   \label{fig pos fit}
 \end{figure}
 
-Naturally we are not restricted to fitting spectral parameters of sources. The source position, for example, can also be included as parameters in the fit. The resulting posterior distributions of such a fit are shown in figure \ref{fig pos fit}. The results show a high degree of accuracy and precision, with all parameters within one standard deviation.
+Naturally we are not restricted to fitting spectral parameters of sources. The source position, for example, can also be included as parameters in the fit. The resulting posterior distributions of such a fit are shown in figure \ref{fig pos fit}. The results show a high degree of accuracy and precision, with all parameters within one standard deviation of the true values.
 
 
 \section{Mixed Simulation and Spimodfit Comparison} \label{sec: smf comparison}
@@ -465,17 +487,17 @@ When fitting data using Spimodfit, a background model is created. This backgroun
 
 \begin{figure}[h]
   \centering
-  \includegraphics[width=\textwidth]{Images/SMF_Comparison/spimodfit_comparison_combined_plot.pdf}
+  \includegraphics[width=0.9\textwidth]{Images/SMF_Comparison/spimodfit_comparison_combined_plot.pdf}
   \caption{Fit results }
   \label{fig smf comparison}
 \end{figure}
 
-Both of these count spectra (real background counts and spimodfit background model counts) were fitted using PySPI and Spimodfit, the results of which are illustrated in figure \ref{fig smf comparison}. For further comparison purposes, a PySPI fit using the constant background counts (exactly as in section \ref{sec: pure sim}). The PySPI fits all perform comparably well. Perhaps the real background fit does worst, but this could just as well be a statistical fluctuation. Interestingly, the Spimodfit fits deliver consistently worse results, being almost 20 standard deviations away from the true values. Very curious is how using the Spimodfit fit using the Spimodfit background model as background counts in the data spectrum seems to make little difference in the fit quality. One would expect Spimodfit to do very well here, since its background model matches the background in the data perfectly.
+Both of these count spectra (real background counts and spimodfit background model counts) were fitted using PySPI and Spimodfit, the results of which are illustrated in figure \ref{fig smf comparison}. For further comparison purposes, a PySPI fit using the constant background counts (exactly as in section \ref{sec: pure sim}) is also shown. The PySPI fits all perform comparably well. Perhaps the real background fit does worst, but this could just as well be a statistical fluctuation. Interestingly, the Spimodfit fits deliver consistently worse results, being almost 20 standard deviations away from the true values. Very curious is how the Spimodfit fit using the Spimodfit background model as background counts in the data spectrum seems to make little difference in the fit quality. One would expect Spimodfit to do very well here, since its background model matches the background in the data perfectly.
 
 All of these fits use an energy range of 30-81.5keV. The Spimodfit background model in particular is known to perform worse below 30keV, and it is possible that the SPI response function is not as accurate at the very edge of its energy range as well.
 
 
-
+It is worth noting that even when PySPI and Spimodfit use the same revolutions in a fit, the individual SCWs selected to perform the fit may vary. Both methods have independent algorithms for determining suitable SCWs, especially since PySPI has to group the SCWs into appropriate clusters. Spimodfit has its own set of selection criteria to filter out bad SCWs, whereas PySPI relies on PPC analysis (see section \ref{sec:PPC Back}) to remove bad SCW clusters. 
 
 
 \section{Posterior Predictive Check (PPC) and Background Analysis} \label{sec:PPC Back}
@@ -495,12 +517,12 @@ A PPC is usually conducted in the following way:
     \item Repeat from step \ref{Posterior sample} until a sufficiently detailed distribution of expected counts for every bin is achieved.
 \end{enumerate}
 
-This PPC count distribution can the be used in a variety of ways, such as simply plotting the distribution of expected counts next the actually measured counts. Perhaps one of the most useful applications is the Cumulative Distribution Function (CDF), where one sorts the PPC count distribution of each bin according to size, and the finds the percentile in which the number actually measured counts falls. If the model described using the posterior values perfectly matches reality one would expect values evenly distributed between 0 and 1, whereas if the model is not a good representation of reality the distribution will not be even. 
+This PPC count distribution can then be used in a variety of ways, such as simply plotting the distribution of expected counts next the actually measured counts. Perhaps one of the most useful applications is the Cumulative Distribution Function (CDF), where one sorts the PPC count distribution of each bin according to size, and then finds the percentile in which the number of actually measured counts falls. If the model described using the posterior values perfectly matches reality one would expect values evenly distributed between 0 and 1, whereas if the model is not a good representation of reality the distribution will not be even. 
 
 In the context of PySPI it makes sense to organize these CDF values into a histogram for every SCW used in the fit. This way individual SCWs for which the model does not match the measured data can be identified and excluded from a repeated fit with hopefully better results. Experience has shown that "bad" SCWs often occur at the beginning or end of INTEGRAL revolutions, which is when SPI approaches its perigee and thus has the highest number of background events due to activation from cosmic particles. 
 
 \subsubsection{PySPI Application}
-As an attentive reader may have already identified, there is a problem with using the procedure previously described in section \ref{PPC general} for PySPI: the model used the fit (see section \ref{General Procedure}) is purely a source model, i.e. it tells us nothing about the background count rates. This is a problem because it means we cannot calculate the expected count rates in step \ref{ppc calc count rates} of section \ref{PPC general} without being able to describe the background.
+As an attentive reader may have already identified, there is a problem with using the procedure previously described in section \ref{PPC general} for PySPI: the model used the fit (see section \ref{General Procedure}) is purely a source model, i.e. it tells us nothing about the background count rates. This is a problem because it we cannot calculate the expected count rates in step \ref{ppc calc count rates} of section \ref{PPC general} without being able to describe the background.
 
 The only way to circumvent this problem is with the same approach used in section \ref{General Procedure} of the actual fit. After having calculated the expected source count rates for a sample of the posterior we can use the actually measured counts to calculate the maximum likelihood background count rates and continue our analysis with it.
 
@@ -508,13 +530,13 @@ However, there is a drawback to this solution: in step \ref{ppc poisson sample} 
 
 To quantify this bias we will have to do some math. The following equations are applicable to every energy bin for every detector in every SCW cluster. As in section \ref{General Procedure} we will focus on clusters of size 2, although the process is analogous for larger cluster sizes.
 
-For every bin and every SCW there exists a true source count rate $s_1$ and $s_2$ as well as a true background count rate $b$. The source count rates vary between the SCWs of one cluster, whereas the background count rate is constant. If $t_1$ and $t_2$ are the lifetimes of the SCWs, the actually measured counts $b_{1m}, b_{2m}, s_{1m}$ and $s_{2m}$ from the respective sources will be Poisson distributed
+For every bin and every SCW there exists a true source count rate $s_1$ and $s_2$ as well as a true background count rate $b$. The source count rates vary between the SCWs of one cluster, whereas the background count rate is constant. If $t_1$ and $t_2$ are the lifetimes of the SCWs, the actually measured counts $B_{1m}, B_{2m}, S_{1m}$ and $S_{2m}$ from the respective sources will be Poisson distributed
 
 \begin{align} \label{eq measured counts}
-    B_{1m} &= P(bt_1) \\
-    B_{2m} &= P(bt_2) \\
-    S_{1m} &= P(s_1t_1) \\
-    S_{2m} &= P(s_2t_2)
+    B_{1m} &\sim \text{Pois}(bt_1) \\
+    B_{2m} &\sim \text{Pois}(bt_2) \\
+    S_{1m} &\sim \text{Pois}(s_1t_1) \\
+    S_{2m} &\sim \text{Pois}(s_2t_2)
 \end{align}
 
 so that the total number of measured counts $C_{1m}$ and $C_{2m}$ are simply
@@ -533,7 +555,7 @@ Arriving at an equation for the distributions $C_{1m}$ and $C_{2m}$ is our goal 
     S_{d2} &= S_{2m} - s_2t_2.
 \end{align}
 
-$B_{d1}$ and $B_{d2}$ tell us the difference between quantities we have readily available ($b_Mt_1$ and $b_Mt_2$) to those directly necessary in the PPC analysis ($B_{1m}$ and $B_{2m}$). This means that if we calculate their variances and approximate the resulting distribution as normal we can directly draw random samples according to the distribution of $B_{1m}$ and $B_{2m}$, without having to know the true background rate $b$. Furthermore, we also have to consider that the distribution of $b_M$, which we utilize in $B_{d1}$ and $B_{d2}$, is correlated with the distribution $S_{1m}$ and $S_{2m}$. Hence, we not only have to calculate the variances of $B_{d1}$ and $B_{d2}$, but also the covariances of $B_{d1}$ with $S_{d1}$ and $B_{d2}$ with $S_{d2}$, respectively. To draw a random sample from $B_{1m}$, $S_{1m}$, $B_{2m}$ and $S_{2m}$we thus sample from a multivariate normal with mean $\mu$ and covariance matrix $cov$:
+$B_{d1}$ and $B_{d2}$ tell us the difference between quantities we have readily available ($b_Mt_1$ and $b_Mt_2$) to those directly necessary in the PPC analysis ($B_{1m}$ and $B_{2m}$). This means that if we calculate their variances and approximate the resulting distribution as normal we can directly draw random samples according to the distribution of $B_{1m}$ and $B_{2m}$, without having to know the true background rate $b$. Furthermore, we also have to consider that the distribution of $b_M$, which we utilize in $B_{d1}$ and $B_{d2}$, is correlated with the distribution $S_{1m}$ and $S_{2m}$. Hence, we not only have to calculate the variances of $B_{d1}$ and $B_{d2}$, but also the covariances of $B_{d1}$ with $S_{d1}$ and $B_{d2}$ with $S_{d2}$, respectively. To draw a random sample from $B_{1m}$, $S_{1m}$, $B_{2m}$ and $S_{2m}$ we thus sample from a multivariate normal with mean $\mu$ and covariance matrix $cov$:
 
 \begin{align}
     \mu_1 &= \begin{pmatrix}
@@ -577,23 +599,23 @@ where $C_1$ and $C_2$ are Poisson distributions, solving for the covariance matr
 
 Fortunately, instead of solving for $cov_1$ and $cov_2$ from equation \ref{eq: covs mats} analytically, it is possible to approximate the result through numerical sampling. Given some background rate $b$, source rates $s_1$ and $s_2$, and lifetimes $t_1$ and $t_2$, we can numerically sample the detected count rates $B_{1m}, S_{1m}, B_{2m}, S_{1m}$ (equations \ref{eq measured counts}), which allows us to calculate the maximum likelihood background $b_M$ (equation \ref{eq max lik back 2}) and therefore $B_{d1},S_{d1},B_{d2}$ and $S_{d2}$ (equations \ref{eq ppc dif}). If we repeat this often enough (e.g. 10000 times) we can thus estimate $cov_1$ and $cov_2$ (equations \ref{eq: covs mats}). Since $E(b_M) = b$ it is irrelevant that we don't know $b$ and we can use $cov_1$ and $cov_2$ sampled using $b_M$ instead. Finally we make use of equations \ref{eq mult var norm ppc} and \ref{eq tot counts ppc} to be able to sample $C_{1m}$ and $C_{2m}$, as was our goal.
 
-One issue with this approach is that the sample covariance matrix is only true at the input parameters ($b_M,s_1,s_2,t_1,t_2$) we used to sample it. Although taking 10000 samples to estimate the matrix doesn't take long, it definitely takes too long to do so for every combination of input parameters encountered in a typical SPI fit. The solution is to find the minimum and maximum of each of the five input parameters encountered in the data after a fit, estimate the covariance via sampling at a grid covering a range of values between the minimum and maximum for each of the input parameters, and then interpolate the matrix along the grid for any possible input combination encountered. 
+One issue with this approach is that the sample covariance matrix is only true at the input parameters ($b_M,s_1,s_2,t_1,t_2$) used to sample it. Although taking 10000 samples to estimate the matrix doesn't take long, it definitely takes too long to do so for every combination of input parameters encountered in a typical SPI fit. The solution is to find the minimum and maximum of each of the five input parameters encountered in the data after a fit, estimate the covariance via sampling at a grid covering values between the minimum and maximum for each of the input parameters, and then interpolating the matrix along the grid for any possible input combination encountered. 
 
 \begin{figure}[h]
   \centering
-  \makebox[\textwidth][c]{\includegraphics[width=1.1\textwidth]{Images/PPC_and_Background_Analysis/PPC_scaling_different_1_bright_short.pdf}}%
+  \makebox[\textwidth][c]{\includegraphics[width=1.05\textwidth]{Images/PPC_and_Background_Analysis/PPC_scaling_different_1_bright_short.pdf}}%
   \caption{The scaling behavior of elements of the covariance matrix $cov_1$ as a function of its input parameters over select intervals (purple). In green we see how different interpolation functions (constant, linear, logarithmic, powerlaw) could be used in an attempt to match the scaling behavior by interpolating from the first to the last data-point. }
   \label{fig ppc scaling}
 \end{figure}
 
-Figure \ref{fig ppc scaling} shows have elements of the covariance matrix scale when the different input parameters are changed. Note that the scaling behavior changes quite significantly depending on where in the input parameters space one looks, so figure \ref{fig ppc scaling} is not representative for all input ranges. Initially the plan was to approximate the scaling of each matrix element and input parameter pair through a different scaling function. However, this has been found to lead to numerical instabilities, so linear scaling was implemented across the board.
+Figure \ref{fig ppc scaling} shows how elements of the covariance matrix scale when the different input parameters are changed. Note that the scaling behavior changes quite significantly depending on where in the input parameters space one looks, so figure \ref{fig ppc scaling} is not representative for all input ranges. Initially the plan was to approximate the scaling of each matrix element and input parameter pair through a different scaling function. However, this has been found to lead to numerical instabilities, so linear scaling was implemented across the board.
 
-For a typical SPI fit of a Crab-like source with logarithmically space energy bins the $b_M$ will usually vary within two orders of magnitude, $s_1$ and $s_2$ will vary between three orders of magnitude, and $t_1$ and $t_2$ will stay within one order of magnitude. It has been found that using 9 grid values along the $b_M$ axis, 12 grid values along the $s_1$ and $s_2$ axes, and 5 grid values along the $t_1$ and $t_2$ axes (all spaced logarithmically) are sufficient to accurately interpolate the covariance matrix for all possible input parameters. This means that the covariance matrix is independently sampled (using 10000 samples each) at $9\cdot12^2\cdot5^2=32400$ different input combinations. For each input combination encountered after the fit in the PPC analysis, the closest $2^5=32$ grid points are selected and interpolated to reach the final covariance matrix, which is then used to sample the measured counts using the multivariate normal distribution. 
+For a typical SPI fit of a Crab-like source with logarithmically spaced energy bins $b_M$ will usually vary within two orders of magnitude, $s_1$ and $s_2$ will vary between three orders of magnitude, and $t_1$ and $t_2$ will stay within one order of magnitude. It has been found that using 9 grid values along the $b_M$ axis, 12 grid values along the $s_1$ and $s_2$ axes, and 5 grid values along the $t_1$ and $t_2$ axes (all spaced logarithmically) are sufficient to accurately interpolate the covariance matrix for all possible input parameters. This means that the covariance matrix is independently sampled (using 10000 samples each) at $9\cdot12^2\cdot5^2=32400$ different input combinations. For each input combination encountered after the fit in the PPC analysis, the closest $2^5=32$ grid points are selected and interpolated to reach a final covariance matrix, which is then used to sample the measured counts using the multivariate normal distribution. 
 
-There are many ways to further numerically optimize this procedure, such as taking advantage of the inherent symmetry in the covariance matrix from both detectors or using more accurate scaling behavior in the interpolation functions, but since the actual PySPI fits still take much longer than the PPC covariance computation this has been left as a project for the future.
+There are many ways to further numerically optimize this procedure, such as taking advantage of the inherent symmetry in the interpolation matrix from both detectors or using more accurate scaling behavior in the interpolation functions, but since the actual PySPI fits still take much longer than the PPC covariance computation this has been left as a project for the future.
 
 
-\subsection{PPCs: Results}
+\subsection{PPCs: Results} \label{sec ppc results}
 
 \begin{figure}[h]
   \centering
@@ -615,25 +637,37 @@ There are many ways to further numerically optimize this procedure, such as taki
 
 
 
-For each cluster in the fit the CDF distribution will be analyzed. This means that the PPC distribution of expected counts based on the posterior distribution of the source model parameters is computed, and then the actual count number of the data is compared to this distribution. The percentile in which the real count data can be sorted the predicted count distribution is recorded, leading to the CDF distribution when aggregated over all bins. If the source model matches the data well then we expect the CDF to be evenly distributed along all percentiles. Example of clusters with "good" and "bad" CDFs are shown in figure \ref{fig ppc cdf ex good and bad}. After having conducted a fit and plotted CDF distributions for all clusters, the "bad" clusters can be identified and removed from the list of clusters. The fit is then executed again using only "good" clusters, yielding (hopefully) improved results.
+For each cluster in the fit the CDF distribution will be analyzed. This means that the PPC distribution of expected counts based on the posterior distribution of the source model parameters is computed, and then the actual count number of the data is compared to this distribution. The percentile in which the real count data can be sorted into the predicted count distribution is recorded, leading to the CDF distribution when aggregated over all bins. If the source model matches the data well then we expect the CDF to be evenly distributed along all percentiles. Example of clusters with "good" and "bad" CDFs are shown in figure \ref{fig ppc cdf ex good and bad}. After having conducted a fit and plotted CDF distributions for all clusters, the "bad" clusters can be identified and removed from the list of clusters. The fit is then executed again using only "good" clusters, yielding (hopefully) improved results.
 
 
-\begin{figure}[h]
+
+
+To test our newly developed PPC capabilities, we shall use the same count spectrum using real background counts from revolution 0374 and a simulated Crab-like powerlaw that was already used in section \ref{sec: smf comparison}. The data is fit twice: once with SCW clusters with a minimum angular distance between them set to to $1.5^\circ$, and once with $2.5^\circ$ (see appendix \ref{Clustering Algorithm} for more info on the clustering algorithm). Since consecutive SPI pointings are often $2.1^\circ$ apart, this change makes the difference between pairing up consecutive SCWs together (e.g. 03740003 with 03740004, 03740005 with 03740006) and pairing up offset consecutive SCWs together (e.g. 03740003 with 03740005, 03740004 with 03740006). This can be both advantageous and disadvantageous. As shown in figure \ref{fig pointing distances} the optimal angular distance between pointings lies closer to $4.0^\circ$, so using a minimum distance of $2.5^\circ$ should improve fit precision in that regard. However, larger time windows between SCWs increases the probability for background count rates to change, meaning that a minimum distance of $2.5^\circ$ could also decrease fit quality. 
+
+The results of these fits are shown in figures \ref{ppc indv fits 1.5} and \ref{ppc indv fits 2.5}. In these figures we see combined pre-PPC fits, using all SCW clusters, and post-ppc fits, using only SCW clusters with good PPC-CDFs. Also shown are the results of fitting each SCW cluster individually, where those with good CDFs are shown in green and those with bad CDFs are shown in red. 
+
+For a minimum distance of $1.5^\circ$ the fit results of individual clusters seem to largely be statistically distributed. There are no clusters with severely bad CDF distributions, and the one that was identified as a bad cluster does not have a significant impact on the overall fit. This is because the background for consecutive pointings in this revolution stays sufficiently constant (shown in section \ref{sec back anal}), so that a PPC analysis is mostly unnecessary.
+
+However, for a minimum distance of $2.5^\circ$ the background count rates do not stay nearly as constant within clusters (shown in section \ref{sec back anal}), so that conducting a PPC analysis is more constructive. Figure \ref{ppc indv fits 2.5} shows that the clusters with bad CDFs are all at the edge of the distribution from all individual cluster fits.
+
+Based on figures \ref{ppc indv fits 1.5} and \ref{ppc indv fits 2.5} one might think that the post-PPC fits using only clusters with good PPCs does not offer a significant improvement. This is because all SCWs used from 0374 are relatively well behaved, with even the worst cluster (figure \ref{fig ppc cdf ex good and bad}, right) performs decently well. When fitting larger datasets it is not uncommon to encounter clusters with drastically worse results, such as shown in figure \ref{fig ppc really bad total}. Those outliers are significantly more impactful and are absolutely essential to remove when attempting a high quality fit. Figure \ref{fig ppc really bad total} also shows the total CDF across all clusters in a fit. The distribution matches the expected distribution almost perfectly, indicating that the the method for approximating PPC distributions is sufficiently accurate. 
+
+\pagebreak
+\begin{figure}[H]
   \centering
   \includegraphics[width=\textwidth]{Images/PPC_and_Background_Analysis/combined_plot_0374_ppc_normal.pdf}
-  \caption{}
-  \label{}
+  \caption{Fit results of individual pointings clusters with a minimum angular distance of $1.5^\circ$. In green are those with good PPC-CDFs and in red are those with bad PPC-CDFs. Also shown are the results of fitting all clusters together in one fit (Pre-PPC), and fitting only clusters with good PPC-CDFs together in one fit (Post-PPC).}
+  \label{ppc indv fits 1.5}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}[H]
   \centering
   \includegraphics[width=\textwidth]{Images/PPC_and_Background_Analysis/combined_plot_0374_ppc_far.pdf}
-  \caption{}
-  \label{}
+  \caption{Analogous to figure \ref{ppc indv fits 1.5} except the minimum angular distance between pointings in a cluster is $2.5^\circ$.}
+  \label{ppc indv fits 2.5}
 \end{figure}
 
-To test our newly developed PPC capabilities, we shall use the same count spectrum using real background counts from revolution 0374 and a simulated Crab-like powerlaw that we already used in section \ref{sec: smf comparison}. We will fit the data twice: one time with SCW clusters where we set the minimum angular distance between pointings in clusters to $1.5^\circ$, and one time where we set it to $2.5^\circ$ (see appendix \ref{Clustering Algorithm} for more info on the clustering algorithm). Since consecutive SPI pointings are often $2.1^\circ$ apart, this change makes the difference between pairing up consecutive SCWs together (e.g. 03740003 with 03740004, 03740005 with 03740006) and pairing up offset consecutive SCWs together (e.g. 03740003 with 03740005, 03740004 with 03740006). This can be both advantageous and disadvantageous. As shown in figure \ref{fig pointing distances} the optimal angular distance between pointings lies closer to $4.0^\circ$, so using a minimum distance $2.5^\circ$ should improve fit precision in that regard. However, larger time windows between SCWs increases the probability for background count rates to change, meaning that a minimum distance of $2.5^\circ$ could also decrease fit quality. 
-
+\pagebreak
 
 \begin{figure}[h]
   \centering
@@ -649,77 +683,202 @@ To test our newly developed PPC capabilities, we shall use the same count spectr
     %\caption{A subfigure}
     %\label{fig:sub2}
   \end{subfigure}
-  \caption{}
-  \label{}
+  \caption{On the left a pointing cluster with an astonishingly bad CDF distribution is displayed. It is taken from a Crab Nebula fit near the end of its revolution, where it is likely caused by non-constant background rates due satellite material activation from cosmic particles as INTEGRAL nears Earth. On the right the total CDF distribution using all clusters from the mixed simulation dataset of revolution 0374 is shown.}
+  \label{fig ppc really bad total}
 \end{figure}
 
 
+\FloatBarrier
+
+\begin{wrapfigure}{r}{0.4\textwidth}
+  \vspace{-00pt}
+  \includegraphics[width=\linewidth]{Images/PPC_and_Background_Analysis/037400240010_037400260010_cdf.pdf}
+  \vspace{-00pt}
+  \caption{Example CDF distribution where it is not inherently clear if the CDF distribution is acceptably good or not.}
+  \vspace{-150pt}
+  \label{fig ppc mediocre}
+\end{wrapfigure}
+
+Deciding which CDF distributions are acceptable or unacceptable is an inherently subjective task. For distributions as seen in figure \ref{fig ppc cdf ex good and bad} it is an easy choice, but there are many cases where it is not as simple. Figure \ref{fig ppc mediocre} shows a CDF distribution with an unmistakable asymmetry towards the left and right end of the spectrum. One could argue that this indicates (amongst other possibilities) a non-constant background rate between the two SCWs in the cluster, and the the cluster should therefore be removed from the fit. The individual fits of clusters like this show no discernable decrease in fit quality, which makes it hard to justify excluding them. The rule of thumb used in this thesis is therefore that clusters are only removed if they are very obviously identified as outliers, which the cluster from figure \ref{fig ppc mediocre} is not.
 
 
-\subsection{Background Analysis}
+
+
+\FloatBarrier
+
+\pagebreak
+
+\subsection{Background Analysis} \label{sec back anal}
+
+
+\begin{wrapfigure}{R}{0.45\textwidth}
+  \vspace{-30pt}
+  \includegraphics[width=\linewidth]{Images/PPC_and_Background_Analysis/037400020010_037400030010_cdf_smf_bkg.pdf}
+  \vspace{-20pt}
+  \caption{Example CDF distribution from the fit using the Spimodfit background counts along with a simulated source.}
+  \vspace{+10pt}
+  \label{fig smf cdf}
+\end{wrapfigure}
+
+In the previous section clusters with bad CDFs were removed from the total fits. Based on the results of fitting the clusters individually it was not always obvious what makes these clusters bad and why they should be removed, in particular for figure \ref{ppc indv fits 1.5} where the minimum pointing distance is $1.5^\circ$. To rectify this we shall now analyze the background counts in more detail.
+
+A very useful statistical quantity is the ratio of the expected variance to the actual variance of background counts within clusters. For every energy bin per detector in every SCW cluster, we can calculate the variance of background counts between SCWs that would be expected if the counts are Poisson distributed with a constant count-rate. Since variances of independent distributions add, the calculation is simple. Based on the different lifetimes there is a natural variance in the expected counts (which needs to be Bessel corrected) that is added to the variance of two Poisson distributions:
+
+\begin{equation}
+  E(var) = (rt_1 - m)^2 + (rt_2 - m)^2 + \frac{r(t_1+t_2)}{2}
+\end{equation}
+where $r=\frac{C_1+C_2}{t_1+t_2}$ is the average count-rate in both energy bins, $m=\frac{C_1+C_2}{2}$ is the average number of counts, and $t_1$ and $t_2$ are the lifetimes of the respective SCWs. It is then possible to take the ratio of the actual variances of counts to the expected variances, and to plot the distribution of the ratios for all bins and all clusters in a fit. If the actual counts really are Poisson distributed from a constant background rate within clusters, then the ratio is expected to be 1. If the background rates are not equal for all SCWs in each cluster then the ratio will be larger than 1.
+
+This is shown in figure \ref{fig back var} for the mixed simulation count spectra from the previous section using real background counts and a simulated source for both configurations of the minimum angular distance between pointings. As theorized, the mean variance ratio for clusters with a minimum distance of $1.5^\circ$ is much lower at 1.052 than the corresponding mean variance ratio for clusters with a minimum distance of $2.5^\circ$ at 1.151, indicating that the larger time windows between SCWs do lead to a substantial change in background count rates. Furthermore, when removing clusters with bad CDFs from the fit the mean variance ratio for both cluster sets drops significantly to 1.016. This tells us that only a few clusters suffer from the issue of non-constant background rates, and that these are the clusters that result in bad CDFs. For a minimum distance of $2.5^\circ$ there are more clusters with non-constant background and the change in background is larger. These clusters are easily identified and removed, resulting in a set of clusters with equally constant background rates for both configurations of the minimum distance.
+
+Also shown in figure \ref{fig back var} is the variance ratio of the Spimodfit produced background. The variance ratio is very similar to that of the real background. Curiously, the PPC analysis did not yield very decisive results (see figure \ref{fig smf cdf}) here. This is thought to be a result of the Spimodfit background being binned into larger energy-bins than those used for PySPI fits, resulting in less data-points and hence a larger variance in the CDF distribution. In order for the CDF distributions to be useful, a sufficient number of energy bins is required.
+
+Lastly, figure \ref{fig back var} shows the variance ratio of revolution 1662, observing the Crab Nebula, for comparison purposes. Since these are real data counts, we cannot calculate the variance ratio for just the background counts, but have to include source counts as well. As expected, the inclusion of source counts means the count rates are no longer purely Poisson distributed, resulting in larger variance ratios. 
+
+Note that the peak around 1 is caused by SCW clusters with very different lifetimes. This increases both the expected and actual variance, thus resulting in ratios distributed much more tightly around 1.
+
+
+
 \begin{figure}[h]
   \centering
+  %\vspace{-30pt}
   \includegraphics[width=\textwidth]{Images/PPC_and_Background_Analysis/background_variance.pdf}
-  \caption{}
-  \label{}
+  \caption{The ratio of actual to expected count variance within clusters. This is shown for the real counts from revolution 0374, used as background in mixed simulations, the Spimodfit background counts, and data from revolution 1662, which includes source counts from the Crab Nebula. Also shown is how the distributions change when clusters with bad CDF distributions are removed.}
+  %\vspace{-50pt}
+  \label{fig back var}
 \end{figure}
 
-\begin{wrapfigure}{R}{0.50\textwidth}
-  \includegraphics[width=\linewidth]{Images/PPC_and_Background_Analysis/037400020010_037400030010_cdf_smf_bkg.pdf}
-  \vspace{-00pt}
-  \caption{}
-  \vspace{-00pt}
-  \label{}
-\end{wrapfigure}
+\FloatBarrier
+
+\subsubsection{Background Spectrum}
 
 \begin{figure}[h]
   \centering
   \includegraphics[width=\textwidth]{Images/PPC_and_Background_Analysis/background_spectrum.pdf}
-  \caption{}
+  \caption{Background spectrum of SCW 03740002 in comparison to count rates from a simulated source with a powerlaw spectrum similar to that of the Crab nebula. In the bottom plot, the spectrum is rebinned so that it may be compared to the spimodfit background spectrum of the same SCW. The shaded areas show the range over all detectors, whereas the solid line shows the mean over all detectors.}
   \label{fig back spec}
 \end{figure}
 
+The counts from SCW 03740002 are used very often as an example background spectrum, and duplicated to other SCWs in the revolution for a constant background. Hence, it can be beneficial to visualize this spectrum, as was done in figure \ref{fig back spec}. Two things worth noting are that the counts from the simulated Crab-like source are significantly lower than those from the background, especially at higher energies, and that the Spimodfit background spectrum, although very similar in shape, is consistently smaller than the real background by a roughly constant factor.
 
-\chapter{Crab Nebula Fits: Results}
 
-\section{Powerlaw}
-\begin{figure}[h]
+\chapter{Results}
+
+Having tested the quality and limitations the PySPI fitting procedure for purely simulated spectra and mixed simulations, in addition to having developed a methodology for removing bad SCW clusters using PPC analysis, it is now time to apply the acquired knowledge while fitting real astronomical sources.
+
+Refer to appendix \ref{chp source models} regarding the functions and their parameters of the different source models that will be used in the following sections.
+
+\section{Crab Nebula}
+Located in the constellation of Taurus, the Crab Nebula is a supernova remnant and pulsar wind nebula. It us well known for being one of the very few bright sources in the Hard X-ray domain with a persistent spectrum. For this reason its measurements are often used as benchmarks by instruments active in this energy range. Some instruments even used it for calibration purposes, although more recent measurements of its spectral parameters do show small variations in its emission flux on the timescales of a few years. This makes it an excellent candidate to test PySPIs fitting capabilities with over INTEGRALS long mission duration.
+
+It is well known that the Crab spectrum matches the approximate shape of a powerlaw with $index\approx-2$. At higher energies the index is known to decrease slightly to a steeper spectrum. Many different functions and models have been fitted to better match the Crab's spectral shape with varying success, some of which will be recreated below. The Crab Nebula is also small enough to be approximated as a point-source for SPI.
+
+The Be puslsar 1A0535+262 is just $4.3^\circ$ away from the Crab Nebula. Usually it is orders of magnitudes dimmer than the Crab Nebula, but during flaring periods, which are estimated to occur roughly every five years, it can reach very high emission fluxes. It will have to be included in the source model of every Crab fit, and revolutions with high flux should be excluded from the Crab analysis since approximating its spectrum as a powerlaw is surely insufficient at high luminosities. 
+
+
+
+The general procedure for fitting the Crab Nebula is the following:
+\begin{enumerate}
+  \item Identify groups of neighboring revolutions including as many SCWs with the Crab in SPIs field of view as possible.
+  \item Fit every single revolution individually. As a source model use a powerlaw for both the Crab Nebula and the pulsar 1A0535+262.
+  \item Exclude every revolution where the flux of the pulsar 1A0535+262 exceeds 1\% of the Crab's ($>$10mCrab). Since the posterior distribution for the puslars spectral parameters can look very messy, a little bit of guesswork may be required. In unclear cases the revolution is removed to stay on the side of safety.
+  \item Go through the CDF distribution of every single cluster of every revolution and remove clusters with bad CDFs from further analysis. This only applies to PySPI, not Spimodfit.
+  \item Group the remaining clusters from neighboring revolutions together to be fitted again with a Crab source model of choice (including the Be pulsar).
+\end{enumerate}
+Table \ref{tab excl revs} gives an overview of which revolutions were excluded and which revolutions are grouped together in the following sections. 
+
+\begin{table}[h] 
+  \begin{center}
+  \begin{tabular}{|c|c|c|}
+  \hline
+  \textbf{Date}  & \textbf{Used Revolutions}    & \textbf{Excluded Revolutions} \\ \hline
+  February 2003   & 43, 44, 45                   &                               \\ \hline
+  March 2006     & 422                          &                               \\ \hline
+  March 2008     & 665, 666                     &                               \\ \hline
+  September 2010 &                              & 966, 967, 970                 \\ \hline
+  March 2013     & 1268, 1278                   & 1269                          \\ \hline
+  August 2013    & 1327                         & 1328                          \\ \hline
+  October 2014   &                              & 1461, 1462, 1466, 1468        \\ \hline
+  March 2015     & 1516, 1520, 1528             & 1515                          \\ \hline
+  October 2015   &                              & 1593, 1597, 1598, 1599        \\ \hline
+  March 2016     & 1657, 1658, 1661, 1662, 1664 & 1667                          \\ \hline
+  February 2017  & 1781, 1784, 1785, 1789       &                               \\ \hline
+  August 2017    &                              & 1850, 1856, 1857              \\ \hline
+  February 2018  & 1921, 1925, 1927, 1930       &                               \\ \hline
+  September 2018 & 1996, 1999, 2000             &                               \\ \hline
+  February 2019  & 2058, 2062, 2063, 2066       &                               \\ \hline
+  \end{tabular}
+  \end{center}
+  \caption{}
+  \label{tab excl revs}
+\end{table}
+
+\FloatBarrier
+
+
+
+\subsection{Powerlaw}
+\begin{figure}[H]
   \centering
   \includegraphics[width=0.75\textwidth]{Images/Crab_Fits/crab_low_energy_pl.pdf}
-  \caption{}
-  \label{}
+  \caption{The Crab Nebula fitted as a powerlaw in the energy range 30-81-5keV using PySPI and Spimodfit.}
+  \label{fig crab pl}
 \end{figure}
 
-\section{Broken Powerlaw}
 
-\begin{figure}[h]
+To begin with, the Crab Nebula is fitted as a simple powerlaw (equation \ref{powerlaw}) using both PySPI and Spimodfit (figure \ref{fig crab pl}). Since the powerlaw index is know to change at high energies the fits are limited to an energy range of 30-81.5keV. PySPI sees the Crab with higher flux (at 100keV) and with smaller index across the entire duration. The temporal evolution is very similar for both fitting methods, with the normalization decreasing slightly and the indices staying constant. Spimodfit records a curious dip in luminosity in index in early 2006 where PySPIs parameters remain constant.
+
+
+\FloatBarrier
+
+\subsection{Broken Powerlaw}
+
+\begin{figure}[H]
   \centering
   \includegraphics[width=.75\textwidth]{Images/Crab_Fits/crab_brk_pl_100.pdf}
-  \caption{}
-  \label{}
+  \caption{The Crab Nebula fitted as a broken powerlaw with the break energy $x_b$ fixed at 100keV. Shown are fit results for PySPI, Spimodfit, and published results by Jourdain and Roques (2009) \cite{2009ApJ...704...17J}.}
+  \label{fig crab br pl}
 \end{figure}
 
-\section{Band Function}
+Next up a broken powerlaw (equation \ref{eq br pl}) is used in the source model for the Crab Nebula, which allows us to use higher energies: up to 400keV are included in the fits. The break energy $x_b$ is fixed at 100keV. This specific source model was chosen intentionally as it allows a direct comparison with Jourdain and Roques (2009) \cite{2009ApJ...704...17J}, who used the same model in corresponding fits (see figure \ref{fig crab br pl}). It is worth noting that the fits aren't exactly comparable, since  Jourdain and Roques (2009) \cite{2009ApJ...704...17J} used an energy range up to 6MeV and also included more INTEGRAL revolutions (depending on the fit).
+
+Once again PySPI determines the Crab to have higher flux and a smaller low-energy powerlaw index, and the trend constant indices but slightly decreasing flux is observed again as well. Fits by Jourdain and Roques (2009) \cite{2009ApJ...704...17J} are closer to Spimodfit as far as normalization is concerned, but show a low-energy index closer to PySPIs. The high-energy index is similar for all three methods.
+
+
+\FloatBarrier
+
+\subsection{Band Function}
 
 \begin{figure}[h]
   \centering
   \includegraphics[width=.75\textwidth]{Images/Crab_Fits/crab_c_band.pdf}
-  \caption{}
-  \label{}
+  \caption{The Crab Nebula fitted using the Band function with fixed characteristic $x_p$ at 500keV. Since PySPI and Spimodfit are only fitted using data up to 400keV, only the low-energy index $\alpha$ and normalization $K$ are included as fit parameters. Also shown are the results by Roques and Jourdain (2018) \cite{Roques}.}
+  \label{fit crab c band}
 \end{figure}
 
-\section{Smoothly Broken Powerlaw}
+Another function that has been used to describe the Crab Nebula is the Band function (equation \ref{eq band func}). Here the Crab is fitted using a fixed characteristic energy $x_p$ at 500keV. Since data is only used up to 400keV, only the low-energy index $\alpha$ and normalization $K$ are fitted. This source model was chosen to allow comparison with Roques and Jourdain (2018) \cite{Roques}, whose results are shown alongside PySPI and Spimodfit in figure \ref{fit crab c band}. As with the broken powerlaw, the results are not exactly comparable due to Roques and Jourdain (2018) \cite{Roques} using a larger energy range and different INTEGRAL revolutions. For the selected model parameters these differences should only have a small impact, but this cannot be confirmed.
+
+We observe similar trends to previous source models: PySPI fits result in larger flux and smaller indices compared to Spimodfit, the indices stay roughly constant over time and the flux decreases slightly. Interestingly, the flux measured by Roques and Jourdain (2018) \cite{Roques} is significantly lower than that measured by both PySPI and Spimodfit, and the low-energy index lies between the two.
+
+\FloatBarrier
+
+\subsection{Smoothly Broken Powerlaw}
 \begin{figure}[h]
   \centering
-  \includegraphics[width=\textwidth]{Images/Crab_Fits/0043__sm_br_pl_parameters.pdf}
-  \caption{}
-  \label{}
+  \makebox[\textwidth][c]{\includegraphics[width=1.1\textwidth]{Images/Crab_Fits/0043__sm_br_pl_parameters.pdf}}%
+  \caption{PySPI posterior parameter distribution when fitting the Crab Nebula using a smoothly broken powerlaw. Revolutions from February 2003 are used.}
+  \label{fig sm br pl fit param}
 \end{figure}
 
+Lastly the Crab was fitted using a smoothly broken powerlaw, with the break energy $x_b$ and break scale $\Delta$ as free parameters in the fit. The posterior parameter distribution for an example PySPI fit is shown in figure \ref{fig sm br pl fit param}. The parameter degeneracy for this source model is too large to offer decisive results. Particularly troublesome is the correlation between the low-energy index $\alpha$, the break energy $x_b$, and the break scale $\Delta$, for example, where the fit has no trouble pushing the break energy outside of the used energy range and altering $\alpha$ and $x_b$. Perhaps the fit would work better using even more revolutions in a combined fit or a larger energy range. Otherwise some of the free parameters will likely have to be fixed to predetermined values, as has been done for other some of the other models and is common practice for Crab fits. 
 
+\section{Conclusion and Outlook}
+The newly developed PySPI method for fitting persistent sources in SPI data was tested for under a variety of circumstances. For simulated data the fit results do not show a statistically significant systematic error, although a slight random error was observed. For mixed simulations with real background counts the fits perform well and consistently better than Spimodfit. A procedure of using PPC analysis was developed to identify and remove "bad" SCW clusters with non-constant background rates. The method was applied to fit the Crab Nebula using various models, obtaining slightly different parameter values compared to Spimodfit and SPI fitting methods from published papers by Jourdain and Roques \cite{2009ApJ...704...17J}\cite{Roques}.
+
+There are still some issues to be solved, such as the previously mentioned random error as well as the large systematic error that appears when fitting very steep powerlaw models with insufficiently small instrument response matrices. The method may be further developed by implementing fits with larger cluster sizes (currently only clusters of size two and three can be fitted), which also requires implementing the corresponding PPC interpolation framework (currently only implemented on clusters of size two). Extending the functionality to being able to use pulse shape discriminated events is also very important, as opposed to only using single events that effectively limit the available energy range to below 400keV due to SPIs spurious events. 
 
 \appendix
-\chapter{List of Source Models}
+\chapter{List of Source Model Functions}\label{chp source models}
 
 \subsection*{Powerlaw}
 
@@ -735,7 +894,7 @@ To test our newly developed PPC capabilities, we shall use the same count spectr
 \end{itemize}
 
 \subsection*{Broken Powerlaw}
-\begin{equation}
+\begin{equation} \label{eq br pl}
   f(x)= K~\begin{cases}\left( \frac{x}{x_{b}} \right)^{\alpha} & x < x_{b} \\ \left( \frac{x}{x_{b}} \right)^{\beta} & x \ge x_{b} \end{cases}
 \end{equation}
 
@@ -750,7 +909,7 @@ To test our newly developed PPC capabilities, we shall use the same count spectr
 
 \subsection*{Smoothly Broken Powerlaw}
 
-\begin{equation}
+\begin{equation} \label{eq sm br pl}
   f(x) = K \left( \frac{x}{x_b} \right)^{-\alpha}\left( \frac{1}{2} \left[ 1 + \left( \frac{x}{x_b}\right)^{1/\Delta} \right]\right)^{(\alpha - \beta)\Delta}
 \end{equation}
 
@@ -765,7 +924,7 @@ To test our newly developed PPC capabilities, we shall use the same count spectr
 Note: in practice this function was implemented slightly differently, so that the normalization $K$ describes the normalization at the pivot energy $piv$ instead of the break energy $x_b$
 
 \subsection*{Band Function}
-\begin{equation}
+\begin{equation} \label{eq band func}
   f(x)= K~\begin{cases}\left( \frac{x}{piv} \right)^{\alpha}\text{exp}(-\frac{x}{x_p}) & x < x_{p}(\alpha - \beta) \\ \left( \frac{x}{piv} \right)^{\beta} \left[ \frac{(\alpha - \beta)x_p}{piv}\right]^{\alpha - \beta} \text{exp}(-(\alpha - \beta))& x \ge x_{p}(\alpha - \beta) \end{cases}
 \end{equation}
 
@@ -953,7 +1112,7 @@ The following procedure is used to fit the Crab Nebula:
     
     \verb|/home/jmoeller/cookbook/SPI_cookbook/spectral_analysis/3ml_fit_Crab_SE.py|
     
-    is used extract the fit parameters, where the source model and active measurements (i.e. energy range) can be changed as pleased.
+    can be used to extract the fit parameters, where the source model and active measurements (i.e. energy range) can be changed as pleased. It is preferable to make some small changes to this script to use a bayesian sampling algorithm instead of a maximum likelihood algorithm to fit the source model to the spectra.
 \end{enumerate}
 
 

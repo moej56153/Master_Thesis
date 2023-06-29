@@ -1,23 +1,23 @@
-\contentsline {chapter}{\numberline {1}Introduction}{3}{chapter.1}%
-\contentsline {section}{\numberline {1.1}About INTEGRAL}{3}{section.1.1}%
-\contentsline {subsection}{\numberline {1.1.1}About SPI}{3}{subsection.1.1.1}%
-\contentsline {section}{\numberline {1.2}About Spimodfit}{6}{section.1.2}%
-\contentsline {section}{\numberline {1.3}PySPI and the Goal of this Thesis}{7}{section.1.3}%
-\contentsline {chapter}{\numberline {2}Theory and Simulation}{8}{chapter.2}%
-\contentsline {section}{\numberline {2.1}General Procedure}{8}{section.2.1}%
-\contentsline {subsection}{\numberline {2.1.1}Likelihood Calculation}{8}{subsection.2.1.1}%
-\contentsline {subsection}{\numberline {2.1.2}General Procedure: Summary}{9}{subsection.2.1.2}%
-\contentsline {section}{\numberline {2.2}Pure Simulation}{10}{section.2.2}%
-\contentsline {subsection}{\numberline {2.2.1}Consistency, Accuracy, and Precision}{10}{subsection.2.2.1}%
-\contentsline {subsection}{\numberline {2.2.2}Energy Range}{11}{subsection.2.2.2}%
-\contentsline {subsection}{\numberline {2.2.3}Number of Energy Bins}{12}{subsection.2.2.3}%
-\contentsline {subsection}{\numberline {2.2.4}Fitting Different Powerlaws}{12}{subsection.2.2.4}%
-\contentsline {subsection}{\numberline {2.2.5}Second Source}{12}{subsection.2.2.5}%
-\contentsline {subsection}{\numberline {2.2.6}Data Scaling}{13}{subsection.2.2.6}%
-\contentsline {subsection}{\numberline {2.2.7}Angular Distances between SCWs}{13}{subsection.2.2.7}%
-\contentsline {subsection}{\numberline {2.2.8}Angular Distance between Source and Cluster}{13}{subsection.2.2.8}%
-\contentsline {subsection}{\numberline {2.2.9}Cluster Size}{14}{subsection.2.2.9}%
-\contentsline {subsection}{\numberline {2.2.10}Fitting the Source Position}{14}{subsection.2.2.10}%
+\contentsline {chapter}{\numberline {1}Introduction}{4}{chapter.1}%
+\contentsline {section}{\numberline {1.1}About INTEGRAL}{4}{section.1.1}%
+\contentsline {subsection}{\numberline {1.1.1}About SPI}{4}{subsection.1.1.1}%
+\contentsline {section}{\numberline {1.2}About Spimodfit}{7}{section.1.2}%
+\contentsline {section}{\numberline {1.3}PySPI and the Goal of this Thesis}{8}{section.1.3}%
+\contentsline {chapter}{\numberline {2}Theory and Simulation}{9}{chapter.2}%
+\contentsline {section}{\numberline {2.1}General Procedure}{9}{section.2.1}%
+\contentsline {subsection}{\numberline {2.1.1}Likelihood Calculation}{9}{subsection.2.1.1}%
+\contentsline {subsection}{\numberline {2.1.2}General Procedure: Summary}{10}{subsection.2.1.2}%
+\contentsline {section}{\numberline {2.2}Pure Simulation}{11}{section.2.2}%
+\contentsline {subsection}{\numberline {2.2.1}Consistency, Accuracy, and Precision}{11}{subsection.2.2.1}%
+\contentsline {subsection}{\numberline {2.2.2}Energy Range}{14}{subsection.2.2.2}%
+\contentsline {subsection}{\numberline {2.2.3}Number of Energy Bins}{14}{subsection.2.2.3}%
+\contentsline {subsection}{\numberline {2.2.4}Fitting Different Powerlaws}{15}{subsection.2.2.4}%
+\contentsline {subsection}{\numberline {2.2.5}Second Source}{16}{subsection.2.2.5}%
+\contentsline {subsection}{\numberline {2.2.6}Data Scaling}{18}{subsection.2.2.6}%
+\contentsline {subsection}{\numberline {2.2.7}Angular Distance between SCWs}{18}{subsection.2.2.7}%
+\contentsline {subsection}{\numberline {2.2.8}Angular Distance between Source and Cluster}{18}{subsection.2.2.8}%
+\contentsline {subsection}{\numberline {2.2.9}Cluster Size}{20}{subsection.2.2.9}%
+\contentsline {subsection}{\numberline {2.2.10}Fitting the Source Position}{20}{subsection.2.2.10}%
 \contentsline {section}{\numberline {2.3}Mixed Simulation and Spimodfit Comparison}{22}{section.2.3}%
 \contentsline {section}{\numberline {2.4}Posterior Predictive Check (PPC) and Background Analysis}{23}{section.2.4}%
 \contentsline {subsection}{\numberline {2.4.1}PPCs: Theory}{23}{subsection.2.4.1}%
@@ -25,18 +25,21 @@
 \contentsline {subsubsection}{PySPI Application}{23}{section*.29}%
 \contentsline {subsection}{\numberline {2.4.2}PPCs: PySPI Implementation}{25}{subsection.2.4.2}%
 \contentsline {subsection}{\numberline {2.4.3}PPCs: Results}{26}{subsection.2.4.3}%
-\contentsline {subsection}{\numberline {2.4.4}Background Analysis}{28}{subsection.2.4.4}%
-\contentsline {chapter}{\numberline {3}Crab Nebula Fits: Results}{32}{chapter.3}%
-\contentsline {section}{\numberline {3.1}Powerlaw}{32}{section.3.1}%
-\contentsline {section}{\numberline {3.2}Broken Powerlaw}{32}{section.3.2}%
-\contentsline {section}{\numberline {3.3}Band Function}{33}{section.3.3}%
-\contentsline {section}{\numberline {3.4}Smoothly Broken Powerlaw}{34}{section.3.4}%
-\contentsline {chapter}{\numberline {A}List of Source Models}{36}{appendix.A}%
-\contentsline {chapter}{\numberline {B}Science Window Clustering Algorithm}{38}{appendix.B}%
-\contentsline {section}{\numberline {B.1}Clustering Conditions}{38}{section.B.1}%
-\contentsline {section}{\numberline {B.2}Clustering Algorithm}{38}{section.B.2}%
-\contentsline {chapter}{\numberline {C}Spimodfit Procedure}{41}{appendix.C}%
-\contentsline {section}{\numberline {C.1}Fitting the Crab Nebula}{41}{section.C.1}%
-\contentsline {section}{\numberline {C.2}Fitting other Sources}{42}{section.C.2}%
-\contentsline {section}{\numberline {C.3}Fitting Custom Data}{42}{section.C.3}%
-\contentsline {section}{\numberline {C.4}Spimodfit Background}{42}{section.C.4}%
+\contentsline {subsection}{\numberline {2.4.4}Background Analysis}{30}{subsection.2.4.4}%
+\contentsline {subsubsection}{Background Spectrum}{32}{section*.38}%
+\contentsline {chapter}{\numberline {3}Results}{33}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Crab Nebula}{33}{section.3.1}%
+\contentsline {subsection}{\numberline {3.1.1}Powerlaw}{34}{subsection.3.1.1}%
+\contentsline {subsection}{\numberline {3.1.2}Broken Powerlaw}{35}{subsection.3.1.2}%
+\contentsline {subsection}{\numberline {3.1.3}Band Function}{36}{subsection.3.1.3}%
+\contentsline {subsection}{\numberline {3.1.4}Smoothly Broken Powerlaw}{36}{subsection.3.1.4}%
+\contentsline {section}{\numberline {3.2}Conclusion and Outlook}{38}{section.3.2}%
+\contentsline {chapter}{\numberline {A}List of Source Model Functions}{39}{appendix.A}%
+\contentsline {chapter}{\numberline {B}Science Window Clustering Algorithm}{41}{appendix.B}%
+\contentsline {section}{\numberline {B.1}Clustering Conditions}{41}{section.B.1}%
+\contentsline {section}{\numberline {B.2}Clustering Algorithm}{41}{section.B.2}%
+\contentsline {chapter}{\numberline {C}Spimodfit Procedure}{44}{appendix.C}%
+\contentsline {section}{\numberline {C.1}Fitting the Crab Nebula}{44}{section.C.1}%
+\contentsline {section}{\numberline {C.2}Fitting other Sources}{45}{section.C.2}%
+\contentsline {section}{\numberline {C.3}Fitting Custom Data}{45}{section.C.3}%
+\contentsline {section}{\numberline {C.4}Spimodfit Background}{45}{section.C.4}%

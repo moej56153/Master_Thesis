@@ -344,7 +344,6 @@
       \field{title}{{The High-Energy Emission of the Crab Nebula from 20 keV TO 6 MeV with Integral SPI}}
       \field{volume}{704}
       \field{year}{2009}
-      \true{nocite}
       \field{pages}{17\bibrangedash 24}
       \range{pages}{8}
       \verb{doi}

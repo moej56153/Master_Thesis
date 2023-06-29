@@ -2370,8 +2370,20 @@
     <bcf:citekey order="19" intorder="1">3ml</bcf:citekey>
     <bcf:citekey order="20" intorder="1">Feroz_2019</bcf:citekey>
     <bcf:citekey order="21" intorder="1">astromodels</bcf:citekey>
-    <bcf:citekey order="22" intorder="1">SMF_Cookbook</bcf:citekey>
-    <bcf:citekey order="23" intorder="1" nocite="1">*</bcf:citekey>
+    <bcf:citekey order="22" intorder="1">2009ApJ...704...17J</bcf:citekey>
+    <bcf:citekey order="23" intorder="1">2009ApJ...704...17J</bcf:citekey>
+    <bcf:citekey order="24" intorder="1">2009ApJ...704...17J</bcf:citekey>
+    <bcf:citekey order="25" intorder="1">2009ApJ...704...17J</bcf:citekey>
+    <bcf:citekey order="26" intorder="1">2009ApJ...704...17J</bcf:citekey>
+    <bcf:citekey order="27" intorder="1">Roques</bcf:citekey>
+    <bcf:citekey order="28" intorder="1">Roques</bcf:citekey>
+    <bcf:citekey order="29" intorder="1">Roques</bcf:citekey>
+    <bcf:citekey order="30" intorder="1">Roques</bcf:citekey>
+    <bcf:citekey order="31" intorder="1">Roques</bcf:citekey>
+    <bcf:citekey order="32" intorder="1">2009ApJ...704...17J</bcf:citekey>
+    <bcf:citekey order="33" intorder="1">Roques</bcf:citekey>
+    <bcf:citekey order="34" intorder="1">SMF_Cookbook</bcf:citekey>
+    <bcf:citekey order="35" intorder="1" nocite="1">*</bcf:citekey>
   </bcf:section>
   <!-- SORTING TEMPLATES -->
   <bcf:sortingtemplate name="nty">
