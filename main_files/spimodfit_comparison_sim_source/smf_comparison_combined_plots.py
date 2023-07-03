@@ -98,6 +98,6 @@ for folder, name, edgecolor, linestyle in zip(folders, names, edgecolors, linest
 plt.plot(real_vals[0], real_vals[1], "ko", label="True Values")
 ax.autoscale()
 lgd = plt.legend(bbox_to_anchor=(1.02, 1), loc=2, borderaxespad=0.)
-plt.xlabel("K")
+plt.xlabel("K [keV$^{-1}$s$^{-1}$cm$^{-2}$]")
 plt.ylabel("index")
 plt.savefig(f"{path}/spimodfit_comparison_combined_plot.pdf", bbox_extra_artists=(lgd,), bbox_inches='tight')

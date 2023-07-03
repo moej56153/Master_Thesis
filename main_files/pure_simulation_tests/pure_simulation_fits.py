@@ -626,5 +626,42 @@ def fit_source_position():
     # with open(f"{data_folder}/source_parameters.pickle", "wb") as f:
     #     pickle.dump((val, cov), f)
 
-fit_identical_new_gen()
 
+def residual_plt_test():
+    data_folder = "./main_files/pure_simulation_tests/identical_repeats"
+
+
+
+
+    pointings = load_clusters(data_folder)
+    source_model = define_sources((
+        (simulated_pl_0374, (200,)),
+    ))
+
+            
+    temp_path = f"{data_folder}/test_res"
+
+    multinest_fit = MultinestClusterFit(
+        pointings,
+        source_model,
+        (None, None),
+        np.geomspace(18, 3000, 50),
+        log_binning_function_for_x_number_of_bins(125),
+        # true_values=true_values(),
+        folder=temp_path,
+    )
+
+    multinest_fit.parameter_fit_distribution()
+    multinest_fit.text_summaries(pointing_combinations=True, reference_values=False, parameter_fit_constraints=False)
+    multinest_fit.ppc()
+    
+    # print(multinest_fit._cc._all_parameters)
+    
+    p = ["Simulated Source 0374 K", "Simulated Source 0374 index"]
+    val = np.array([i[1] for i in multinest_fit._cc.analysis.get_summary(parameters=p).values()])
+    cov = multinest_fit._cc.analysis.get_covariance(parameters=p)[1]
+
+    with open(f"{temp_path}/source_parameters.pickle", "wb") as f:
+        pickle.dump((val, cov), f)
+
+residual_plt_test()

@@ -129,6 +129,14 @@ def low_energy_pl(folder):
     val, cov = bayes_analysis(data, model)
     save_results(val, cov, "crab_low_energy_pl_fit", folder)
     
+def med_energy_pl(folder):
+    piv = 100
+    e_range="50-100"
+    model = powerlaw(piv)
+    data = data_crab(e_range, folder)
+    val, cov = bayes_analysis(data, model)
+    save_results(val, cov, "crab_med_energy_pl_fit", folder)
+    
 def sm_brk_pl(folder):
     piv = 100
     e_range="30-400"
@@ -182,6 +190,10 @@ folders = [
     "2210_2_4_5_7"
 ]
 
+folders = [
+    "0043_4_5",
+]
+
 for folder in folders:
     l_path = f"{path}/{folder}"
 
@@ -189,4 +201,5 @@ for folder in folders:
     # sm_brk_pl(l_path)
     # pulsar_pl(l_path)
     # br_pl_100(l_path)
-    c_band(l_path)
+    # c_band(l_path)
+    med_energy_pl(l_path)
