@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2022.8.6)  29 JUN 2023 05:00
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2022.8.6)  3 JUL 2023 12:47
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -621,17 +621,17 @@ Package biblatex Info: ... file 'Master_Thesis.bbl' found.
  (./Master_Thesis.bbl)
 Package biblatex Info: Reference section=0 on input line 23.
 Package biblatex Info: Reference segment=0 on input line 23.
-<Images/General/MPE_logo_189x180px.jpg, id=172, 189.70876pt x 180.675pt>
+<Images/General/MPE_logo_189x180px.jpg, id=176, 189.70876pt x 180.675pt>
 File: Images/General/MPE_logo_189x180px.jpg Graphic file (type jpg)
 <use Images/General/MPE_logo_189x180px.jpg>
 Package pdftex.def Info: Images/General/MPE_logo_189x180px.jpg  used on input line 27.
 (pdftex.def)             Requested size: 29.87349pt x 28.45274pt.
-<Images/General/PH.pdf, id=173, 29.8716pt x 29.8716pt>
+<Images/General/PH.pdf, id=177, 29.8716pt x 29.8716pt>
 File: Images/General/PH.pdf Graphic file (type pdf)
 <use Images/General/PH.pdf>
 Package pdftex.def Info: Images/General/PH.pdf  used on input line 29.
 (pdftex.def)             Requested size: 28.45303pt x 28.45274pt.
-<Images/General/tumlogo.pdf, id=174, 53.24893pt x 28.45631pt>
+<Images/General/tumlogo.pdf, id=178, 53.24893pt x 28.45631pt>
 File: Images/General/tumlogo.pdf Graphic file (type pdf)
 <use Images/General/tumlogo.pdf>
 Package pdftex.def Info: Images/General/tumlogo.pdf  used on input line 30.
@@ -656,7 +656,7 @@ l.82 \tableofcontents
 
  [3]
 Chapter 1.
-<Images/General/SPI_cut_view_verdenne_2003.PNG, id=244, 609.02531pt x 914.66719pt>
+<Images/General/SPI_cut_view_verdenne_2003.PNG, id=249, 609.02531pt x 914.66719pt>
 File: Images/General/SPI_cut_view_verdenne_2003.PNG Graphic file (type png)
 <use Images/General/SPI_cut_view_verdenne_2003.PNG>
 Package pdftex.def Info: Images/General/SPI_cut_view_verdenne_2003.PNG  used on input line 96.
@@ -669,315 +669,364 @@ Underfull \hbox (badness 1354) in paragraph at lines 108--109
 [4
 
  <./Images/General/SPI_cut_view_verdenne_2003.PNG>]
-<Images/General/HURA_hexagonal_coded_aperture_mask_principle.svg.png, id=260, 1027.84pt x 1027.84pt>
+<Images/General/HURA_hexagonal_coded_aperture_mask_principle.svg.png, id=270, 1027.84pt x 1027.84pt>
 File: Images/General/HURA_hexagonal_coded_aperture_mask_principle.svg.png Graphic file (type png)
 <use Images/General/HURA_hexagonal_coded_aperture_mask_principle.svg.png>
 Package pdftex.def Info: Images/General/HURA_hexagonal_coded_aperture_mask_principle.svg.png  used on input line 144.
 (pdftex.def)             Requested size: 140.84256pt x 140.83832pt.
-<Images/General/Siegert_PHD_Pointings_pattern.PNG, id=264, 1177.39874pt x 882.29625pt>
+<Images/General/Siegert_PHD_Pointings_pattern.PNG, id=275, 1177.39874pt x 882.29625pt>
 File: Images/General/Siegert_PHD_Pointings_pattern.PNG Graphic file (type png)
 <use Images/General/Siegert_PHD_Pointings_pattern.PNG>
 Package pdftex.def Info: Images/General/Siegert_PHD_Pointings_pattern.PNG  used on input line 161.
 (pdftex.def)             Requested size: 469.47046pt x 351.8083pt.
-<Images/General/Siegert_PHD_P13.PNG, id=269, 1692.3225pt x 688.07062pt>
+<Images/General/Siegert_PHD_P13.PNG, id=280, 1692.3225pt x 688.07062pt>
 File: Images/General/Siegert_PHD_P13.PNG Graphic file (type png)
 <use Images/General/Siegert_PHD_P13.PNG>
 Package pdftex.def Info: Images/General/Siegert_PHD_P13.PNG  used on input line 168.
 (pdftex.def)             Requested size: 469.47046pt x 190.87361pt.
  [5 <./Images/General/HURA_hexagonal_coded_aperture_mask_principle.svg.png>] [6 <./Images/General/Siegert_PHD_Pointings_pattern.PNG> <./Images/General/Siegert_PHD_P13.PNG>]
-<Images/General/SPI_event_types_roland_2017.PNG, id=300, 703.87968pt x 993.7125pt>
+<Images/General/SPI_event_types_roland_2017.PNG, id=313, 703.87968pt x 993.7125pt>
 File: Images/General/SPI_event_types_roland_2017.PNG Graphic file (type png)
 <use Images/General/SPI_event_types_roland_2017.PNG>
 Package pdftex.def Info: Images/General/SPI_event_types_roland_2017.PNG  used on input line 181.
 (pdftex.def)             Requested size: 258.21017pt x 364.52916pt.
  [7 <./Images/General/SPI_event_types_roland_2017.PNG>]
-<Images/General/SMF_background_pattern_siegert_2019.PNG, id=317, 1183.42125pt x 907.89188pt>
+<Images/General/SMF_background_pattern_siegert_2019.PNG, id=336, 1183.42125pt x 907.89188pt>
 File: Images/General/SMF_background_pattern_siegert_2019.PNG Graphic file (type png)
 <use Images/General/SMF_background_pattern_siegert_2019.PNG>
-Package pdftex.def Info: Images/General/SMF_background_pattern_siegert_2019.PNG  used on input line 208.
+Package pdftex.def Info: Images/General/SMF_background_pattern_siegert_2019.PNG  used on input line 227.
 (pdftex.def)             Requested size: 258.21017pt x 198.08829pt.
- [8 <./Images/General/SMF_background_pattern_siegert_2019.PNG>]
+ [8] [9 <./Images/General/SMF_background_pattern_siegert_2019.PNG>]
 Chapter 2.
-[9
+[10
 
-] [10]
-<Images/Pure_Simulation/combined_plot_repeated_identical.pdf, id=366, 543.36429pt x 312.02145pt>
+] [11] [12]
+<Images/Pure_Simulation/combined_plot_repeated_identical.pdf, id=409, 543.36429pt x 314.3583pt>
 File: Images/Pure_Simulation/combined_plot_repeated_identical.pdf Graphic file (type pdf)
 <use Images/Pure_Simulation/combined_plot_repeated_identical.pdf>
-Package pdftex.def Info: Images/Pure_Simulation/combined_plot_repeated_identical.pdf  used on input line 315.
-(pdftex.def)             Requested size: 469.47046pt x 269.59488pt.
-
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-<Images/Pure_Simulation/combined_plot_repeated_identical_new_gen.pdf, id=368, 657.43108pt x 315.39162pt>
+Package pdftex.def Info: Images/Pure_Simulation/combined_plot_repeated_identical.pdf  used on input line 354.
+(pdftex.def)             Requested size: 469.47046pt x 271.614pt.
+<Images/Pure_Simulation/combined_plot_repeated_identical_new_gen.pdf, id=411, 657.43108pt x 317.72847pt>
 File: Images/Pure_Simulation/combined_plot_repeated_identical_new_gen.pdf Graphic file (type pdf)
 <use Images/Pure_Simulation/combined_plot_repeated_identical_new_gen.pdf>
-Package pdftex.def Info: Images/Pure_Simulation/combined_plot_repeated_identical_new_gen.pdf  used on input line 324.
-(pdftex.def)             Requested size: 469.47046pt x 225.22417pt.
+Package pdftex.def Info: Images/Pure_Simulation/combined_plot_repeated_identical_new_gen.pdf  used on input line 363.
+(pdftex.def)             Requested size: 469.47046pt x 226.89293pt.
+
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-[11]
-<Images/Pure_Simulation/d_M_distribution.pdf, id=383, 416.0117pt x 365.44345pt>
+[13 <./Images/Pure_Simulation/combined_plot_repeated_identical.pdf>]
+<Images/Pure_Simulation/d_M_distribution.pdf, id=466, 416.0117pt x 365.44345pt>
 File: Images/Pure_Simulation/d_M_distribution.pdf Graphic file (type pdf)
 <use Images/Pure_Simulation/d_M_distribution.pdf>
-Package pdftex.def Info: Images/Pure_Simulation/d_M_distribution.pdf  used on input line 334.
-(pdftex.def)             Requested size: 305.15292pt x 268.06517pt.
+Package pdftex.def Info: Images/Pure_Simulation/d_M_distribution.pdf  used on input line 373.
+(pdftex.def)             Requested size: 281.68513pt x 247.44992pt.
 
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-[12 <./Images/Pure_Simulation/combined_plot_repeated_identical.pdf>] [13 <./Images/Pure_Simulation/combined_plot_repeated_identical_new_gen.pdf> <./Images/Pure_Simulation/d_M_distribution.pdf>]
-<Images/Pure_Simulation/combined_plot_energy_range.pdf, id=535, 626.95786pt x 303.44118pt>
+[14 <./Images/Pure_Simulation/combined_plot_repeated_identical_new_gen.pdf>]
+<Images/Pure_Simulation/combined_plot_energy_range.pdf, id=536, 626.95786pt x 305.77803pt>
 File: Images/Pure_Simulation/combined_plot_energy_range.pdf Graphic file (type pdf)
 <use Images/Pure_Simulation/combined_plot_energy_range.pdf>
-Package pdftex.def Info: Images/Pure_Simulation/combined_plot_energy_range.pdf  used on input line 354.
-(pdftex.def)             Requested size: 469.47046pt x 227.22379pt.
-<Images/Pure_Simulation/combined_plot_num_e_bins.pdf, id=538, 442.77275pt x 312.73306pt>
+Package pdftex.def Info: Images/Pure_Simulation/combined_plot_energy_range.pdf  used on input line 393.
+(pdftex.def)             Requested size: 422.52054pt x 206.07399pt.
+ [15 <./Images/Pure_Simulation/d_M_distribution.pdf> <./Images/Pure_Simulation/combined_plot_energy_range.pdf>]
+<Images/Pure_Simulation/combined_plot_num_e_bins.pdf, id=634, 442.77275pt x 315.06992pt>
 File: Images/Pure_Simulation/combined_plot_num_e_bins.pdf Graphic file (type pdf)
 <use Images/Pure_Simulation/combined_plot_num_e_bins.pdf>
-Package pdftex.def Info: Images/Pure_Simulation/combined_plot_num_e_bins.pdf  used on input line 368.
-(pdftex.def)             Requested size: 305.15292pt x 215.53789pt.
- [14
-
- <./Images/Pure_Simulation/combined_plot_energy_range.pdf> <./Images/Pure_Simulation/combined_plot_num_e_bins.pdf>]
-<Images/Pure_Simulation/combined_plots_different_sources.pdf, id=631, 755.65704pt x 744.68275pt>
+Package pdftex.def Info: Images/Pure_Simulation/combined_plot_num_e_bins.pdf  used on input line 407.
+(pdftex.def)             Requested size: 258.21017pt x 183.74545pt.
+<Images/Pure_Simulation/combined_plots_different_sources.pdf, id=636, 755.65704pt x 747.01962pt>
 File: Images/Pure_Simulation/combined_plots_different_sources.pdf Graphic file (type pdf)
 <use Images/Pure_Simulation/combined_plots_different_sources.pdf>
-Package pdftex.def Info: Images/Pure_Simulation/combined_plots_different_sources.pdf  used on input line 380.
-(pdftex.def)             Requested size: 469.47046pt x 462.66438pt.
- [15 <./Images/Pure_Simulation/combined_plots_different_sources.pdf>]
-<Images/Pure_Simulation/large_index_combined_plot_10sig.pdf, id=679, 434.28514pt x 313.56534pt>
-File: Images/Pure_Simulation/large_index_combined_plot_10sig.pdf Graphic file (type pdf)
-<use Images/Pure_Simulation/large_index_combined_plot_10sig.pdf>
-Package pdftex.def Info: Images/Pure_Simulation/large_index_combined_plot_10sig.pdf  used on input line 392.
-(pdftex.def)             Requested size: 281.68513pt x 203.38443pt.
-<Images/Pure_Simulation/combined_plots_second_source.pdf, id=680, 983.84004pt x 1030.85112pt>
+Package pdftex.def Info: Images/Pure_Simulation/combined_plots_different_sources.pdf  used on input line 419.
+(pdftex.def)             Requested size: 469.47046pt x 464.11627pt.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+<Images/Pure_Simulation/combined_plots_second_source.pdf, id=639, 983.84004pt x 1030.85112pt>
 File: Images/Pure_Simulation/combined_plots_second_source.pdf Graphic file (type pdf)
 <use Images/Pure_Simulation/combined_plots_second_source.pdf>
-Package pdftex.def Info: Images/Pure_Simulation/combined_plots_second_source.pdf  used on input line 402.
+Package pdftex.def Info: Images/Pure_Simulation/combined_plots_second_source.pdf  used on input line 436.
 (pdftex.def)             Requested size: 516.42036pt x 541.09483pt.
 
-
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-[16 <./Images/Pure_Simulation/large_index_combined_plot_10sig.pdf>] [17 <./Images/Pure_Simulation/combined_plots_second_source.pdf>]
-<Images/Pure_Simulation/combined_plot_data_scaling.pdf, id=782, 549.26053pt x 267.31792pt>
-File: Images/Pure_Simulation/combined_plot_data_scaling.pdf Graphic file (type pdf)
-<use Images/Pure_Simulation/combined_plot_data_scaling.pdf>
-Package pdftex.def Info: Images/Pure_Simulation/combined_plot_data_scaling.pdf  used on input line 417.
-(pdftex.def)             Requested size: 469.47046pt x 228.48576pt.
-<Images/Pure_Simulation/combined_plot_pointing_distances.pdf, id=784, 582.14983pt x 306.6328pt>
+[16 <./Images/Pure_Simulation/combined_plot_num_e_bins.pdf>] [17 <./Images/Pure_Simulation/combined_plots_different_sources.pdf>] [18 <./Images/Pure_Simulation/combined_plots_second_source.pdf>]
+<Images/Pure_Simulation/large_index_combined_plot_10sig.pdf, id=796, 434.28514pt x 315.90219pt>
+File: Images/Pure_Simulation/large_index_combined_plot_10sig.pdf Graphic file (type pdf)
+<use Images/Pure_Simulation/large_index_combined_plot_10sig.pdf>
+Package pdftex.def Info: Images/Pure_Simulation/large_index_combined_plot_10sig.pdf  used on input line 449.
+(pdftex.def)             Requested size: 281.68513pt x 204.90015pt.
+<Images/Pure_Simulation/combined_plots_data_scaling.pdf, id=797, 430.80133pt x 314.3583pt>
+File: Images/Pure_Simulation/combined_plots_data_scaling.pdf Graphic file (type pdf)
+<use Images/Pure_Simulation/combined_plots_data_scaling.pdf>
+Package pdftex.def Info: Images/Pure_Simulation/combined_plots_data_scaling.pdf  used on input line 460.
+(pdftex.def)             Requested size: 281.68513pt x 205.55363pt.
+<Images/Pure_Simulation/combined_plot_pointing_distances.pdf, id=799, 582.14983pt x 308.96965pt>
 File: Images/Pure_Simulation/combined_plot_pointing_distances.pdf Graphic file (type pdf)
 <use Images/Pure_Simulation/combined_plot_pointing_distances.pdf>
-Package pdftex.def Info: Images/Pure_Simulation/combined_plot_pointing_distances.pdf  used on input line 429.
-(pdftex.def)             Requested size: 469.47046pt x 247.29037pt.
+Package pdftex.def Info: Images/Pure_Simulation/combined_plot_pointing_distances.pdf  used on input line 472.
+(pdftex.def)             Requested size: 375.57779pt x 199.3381pt.
 
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-<Images/Pure_Simulation/combined_plot_source_distances.pdf, id=786, 582.14983pt x 306.6328pt>
+[19
+
+ <./Images/Pure_Simulation/large_index_combined_plot_10sig.pdf> <./Images/Pure_Simulation/combined_plots_data_scaling.pdf>]
+<Images/Pure_Simulation/combined_plot_source_distances.pdf, id=908, 582.14983pt x 308.96965pt>
 File: Images/Pure_Simulation/combined_plot_source_distances.pdf Graphic file (type pdf)
 <use Images/Pure_Simulation/combined_plot_source_distances.pdf>
-Package pdftex.def Info: Images/Pure_Simulation/combined_plot_source_distances.pdf  used on input line 443.
-(pdftex.def)             Requested size: 469.47046pt x 247.29037pt.
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-[18
-
- <./Images/Pure_Simulation/combined_plot_data_scaling.pdf>] [19 <./Images/Pure_Simulation/combined_plot_pointing_distances.pdf> <./Images/Pure_Simulation/combined_plot_source_distances.pdf>]
-<Images/Pure_Simulation/combined_plots_cluster_size.pdf, id=923, 446.37535pt x 312.02145pt>
+Package pdftex.def Info: Images/Pure_Simulation/combined_plot_source_distances.pdf  used on input line 486.
+(pdftex.def)             Requested size: 422.52054pt x 224.2542pt.
+ [20 <./Images/Pure_Simulation/combined_plot_pointing_distances.pdf> <./Images/Pure_Simulation/combined_plot_source_distances.pdf>]
+<Images/Pure_Simulation/combined_plots_cluster_size.pdf, id=1006, 446.37535pt x 314.3583pt>
 File: Images/Pure_Simulation/combined_plots_cluster_size.pdf Graphic file (type pdf)
 <use Images/Pure_Simulation/combined_plots_cluster_size.pdf>
-Package pdftex.def Info: Images/Pure_Simulation/combined_plots_cluster_size.pdf  used on input line 457.
-(pdftex.def)             Requested size: 328.62788pt x 229.72578pt.
-<Images/Pure_Simulation/source_position.pdf, id=925, 623.15512pt x 640.21887pt>
+Package pdftex.def Info: Images/Pure_Simulation/combined_plots_cluster_size.pdf  used on input line 500.
+(pdftex.def)             Requested size: 328.62788pt x 231.4463pt.
+<Images/Pure_Simulation/source_position.pdf, id=1008, 623.15512pt x 640.21887pt>
 File: Images/Pure_Simulation/source_position.pdf Graphic file (type pdf)
 <use Images/Pure_Simulation/source_position.pdf>
-Package pdftex.def Info: Images/Pure_Simulation/source_position.pdf  used on input line 469.
+Package pdftex.def Info: Images/Pure_Simulation/source_position.pdf  used on input line 512.
 (pdftex.def)             Requested size: 516.42036pt x 530.58047pt.
 
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-[20
-
- <./Images/Pure_Simulation/combined_plots_cluster_size.pdf>] [21 <./Images/Pure_Simulation/source_position.pdf>]
-<Images/SMF_Comparison/spimodfit_comparison_combined_plot.pdf, id=1038, 633.34106pt x 312.02145pt>
+[21 <./Images/Pure_Simulation/combined_plots_cluster_size.pdf>] [22 <./Images/Pure_Simulation/source_position.pdf>]
+<Images/SMF_Comparison/spimodfit_comparison_combined_plot.pdf, id=1125, 633.34106pt x 314.3583pt>
 File: Images/SMF_Comparison/spimodfit_comparison_combined_plot.pdf Graphic file (type pdf)
 <use Images/SMF_Comparison/spimodfit_comparison_combined_plot.pdf>
-Package pdftex.def Info: Images/SMF_Comparison/spimodfit_comparison_combined_plot.pdf  used on input line 490.
-(pdftex.def)             Requested size: 422.52054pt x 208.16295pt.
- [22
+Package pdftex.def Info: Images/SMF_Comparison/spimodfit_comparison_combined_plot.pdf  used on input line 533.
+(pdftex.def)             Requested size: 422.52054pt x 209.72197pt.
+ [23
 
- <./Images/SMF_Comparison/spimodfit_comparison_combined_plot.pdf>] [23] [24]
-<Images/PPC_and_Background_Analysis/PPC_scaling_different_1_bright_short.pdf, id=1146, 875.91052pt x 508.2837pt>
+ <./Images/SMF_Comparison/spimodfit_comparison_combined_plot.pdf>] [24] [25]
+<Images/PPC_and_Background_Analysis/PPC_scaling_different_1_bright_short.pdf, id=1235, 875.91052pt x 508.2837pt>
 File: Images/PPC_and_Background_Analysis/PPC_scaling_different_1_bright_short.pdf Graphic file (type pdf)
 <use Images/PPC_and_Background_Analysis/PPC_scaling_different_1_bright_short.pdf>
-Package pdftex.def Info: Images/PPC_and_Background_Analysis/PPC_scaling_different_1_bright_short.pdf  used on input line 606.
+Package pdftex.def Info: Images/PPC_and_Background_Analysis/PPC_scaling_different_1_bright_short.pdf  used on input line 651.
 (pdftex.def)             Requested size: 492.9454pt x 286.04848pt.
 
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-[25]
-<Images/PPC_and_Background_Analysis/037400070010_037400090010_cdf.pdf, id=1160, 422.07562pt x 492.52571pt>
+[26]
+<Images/PPC_and_Background_Analysis/037400070010_037400090010_cdf.pdf, id=1249, 422.07562pt x 492.52571pt>
 File: Images/PPC_and_Background_Analysis/037400070010_037400090010_cdf.pdf Graphic file (type pdf)
 <use Images/PPC_and_Background_Analysis/037400070010_037400090010_cdf.pdf>
-Package pdftex.def Info: Images/PPC_and_Background_Analysis/037400070010_037400090010_cdf.pdf  used on input line 624.
+Package pdftex.def Info: Images/PPC_and_Background_Analysis/037400070010_037400090010_cdf.pdf  used on input line 669.
 (pdftex.def)             Requested size: 211.26027pt x 246.52528pt.
-<Images/PPC_and_Background_Analysis/037400030010_037400050010_cdf.pdf, id=1161, 422.07562pt x 492.52571pt>
+<Images/PPC_and_Background_Analysis/037400030010_037400050010_cdf.pdf, id=1250, 422.07562pt x 492.52571pt>
 File: Images/PPC_and_Background_Analysis/037400030010_037400050010_cdf.pdf Graphic file (type pdf)
 <use Images/PPC_and_Background_Analysis/037400030010_037400050010_cdf.pdf>
-Package pdftex.def Info: Images/PPC_and_Background_Analysis/037400030010_037400050010_cdf.pdf  used on input line 630.
+Package pdftex.def Info: Images/PPC_and_Background_Analysis/037400030010_037400050010_cdf.pdf  used on input line 675.
 (pdftex.def)             Requested size: 211.26027pt x 246.52528pt.
 
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-[26 <./Images/PPC_and_Background_Analysis/PPC_scaling_different_1_bright_short.pdf>] [27 <./Images/PPC_and_Background_Analysis/037400070010_037400090010_cdf.pdf> <./Images/PPC_and_Background_Analysis/037400030010_037400050010_cdf.pdf>]
-<Images/PPC_and_Background_Analysis/combined_plot_0374_ppc_normal.pdf, id=1305, 651.76929pt x 323.0627pt>
+[27 <./Images/PPC_and_Background_Analysis/PPC_scaling_different_1_bright_short.pdf>] [28 <./Images/PPC_and_Background_Analysis/037400070010_037400090010_cdf.pdf> <./Images/PPC_and_Background_Analysis/037400030010_037400050010_cdf.pdf>]
+<Images/PPC_and_Background_Analysis/combined_plot_0374_ppc_normal.pdf, id=1392, 651.76929pt x 325.39955pt>
 File: Images/PPC_and_Background_Analysis/combined_plot_0374_ppc_normal.pdf Graphic file (type pdf)
 <use Images/PPC_and_Background_Analysis/combined_plot_0374_ppc_normal.pdf>
-Package pdftex.def Info: Images/PPC_and_Background_Analysis/combined_plot_0374_ppc_normal.pdf  used on input line 658.
-(pdftex.def)             Requested size: 469.47046pt x 232.70848pt.
-<Images/PPC_and_Background_Analysis/combined_plot_0374_ppc_far.pdf, id=1306, 650.76555pt x 323.0627pt>
+Package pdftex.def Info: Images/PPC_and_Background_Analysis/combined_plot_0374_ppc_normal.pdf  used on input line 702.
+(pdftex.def)             Requested size: 469.47046pt x 234.39177pt.
+<Images/PPC_and_Background_Analysis/combined_plot_0374_ppc_far.pdf, id=1393, 650.76555pt x 325.39955pt>
 File: Images/PPC_and_Background_Analysis/combined_plot_0374_ppc_far.pdf Graphic file (type pdf)
 <use Images/PPC_and_Background_Analysis/combined_plot_0374_ppc_far.pdf>
-Package pdftex.def Info: Images/PPC_and_Background_Analysis/combined_plot_0374_ppc_far.pdf  used on input line 665.
-(pdftex.def)             Requested size: 469.47046pt x 233.0634pt.
- [28 <./Images/PPC_and_Background_Analysis/combined_plot_0374_ppc_normal.pdf> <./Images/PPC_and_Background_Analysis/combined_plot_0374_ppc_far.pdf>]
-<Images/PPC_and_Background_Analysis/004400910010_004400940010_cdf.pdf, id=1422, 422.06621pt x 492.52571pt>
+Package pdftex.def Info: Images/PPC_and_Background_Analysis/combined_plot_0374_ppc_far.pdf  used on input line 709.
+(pdftex.def)             Requested size: 469.47046pt x 234.74925pt.
+ [29 <./Images/PPC_and_Background_Analysis/combined_plot_0374_ppc_normal.pdf>]
+<Images/PPC_and_Background_Analysis/004400910010_004400940010_cdf.pdf, id=1461, 422.06621pt x 492.52571pt>
 File: Images/PPC_and_Background_Analysis/004400910010_004400940010_cdf.pdf Graphic file (type pdf)
 <use Images/PPC_and_Background_Analysis/004400910010_004400940010_cdf.pdf>
-Package pdftex.def Info: Images/PPC_and_Background_Analysis/004400910010_004400940010_cdf.pdf  used on input line 676.
+Package pdftex.def Info: Images/PPC_and_Background_Analysis/004400910010_004400940010_cdf.pdf  used on input line 719.
 (pdftex.def)             Requested size: 211.26027pt x 246.52528pt.
-<Images/PPC_and_Background_Analysis/Total_cdf.pdf, id=1423, 422.15656pt x 275.71571pt>
+<Images/PPC_and_Background_Analysis/Total_cdf.pdf, id=1462, 422.15656pt x 275.71571pt>
 File: Images/PPC_and_Background_Analysis/Total_cdf.pdf Graphic file (type pdf)
 <use Images/PPC_and_Background_Analysis/Total_cdf.pdf>
-Package pdftex.def Info: Images/PPC_and_Background_Analysis/Total_cdf.pdf  used on input line 682.
+Package pdftex.def Info: Images/PPC_and_Background_Analysis/Total_cdf.pdf  used on input line 725.
 (pdftex.def)             Requested size: 211.26027pt x 137.9795pt.
-<Images/PPC_and_Background_Analysis/037400240010_037400260010_cdf.pdf, id=1424, 421.98529pt x 492.52571pt>
+ [30 <./Images/PPC_and_Background_Analysis/combined_plot_0374_ppc_far.pdf> <./Images/PPC_and_Background_Analysis/004400910010_004400940010_cdf.pdf> <./Images/PPC_and_Background_Analysis/Total_cdf.pdf>]
+<Images/PPC_and_Background_Analysis/037400240010_037400260010_cdf.pdf, id=1602, 421.98529pt x 492.52571pt>
 File: Images/PPC_and_Background_Analysis/037400240010_037400260010_cdf.pdf Graphic file (type pdf)
 <use Images/PPC_and_Background_Analysis/037400240010_037400260010_cdf.pdf>
-Package pdftex.def Info: Images/PPC_and_Background_Analysis/037400240010_037400260010_cdf.pdf  used on input line 695.
-(pdftex.def)             Requested size: 187.78531pt x 219.177pt.
- [29 <./Images/PPC_and_Background_Analysis/004400910010_004400940010_cdf.pdf> <./Images/PPC_and_Background_Analysis/Total_cdf.pdf> <./Images/PPC_and_Background_Analysis/037400240010_037400260010_cdf.pdf>]
-<Images/PPC_and_Background_Analysis/037400020010_037400030010_cdf_smf_bkg.pdf, id=1545, 421.99469pt x 492.52571pt>
+Package pdftex.def Info: Images/PPC_and_Background_Analysis/037400240010_037400260010_cdf.pdf  used on input line 739.
+(pdftex.def)             Requested size: 234.73523pt x 273.97878pt.
+ [31 <./Images/PPC_and_Background_Analysis/037400240010_037400260010_cdf.pdf>]
+<Images/PPC_and_Background_Analysis/037400020010_037400030010_cdf_smf_bkg.pdf, id=1649, 421.99469pt x 492.52571pt>
 File: Images/PPC_and_Background_Analysis/037400020010_037400030010_cdf_smf_bkg.pdf Graphic file (type pdf)
 <use Images/PPC_and_Background_Analysis/037400020010_037400030010_cdf_smf_bkg.pdf>
-Package pdftex.def Info: Images/PPC_and_Background_Analysis/037400020010_037400030010_cdf_smf_bkg.pdf  used on input line 716.
+Package pdftex.def Info: Images/PPC_and_Background_Analysis/037400020010_037400030010_cdf_smf_bkg.pdf  used on input line 760.
 (pdftex.def)             Requested size: 211.26027pt x 246.57037pt.
-<Images/PPC_and_Background_Analysis/background_variance.pdf, id=1551, 528.54587pt x 663.91226pt>
+<Images/PPC_and_Background_Analysis/background_variance.pdf, id=1655, 528.54587pt x 663.91226pt>
 File: Images/PPC_and_Background_Analysis/background_variance.pdf Graphic file (type pdf)
 <use Images/PPC_and_Background_Analysis/background_variance.pdf>
-Package pdftex.def Info: Images/PPC_and_Background_Analysis/background_variance.pdf  used on input line 745.
+Package pdftex.def Info: Images/PPC_and_Background_Analysis/background_variance.pdf  used on input line 789.
 (pdftex.def)             Requested size: 469.47046pt x 589.71506pt.
 
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-[30 <./Images/PPC_and_Background_Analysis/037400020010_037400030010_cdf_smf_bkg.pdf>] [31 <./Images/PPC_and_Background_Analysis/background_variance.pdf>]
-<Images/PPC_and_Background_Analysis/background_spectrum.pdf, id=1655, 509.24942pt x 495.94473pt>
+[32 <./Images/PPC_and_Background_Analysis/037400020010_037400030010_cdf_smf_bkg.pdf>] [33 <./Images/PPC_and_Background_Analysis/background_variance.pdf>]
+<Images/PPC_and_Background_Analysis/background_spectrum.pdf, id=1757, 509.24942pt x 495.94473pt>
 File: Images/PPC_and_Background_Analysis/background_spectrum.pdf Graphic file (type pdf)
 <use Images/PPC_and_Background_Analysis/background_spectrum.pdf>
-Package pdftex.def Info: Images/PPC_and_Background_Analysis/background_spectrum.pdf  used on input line 757.
+Package pdftex.def Info: Images/PPC_and_Background_Analysis/background_spectrum.pdf  used on input line 801.
 (pdftex.def)             Requested size: 469.47046pt x 457.22818pt.
- [32
+ [34
 
  <./Images/PPC_and_Background_Analysis/background_spectrum.pdf>]
 Chapter 3.
 
-Overfull \hbox (5.1693pt too wide) in paragraph at lines 784--785
+Overfull \hbox (5.1693pt too wide) in paragraph at lines 828--829
 []\OT1/cmr/m/n/10 Exclude ev-ery rev-o-lu-tion where the flux of the pul-sar 1A0535+262 ex-ceeds 1% of the Crab's ($\OML/cmm/m/it/10 >$\OT1/cmr/m/n/10 10mCrab).
  []
 
-[33
+[35
 
 ]
-<Images/Crab_Fits/crab_low_energy_pl.pdf, id=1714, 434.8979pt x 322.65492pt>
+<Images/Crab_Fits/crab_low_energy_pl.pdf, id=1819, 434.8979pt x 322.65492pt>
 File: Images/Crab_Fits/crab_low_energy_pl.pdf Graphic file (type pdf)
 <use Images/Crab_Fits/crab_low_energy_pl.pdf>
-Package pdftex.def Info: Images/Crab_Fits/crab_low_energy_pl.pdf  used on input line 823.
+Package pdftex.def Info: Images/Crab_Fits/crab_low_energy_pl.pdf  used on input line 867.
 (pdftex.def)             Requested size: 352.10284pt x 261.24074pt.
- [34 <./Images/Crab_Fits/crab_low_energy_pl.pdf>]
-<Images/Crab_Fits/crab_brk_pl_100.pdf, id=1779, 468.50343pt x 491.73145pt>
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+<Images/Crab_Fits/energy_residual_plot_pl.pdf, id=1822, 482.23914pt x 550.36304pt>
+File: Images/Crab_Fits/energy_residual_plot_pl.pdf Graphic file (type pdf)
+<use Images/Crab_Fits/energy_residual_plot_pl.pdf>
+Package pdftex.def Info: Images/Crab_Fits/energy_residual_plot_pl.pdf  used on input line 874.
+(pdftex.def)             Requested size: 375.57779pt x 428.6432pt.
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+
+LaTeX Warning: No positions in optional float specifier.
+               Default added (so using `tbp') on input line 887.
+
+[36]
+<Images/Crab_Fits/Crab_light_curve.PNG, id=1842, 1017.04968pt x 1704.3675pt>
+File: Images/Crab_Fits/Crab_light_curve.PNG Graphic file (type png)
+<use Images/Crab_Fits/Crab_light_curve.PNG>
+Package pdftex.def Info: Images/Crab_Fits/Crab_light_curve.PNG  used on input line 911.
+(pdftex.def)             Requested size: 352.10284pt x 590.03593pt.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[37 <./Images/Crab_Fits/crab_low_energy_pl.pdf>] [38 <./Images/Crab_Fits/energy_residual_plot_pl.pdf>] [39 <./Images/Crab_Fits/Crab_light_curve.PNG>]
+<Images/Crab_Fits/crab_brk_pl_100.pdf, id=1972, 468.50343pt x 491.73145pt>
 File: Images/Crab_Fits/crab_brk_pl_100.pdf Graphic file (type pdf)
 <use Images/Crab_Fits/crab_brk_pl_100.pdf>
-Package pdftex.def Info: Images/Crab_Fits/crab_brk_pl_100.pdf  used on input line 838.
-(pdftex.def)             Requested size: 352.10284pt x 369.5555pt.
-<Images/Crab_Fits/crab_c_band.pdf, id=1787, 441.28113pt x 366.65758pt>
+Package pdftex.def Info: Images/Crab_Fits/crab_brk_pl_100.pdf  used on input line 934.
+(pdftex.def)             Requested size: 305.15292pt x 320.28194pt.
+<Images/Crab_Fits/energy_residual_plot_br_pl_100.pdf, id=1975, 482.23914pt x 551.96901pt>
+File: Images/Crab_Fits/energy_residual_plot_br_pl_100.pdf Graphic file (type pdf)
+<use Images/Crab_Fits/energy_residual_plot_br_pl_100.pdf>
+Package pdftex.def Info: Images/Crab_Fits/energy_residual_plot_br_pl_100.pdf  used on input line 941.
+(pdftex.def)             Requested size: 234.73523pt x 268.67322pt.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[40
+
+ <./Images/Crab_Fits/crab_brk_pl_100.pdf>]
+<Images/Crab_Fits/crab_c_band.pdf, id=2060, 441.28113pt x 366.65758pt>
 File: Images/Crab_Fits/crab_c_band.pdf Graphic file (type pdf)
 <use Images/Crab_Fits/crab_c_band.pdf>
-Package pdftex.def Info: Images/Crab_Fits/crab_c_band.pdf  used on input line 854.
-(pdftex.def)             Requested size: 352.10284pt x 292.57675pt.
+Package pdftex.def Info: Images/Crab_Fits/crab_c_band.pdf  used on input line 960.
+(pdftex.def)             Requested size: 305.15292pt x 253.56465pt.
 
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-[35 <./Images/Crab_Fits/crab_brk_pl_100.pdf>]
-<Images/Crab_Fits/0043__sm_br_pl_parameters.pdf, id=1872, 1033.29066pt x 1033.29066pt>
+<Images/Crab_Fits/energy_residual_plot_lower_band.pdf, id=2063, 482.23914pt x 551.96901pt>
+File: Images/Crab_Fits/energy_residual_plot_lower_band.pdf Graphic file (type pdf)
+<use Images/Crab_Fits/energy_residual_plot_lower_band.pdf>
+Package pdftex.def Info: Images/Crab_Fits/energy_residual_plot_lower_band.pdf  used on input line 967.
+(pdftex.def)             Requested size: 258.21017pt x 295.55737pt.
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[41 <./Images/Crab_Fits/energy_residual_plot_br_pl_100.pdf>] [42 <./Images/Crab_Fits/crab_c_band.pdf> <./Images/Crab_Fits/energy_residual_plot_lower_band.pdf>]
+<Images/Crab_Fits/0043__sm_br_pl_parameters.pdf, id=2234, 1033.29066pt x 1033.29066pt>
 File: Images/Crab_Fits/0043__sm_br_pl_parameters.pdf Graphic file (type pdf)
 <use Images/Crab_Fits/0043__sm_br_pl_parameters.pdf>
-Package pdftex.def Info: Images/Crab_Fits/0043__sm_br_pl_parameters.pdf  used on input line 868.
+Package pdftex.def Info: Images/Crab_Fits/0043__sm_br_pl_parameters.pdf  used on input line 983.
 (pdftex.def)             Requested size: 516.42036pt x 516.4391pt.
+<Images/Crab_Fits/energy_residual_plot_sm_br_pl.pdf, id=2235, 482.23914pt x 551.96901pt>
+File: Images/Crab_Fits/energy_residual_plot_sm_br_pl.pdf Graphic file (type pdf)
+<use Images/Crab_Fits/energy_residual_plot_sm_br_pl.pdf>
+Package pdftex.def Info: Images/Crab_Fits/energy_residual_plot_sm_br_pl.pdf  used on input line 990.
+(pdftex.def)             Requested size: 281.68513pt x 322.4247pt.
 
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-[36 <./Images/Crab_Fits/crab_c_band.pdf>] [37 <./Images/Crab_Fits/0043__sm_br_pl_parameters.pdf>] [38
+[43
+
+ <./Images/Crab_Fits/0043__sm_br_pl_parameters.pdf>] [44 <./Images/Crab_Fits/energy_residual_plot_sm_br_pl.pdf>]
+Chapter 4.
+[45
 
 ]
 Appendix A.
-[39
+[46
 
-] [40]
+] [47]
 Appendix B.
-[41
+[48
 
-] [42] [43]
+] [49] [50]
 Appendix C.
-[44
+[51
 
 ]
-Overfull \hbox (3.02542pt too wide) in paragraph at lines 1141--1142
+Overfull \hbox (3.02542pt too wide) in paragraph at lines 1269--1270
 [][][]\OT1/cmtt/m/n/10 /home/jmoeller/cookbook/SPI_cookbook/examples/Crab/cookbook_dataset_02_0020-0600keV_SE/spi 
  []
 
 
-Overfull \hbox (5.38089pt too wide) in paragraph at lines 1143--1144
+Overfull \hbox (5.38089pt too wide) in paragraph at lines 1271--1272
 []\OT1/cmr/m/n/10 is cre-ated, which in-cludes the rel-e-vant data files to be used in the fit. Here we can edit [][]\OT1/cmtt/m/n/10 evts_det_spec.fits.gz
  []
 
-[45]
-Overfull \hbox (5.96242pt too wide) in paragraph at lines 1152--1153
+[52]
+Overfull \hbox (5.96242pt too wide) in paragraph at lines 1280--1281
 []\OT1/cmr/m/n/10 is cre-ated, con-tain-ing the files [][]\OT1/cmtt/m/n/10 output_bgmodel-conti.fits.gz []\OT1/cmr/m/n/10 and [][]\OT1/cmtt/m/n/10 output_bgmodel-lines.fits.gz[]\OT1/cmr/m/n/10 . These
  []
 
-[46] [47
+[53] [54
 
-] (./Master_Thesis.aux)
+] [55] (./Master_Thesis.aux)
 Package rerunfilecheck Info: File `Master_Thesis.out' has not changed.
-(rerunfilecheck)             Checksum: 33544D86111584CD075B6F5DD997DD2E;7090.
+(rerunfilecheck)             Checksum: CF119DB6A13EFD95713865A5F36737A1;7252.
 Package logreq Info: Writing requests to 'Master_Thesis.run.xml'.
 \openout1 = `Master_Thesis.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 19599 strings out of 478023
- 358448 string characters out of 5838676
- 1071116 words of memory out of 5000000
- 37576 multiletter control sequences out of 15000+600000
+ 19690 strings out of 478023
+ 361782 string characters out of 5838676
+ 1074498 words of memory out of 5000000
+ 37634 multiletter control sequences out of 15000+600000
  474199 words of font info for 45 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 72i,16n,77p,1331b,1519s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 72i,16n,77p,1733b,1519s stack positions out of 10000i,1000n,20000p,200000b,200000s
 {/usr/local/texlive/2022/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc}</usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmcsc10.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/cm-super/sfrm1000.pfb>
-Output written on Master_Thesis.pdf (48 pages, 3267804 bytes).
+Output written on Master_Thesis.pdf (56 pages, 5238453 bytes).
 PDF statistics:
- 2273 PDF objects out of 2487 (max. 8388607)
- 1025 compressed objects within 11 object streams
- 243 named destinations out of 1000 (max. 500000)
- 527 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 2644 PDF objects out of 2984 (max. 8388607)
+ 1172 compressed objects within 12 object streams
+ 271 named destinations out of 1000 (max. 500000)
+ 560 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -13,6 +13,8 @@ import pickle
 plot_path = "./main_files/crab_fits"
 
 pyspi_fit_path = "./main_files/crab_fits/only_weak_pulsar"
+# pyspi_fit_path = "./main_files/crab_fits/strong_pulsar"
+
 smf_fit_path = "./main_files/spimodfit_fits"
 
 data_path = "./main_files/SPI_data"
@@ -30,6 +32,24 @@ combined_fits_weak_pulsar = {
     "1996_9_2000": ["1996", "1999", "2000"],
     "2058_62_3_6": ["2058", "2062", "2063", "2066"],
 }
+
+combined_fits_med_pulsar_sm = {
+    "0043_4_5": ["0043", "0044", "0045"],
+    "0422": ["0422"],
+    "0665_6": ["0665", "0666"],
+    "0966_7_70": ["0966", "0967", "0970"],
+    "1268_9_78": ["1268", "1278"],
+    "1327_8": ["1327"],
+    "1515_6_20_8": ["1516", "1520", "1528"],
+    "1657_8_61_2_4_7": ["1657", "1658", "1661", "1662", "1664",],
+    "1781_4_5_9": ["1781", "1784", "1785", "1789"],
+    "1921_5_7_30": ["1921", "1925", "1927", "1930"],
+    "1996_9_2000": ["1996", "1999", "2000"],
+    "2058_62_3_6": ["2058", "2062", "2063", "2066"],
+}
+
+
+
 
 def toYearFraction(date):
     def sinceEpoch(date): # returns seconds since epoch
@@ -70,8 +90,13 @@ def crab_low_energy_powerlaw_combined_plot(fit_dict=combined_fits_weak_pulsar):
             time_start = [at.Time(f"{i}", format="jd").datetime for i in time_start]
         years.append(toYearFraction(time_start[-1]))
         
-        with open(f"{pyspi_fit_path}/{folder}/{pyspi_fit_files}", "rb") as f:
-            pyspi_val, pyspi_cov = pickle.load(f)
+        if folder == "0966_7_70":
+            pyspi_fit_path2 = "./main_files/crab_fits/strong_pulsar"
+            with open(f"{pyspi_fit_path2}/{folder}/{pyspi_fit_files}", "rb") as f:
+                pyspi_val, pyspi_cov = pickle.load(f)
+        else:
+            with open(f"{pyspi_fit_path}/{folder}/{pyspi_fit_files}", "rb") as f:
+                pyspi_val, pyspi_cov = pickle.load(f)
         
         pyspi_Ks.append(pyspi_val[0])
         pyspi_Ks_errors.append(pyspi_cov[0,0]**0.5)
@@ -87,6 +112,10 @@ def crab_low_energy_powerlaw_combined_plot(fit_dict=combined_fits_weak_pulsar):
         
         smf_indices.append(smf_val[1])
         smf_indices_errors.append(smf_cov[1,1]**0.5)
+        
+    print(years)
+    print(pyspi_Ks)
+    print(smf_Ks)
         
     fig, axes = plt.subplots(nrows=2)
     
@@ -278,6 +307,7 @@ def crab_c_band_combined_plot(fit_dict=combined_fits_weak_pulsar):
 
 
 
+crab_low_energy_powerlaw_combined_plot(fit_dict=combined_fits_med_pulsar_sm)
 # crab_low_energy_powerlaw_combined_plot()
 # crab_broken_powerlaw_100_combined_plot()
 # crab_c_band_combined_plot()

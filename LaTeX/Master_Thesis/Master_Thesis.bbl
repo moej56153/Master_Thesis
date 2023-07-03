@@ -132,6 +132,62 @@
       \verb https://doi.org/10.5281/zenodo.5646954
       \endverb
     \endentry
+    \entry{10.1111/j.1365-2966.2009.15550.x}{article}{}
+      \name{author}{4}{}{%
+        {{hash=41481c3f293370826569f5ae269581b8}{%
+           family={Camus},
+           familyi={C\bibinitperiod},
+           given={N.\bibnamedelimi F.},
+           giveni={N\bibinitperiod\bibinitdelim F\bibinitperiod}}}%
+        {{hash=9ad3fe78d71fc4136c762ea077848b93}{%
+           family={Komissarov},
+           familyi={K\bibinitperiod},
+           given={S.\bibnamedelimi S.},
+           giveni={S\bibinitperiod\bibinitdelim S\bibinitperiod}}}%
+        {{hash=68766adf9c9213fca42e1f2d05a03655}{%
+           family={Bucciantini},
+           familyi={B\bibinitperiod},
+           given={N.},
+           giveni={N\bibinitperiod}}}%
+        {{hash=52daef07d2f21c539f54a4913c811d6c}{%
+           family={Hughes},
+           familyi={H\bibinitperiod},
+           given={P.\bibnamedelimi A.},
+           giveni={P\bibinitperiod\bibinitdelim A\bibinitperiod}}}%
+      }
+      \strng{namehash}{0ff5f442239f1f069ccaa32c67ae0af9}
+      \strng{fullhash}{791f701911babf2ee13b5bab223911f0}
+      \strng{bibnamehash}{0ff5f442239f1f069ccaa32c67ae0af9}
+      \strng{authorbibnamehash}{0ff5f442239f1f069ccaa32c67ae0af9}
+      \strng{authornamehash}{0ff5f442239f1f069ccaa32c67ae0af9}
+      \strng{authorfullhash}{791f701911babf2ee13b5bab223911f0}
+      \field{sortinit}{C}
+      \field{sortinithash}{4d103a86280481745c9c897c925753c0}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{{In this paper, we describe results of new high-resolution axisymmetric relativistic magnetohydrodynamic (MHD) simulations of pulsar wind nebulae. The simulations reveal strong breakdown of the equatorial symmetry and highly variable structure of the pulsar wind-termination shock. The synthetic synchrotron maps, constructed using a new more accurate approach, show striking similarity with the well-known images of the Crab Nebula obtained by Chandra and the Hubble Space Telescope. In addition to the jet–torus structure, these maps reproduce the Crab's famous moving wisps whose speed and rate of production agree with the observations. The variability is then analysed using various statistical methods, including the method of structure function and wavelet transform. The results point towards the quasi-periodic behaviour with the periods of 1.5–3 years and MHD turbulence on scales below 1 year. The full account of this study will be presented in a follow-up paper.}}
+      \field{issn}{0035-8711}
+      \field{journaltitle}{Monthly Notices of the Royal Astronomical Society}
+      \field{month}{12}
+      \field{number}{3}
+      \field{title}{{Observations of ‘wisps’ in magnetohydrodynamic simulations of the Crab Nebula}}
+      \field{volume}{400}
+      \field{year}{2009}
+      \field{pages}{1241\bibrangedash 1246}
+      \range{pages}{6}
+      \verb{doi}
+      \verb 10.1111/j.1365-2966.2009.15550.x
+      \endverb
+      \verb{eprint}
+      \verb https://academic.oup.com/mnras/article-pdf/400/3/1241/2838330/mnras0400-1241.pdf
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.1111/j.1365-2966.2009.15550.x
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1111/j.1365-2966.2009.15550.x
+      \endverb
+    \endentry
     \entry{HURA}{online}{}
       \name{author}{1}{}{%
         {{hash=63be37eb23dc88361a0deca071ffd509}{%
@@ -301,7 +357,6 @@
       \field{title}{{2003-2019 Monitoring of the Crab Emission through INTEGRAL SPI, or Vice Versa}}
       \field{volume}{899}
       \field{year}{2020}
-      \true{nocite}
       \field{pages}{131}
       \range{pages}{1}
       \verb{doi}
@@ -353,6 +408,86 @@
       \verb 0909.3437
       \endverb
       \keyw{gamma rays: observations,ISM: individual: Crab Nebula,supernova remnants,Astrophysics - High Energy Astrophysical Phenomena}
+    \endentry
+    \entry{Kouzu_2013}{article}{}
+      \name{author}{9}{}{%
+        {{hash=d1ae2d17816c8943e4c44ba3c519fb0f}{%
+           family={Kouzu},
+           familyi={K\bibinitperiod},
+           given={Tomomi},
+           giveni={T\bibinitperiod}}}%
+        {{hash=1106b5c861ce4933d3d2e9ca1ac2a8e0}{%
+           family={Tashiro},
+           familyi={T\bibinitperiod},
+           given={Makoto\bibnamedelima S.},
+           giveni={M\bibinitperiod\bibinitdelim S\bibinitperiod}}}%
+        {{hash=01274fa0db1f13c61c90dc08511c61e8}{%
+           family={Terada},
+           familyi={T\bibinitperiod},
+           given={Yukikatsu},
+           giveni={Y\bibinitperiod}}}%
+        {{hash=61bf64747b9e609e44de43fbea90a7fd}{%
+           family={Yamada},
+           familyi={Y\bibinitperiod},
+           given={Shin'ya},
+           giveni={S\bibinitperiod}}}%
+        {{hash=768d8b949b37fdb509969b34a80104cb}{%
+           family={Bamba},
+           familyi={B\bibinitperiod},
+           given={Aya},
+           giveni={A\bibinitperiod}}}%
+        {{hash=c087f7813153821750db2164caa469b1}{%
+           family={Enoto},
+           familyi={E\bibinitperiod},
+           given={Teruaki},
+           giveni={T\bibinitperiod}}}%
+        {{hash=cca53e36655ca5fbbf296366e60d463e}{%
+           family={Mori},
+           familyi={M\bibinitperiod},
+           given={Koji},
+           giveni={K\bibinitperiod}}}%
+        {{hash=de8c750542f9b5884e9420c94c6efc3d}{%
+           family={Fukazawa},
+           familyi={F\bibinitperiod},
+           given={Yasushi},
+           giveni={Y\bibinitperiod}}}%
+        {{hash=651e95ff7fa83906927eaf1b4ea48e1d}{%
+           family={Makishima},
+           familyi={M\bibinitperiod},
+           given={Kazuo},
+           giveni={K\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Oxford University Press ({OUP})}%
+      }
+      \strng{namehash}{14471e4a534577d09156505c15c7bfcc}
+      \strng{fullhash}{c3966ad886a870a6065a3667b47d11a8}
+      \strng{bibnamehash}{14471e4a534577d09156505c15c7bfcc}
+      \strng{authorbibnamehash}{14471e4a534577d09156505c15c7bfcc}
+      \strng{authornamehash}{14471e4a534577d09156505c15c7bfcc}
+      \strng{authorfullhash}{c3966ad886a870a6065a3667b47d11a8}
+      \field{sortinit}{K}
+      \field{sortinithash}{c02bf6bff1c488450c352b40f5d853ab}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Publications of the Astronomical Society of Japan}
+      \field{month}{8}
+      \field{number}{4}
+      \field{title}{Spectral Variation of Hard X-Ray Emission from the Crab Nebula with the Suzaku Hard X-Ray Detector}
+      \field{volume}{65}
+      \field{year}{2013}
+      \true{nocite}
+      \field{pages}{74}
+      \range{pages}{1}
+      \verb{doi}
+      \verb 10.1093/pasj/65.4.74
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.1093%2Fpasj%2F65.4.74
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1093%2Fpasj%2F65.4.74
+      \endverb
     \endentry
     \entry{Roques}{article}{}
       \name{author}{2}{}{%
@@ -492,6 +627,124 @@
       \endverb
       \verb{url}
       \verb https://doi.org/10.1051/0004-6361/201834920
+      \endverb
+    \endentry
+    \entry{sizun2004integralspi}{misc}{}
+      \name{author}{11}{}{%
+        {{hash=8d7b7f9a9c162e51617111eadccdbe99}{%
+           family={Sizun},
+           familyi={S\bibinitperiod},
+           given={P.},
+           giveni={P\bibinitperiod}}}%
+        {{hash=a513ec7c087bb153f08adb83aae45c9f}{%
+           family={Shrader},
+           familyi={S\bibinitperiod},
+           given={C.\bibnamedelimi R.},
+           giveni={C\bibinitperiod\bibinitdelim R\bibinitperiod}}}%
+        {{hash=0f870f037f7c7f90a48ff83592da7ebc}{%
+           family={Attie},
+           familyi={A\bibinitperiod},
+           given={D.},
+           giveni={D\bibinitperiod}}}%
+        {{hash=23e617bc86cf6b79e0bce39e46ffe57b}{%
+           family={Dubath},
+           familyi={D\bibinitperiod},
+           given={P.},
+           giveni={P\bibinitperiod}}}%
+        {{hash=8ec3e54e730907e7428d35f42b98f596}{%
+           family={Schanne},
+           familyi={S\bibinitperiod},
+           given={S.},
+           giveni={S\bibinitperiod}}}%
+        {{hash=66a62fb2828dd1fde1ef0dd7407efd81}{%
+           family={Cordier},
+           familyi={C\bibinitperiod},
+           given={B.},
+           giveni={B\bibinitperiod}}}%
+        {{hash=9aa16f8e5dfc2c4f348c3cf370035464}{%
+           family={Sturner},
+           familyi={S\bibinitperiod},
+           given={S.\bibnamedelimi J.},
+           giveni={S\bibinitperiod\bibinitdelim J\bibinitperiod}}}%
+        {{hash=d3c4d9da69e18e2de87e85af5a2e373e}{%
+           family={Bouchet},
+           familyi={B\bibinitperiod},
+           given={L.},
+           giveni={L\bibinitperiod}}}%
+        {{hash=ec5f64078b8e40493eff9f492181947e}{%
+           family={Roques},
+           familyi={R\bibinitperiod},
+           given={J.\bibnamedelimi -P.},
+           giveni={J\bibinitperiod\bibinitdelim \bibinithyphendelim \bibinitperiod}}}%
+        {{hash=fb8642b10f55722d7bab5b5e5ee4a777}{%
+           family={Skinner},
+           familyi={S\bibinitperiod},
+           given={G.\bibnamedelimi K.},
+           giveni={G\bibinitperiod\bibinitdelim K\bibinitperiod}}}%
+        {{hash=c4f2e2d9c816daf3c5d4c69c2c235c51}{%
+           family={Connell},
+           familyi={C\bibinitperiod},
+           given={P.},
+           giveni={P\bibinitperiod}}}%
+      }
+      \strng{namehash}{06ec9b2d959e0d30e7e94b807086de40}
+      \strng{fullhash}{8b5103870ad2e712f1e8f6cfa2b1864e}
+      \strng{bibnamehash}{06ec9b2d959e0d30e7e94b807086de40}
+      \strng{authorbibnamehash}{06ec9b2d959e0d30e7e94b807086de40}
+      \strng{authornamehash}{06ec9b2d959e0d30e7e94b807086de40}
+      \strng{authorfullhash}{8b5103870ad2e712f1e8f6cfa2b1864e}
+      \field{sortinit}{S}
+      \field{sortinithash}{b164b07b29984b41daf1e85279fbc5ab}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{eprintclass}{astro-ph}
+      \field{eprinttype}{arXiv}
+      \field{title}{The INTEGRAL/SPI response and the Crab observations}
+      \field{year}{2004}
+      \verb{eprint}
+      \verb astro-ph/0406058
+      \endverb
+    \endentry
+    \entry{Spitkovsky_2004}{article}{}
+      \name{author}{2}{}{%
+        {{hash=ca964a62b025dd2c1e53c08b6f2f5ba7}{%
+           family={Spitkovsky},
+           familyi={S\bibinitperiod},
+           given={Anatoly},
+           giveni={A\bibinitperiod}}}%
+        {{hash=eadabea483376b36f00bd4d36f442c8c}{%
+           family={Arons},
+           familyi={A\bibinitperiod},
+           given={Jonathan},
+           giveni={J\bibinitperiod}}}%
+      }
+      \strng{namehash}{2e758677d695c73f2dcb8cfd463f29fe}
+      \strng{fullhash}{2e758677d695c73f2dcb8cfd463f29fe}
+      \strng{bibnamehash}{2e758677d695c73f2dcb8cfd463f29fe}
+      \strng{authorbibnamehash}{2e758677d695c73f2dcb8cfd463f29fe}
+      \strng{authornamehash}{2e758677d695c73f2dcb8cfd463f29fe}
+      \strng{authorfullhash}{2e758677d695c73f2dcb8cfd463f29fe}
+      \field{sortinit}{S}
+      \field{sortinithash}{b164b07b29984b41daf1e85279fbc5ab}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{We describe results from time-dependent numerical modeling of the collisionless reverse shock terminating the pulsar wind in the Crab Nebula. We treat the upstream relativistic wind as composed of ions and electron-positron plasma embedded in a toroidal magnetic field, flowing radially outward from the pulsar in a sector around the rotational equator. The relativistic cyclotron instability of the ion gyrational orbit downstream of the leading shock in the electron-positron pairs launches outward-propagating magnetosonic waves. Because of the fresh supply of ions crossing the shock, this time-dependent process achieves a limit cycle, in which the waves are launched with periodicity on the order of the ion Larmor time. Compressions in the magnetic field and pair density associated with these waves, as well as their propagation speed, semiquantitatively reproduce the behavior of the wisp and ring features described in recent observations obtained using the Hubble Space Telescope and the Chandra X-Ray Observatory. By selecting the parameters of the ion orbits to fit the spatial separation of the wisps, we predict the period of time variability of the wisps that is consistent with the data. When coupled with a mechanism for nonthermal acceleration of the pairs, the compressions in the magnetic field and plasma density associated with the optical wisp structure naturally account for the location of X-ray features in the Crab. We also discuss the origin of the high-energy ions and their acceleration in the equatorial current sheet of the pulsar wind.}
+      \field{journaltitle}{The Astrophysical Journal}
+      \field{month}{3}
+      \field{number}{2}
+      \field{title}{Time Dependence in Relativistic Collisionless Shocks: Theory of the Variable “Wisps” in the Crab Nebula}
+      \field{volume}{603}
+      \field{year}{2004}
+      \field{pages}{669}
+      \range{pages}{1}
+      \verb{doi}
+      \verb 10.1086/381568
+      \endverb
+      \verb{urlraw}
+      \verb https://dx.doi.org/10.1086/381568
+      \endverb
+      \verb{url}
+      \verb https://dx.doi.org/10.1086/381568
       \endverb
     \endentry
     \entry{refId0}{article}{}
@@ -662,6 +915,218 @@
       \verb{url}
       \verb https://doi.org/10.5281/zenodo.5646925
       \endverb
+    \endentry
+    \entry{Wilson_Hodge_2011}{article}{}
+      \name{author}{31}{}{%
+        {{hash=014a63e52d81490fc559d2ee91675aa6}{%
+           family={Wilson-Hodge},
+           familyi={W\bibinithyphendelim H\bibinitperiod},
+           given={Colleen\bibnamedelima A.},
+           giveni={C\bibinitperiod\bibinitdelim A\bibinitperiod}}}%
+        {{hash=479b0d635ae26afaf1134fc88a779721}{%
+           family={Cherry},
+           familyi={C\bibinitperiod},
+           given={Michael\bibnamedelima L.},
+           giveni={M\bibinitperiod\bibinitdelim L\bibinitperiod}}}%
+        {{hash=1ec265a1dee597e62b94eb06d895d2cb}{%
+           family={Case},
+           familyi={C\bibinitperiod},
+           given={Gary\bibnamedelima L.},
+           giveni={G\bibinitperiod\bibinitdelim L\bibinitperiod}}}%
+        {{hash=05598824298e66be10b2e5dc6490e896}{%
+           family={Baumgartner},
+           familyi={B\bibinitperiod},
+           given={Wayne\bibnamedelima H.},
+           giveni={W\bibinitperiod\bibinitdelim H\bibinitperiod}}}%
+        {{hash=d0abde3546937d078e72e49383158492}{%
+           family={Beklen},
+           familyi={B\bibinitperiod},
+           given={Elif},
+           giveni={E\bibinitperiod}}}%
+        {{hash=6a46817c51bc2b5d4427cd9d9696e679}{%
+           family={Bhat},
+           familyi={B\bibinitperiod},
+           given={P.\bibnamedelimi Narayana},
+           giveni={P\bibinitperiod\bibinitdelim N\bibinitperiod}}}%
+        {{hash=33ead815c28b724696e93495d368ee0b}{%
+           family={Briggs},
+           familyi={B\bibinitperiod},
+           given={Michael\bibnamedelima S.},
+           giveni={M\bibinitperiod\bibinitdelim S\bibinitperiod}}}%
+        {{hash=9fa9c230d33220bc8ab28677f3899f49}{%
+           family={Camero-Arranz},
+           familyi={C\bibinithyphendelim A\bibinitperiod},
+           given={Ascension},
+           giveni={A\bibinitperiod}}}%
+        {{hash=850cf9deaf3ee0ee373b8780aa7f6551}{%
+           family={Chaplin},
+           familyi={C\bibinitperiod},
+           given={Vandiver},
+           giveni={V\bibinitperiod}}}%
+        {{hash=143bf8cc5b741c94f79da4339c4f8565}{%
+           family={Connaughton},
+           familyi={C\bibinitperiod},
+           given={Valerie},
+           giveni={V\bibinitperiod}}}%
+        {{hash=bf763a0aab93a5a12cb6594144f0d117}{%
+           family={Finger},
+           familyi={F\bibinitperiod},
+           given={Mark\bibnamedelima H.},
+           giveni={M\bibinitperiod\bibinitdelim H\bibinitperiod}}}%
+        {{hash=2535e02ca30b48a48bff3ae2a1c20b97}{%
+           family={Gehrels},
+           familyi={G\bibinitperiod},
+           given={Neil},
+           giveni={N\bibinitperiod}}}%
+        {{hash=e364148eb98478afc175238c166c3ba0}{%
+           family={Greiner},
+           familyi={G\bibinitperiod},
+           given={Jochen},
+           giveni={J\bibinitperiod}}}%
+        {{hash=6f85486dc361a3053641c246fbd5daed}{%
+           family={Jahoda},
+           familyi={J\bibinitperiod},
+           given={Keith},
+           giveni={K\bibinitperiod}}}%
+        {{hash=f198fc0e94e6d5499ef5999e74f41e9f}{%
+           family={Jenke},
+           familyi={J\bibinitperiod},
+           given={Peter},
+           giveni={P\bibinitperiod}}}%
+        {{hash=d10b64de493a9f5d84c2042c4103a440}{%
+           family={Kippen},
+           familyi={K\bibinitperiod},
+           given={R.\bibnamedelimi Marc},
+           giveni={R\bibinitperiod\bibinitdelim M\bibinitperiod}}}%
+        {{hash=5c341040a57423db3b711c6daecae4a1}{%
+           family={Kouveliotou},
+           familyi={K\bibinitperiod},
+           given={Chryssa},
+           giveni={C\bibinitperiod}}}%
+        {{hash=3c4734e9f88fdedb0a9e7ad3ce5a9c4c}{%
+           family={Krimm},
+           familyi={K\bibinitperiod},
+           given={Hans\bibnamedelima A.},
+           giveni={H\bibinitperiod\bibinitdelim A\bibinitperiod}}}%
+        {{hash=8e2c925f9fb433f1c9b5ba55b8c05201}{%
+           family={Kuulkers},
+           familyi={K\bibinitperiod},
+           given={Erik},
+           giveni={E\bibinitperiod}}}%
+        {{hash=652d09bea4df3b12ef6e91aeb94a8035}{%
+           family={Lund},
+           familyi={L\bibinitperiod},
+           given={Niels},
+           giveni={N\bibinitperiod}}}%
+        {{hash=d65a869d2373553048c59e0daa6e07bf}{%
+           family={Meegan},
+           familyi={M\bibinitperiod},
+           given={Charles\bibnamedelima A.},
+           giveni={C\bibinitperiod\bibinitdelim A\bibinitperiod}}}%
+        {{hash=1f8abb29ec2f127d9ba55b4ba0b266d3}{%
+           family={Natalucci},
+           familyi={N\bibinitperiod},
+           given={Lorenzo},
+           giveni={L\bibinitperiod}}}%
+        {{hash=bea1623a15c82ca4b11b02db3ccf0391}{%
+           family={Paciesas},
+           familyi={P\bibinitperiod},
+           given={William\bibnamedelima S.},
+           giveni={W\bibinitperiod\bibinitdelim S\bibinitperiod}}}%
+        {{hash=045b4179d661623adcef9ca1fa824aee}{%
+           family={Preece},
+           familyi={P\bibinitperiod},
+           given={Robert},
+           giveni={R\bibinitperiod}}}%
+        {{hash=ab09602037f4a9869a422ec77212fc26}{%
+           family={Rodi},
+           familyi={R\bibinitperiod},
+           given={James\bibnamedelima C.},
+           giveni={J\bibinitperiod\bibinitdelim C\bibinitperiod}}}%
+        {{hash=cf20bc6a02ead9ae02be924582b61421}{%
+           family={Shaposhnikov},
+           familyi={S\bibinitperiod},
+           given={Nikolai},
+           giveni={N\bibinitperiod}}}%
+        {{hash=8a7fa343954a63857e5077d90353dcde}{%
+           family={Skinner},
+           familyi={S\bibinitperiod},
+           given={Gerald\bibnamedelima K.},
+           giveni={G\bibinitperiod\bibinitdelim K\bibinitperiod}}}%
+        {{hash=387db6c6ca78f841d03767c540c3ccdb}{%
+           family={Swartz},
+           familyi={S\bibinitperiod},
+           given={Doug},
+           giveni={D\bibinitperiod}}}%
+        {{hash=0c75994e7a80f33ff01bbdb153bda92b}{%
+           family={Kienlin},
+           familyi={K\bibinitperiod},
+           given={Andreas},
+           giveni={A\bibinitperiod},
+           prefix={von},
+           prefixi={v\bibinitperiod}}}%
+        {{hash=4f7d2c6636484f084625ac88465f4f71}{%
+           family={Diehl},
+           familyi={D\bibinitperiod},
+           given={Roland},
+           giveni={R\bibinitperiod}}}%
+        {{hash=6e9822ec0b537decdcfab262e3247ef4}{%
+           family={Zhang},
+           familyi={Z\bibinitperiod},
+           given={Xiao-Ling},
+           giveni={X\bibinithyphendelim L\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {American Astronomical Society}%
+      }
+      \strng{namehash}{052dd1f2e6bc050ffcd9409685da9f97}
+      \strng{fullhash}{f5111b7795d4c6f0ff668b68165db891}
+      \strng{bibnamehash}{052dd1f2e6bc050ffcd9409685da9f97}
+      \strng{authorbibnamehash}{052dd1f2e6bc050ffcd9409685da9f97}
+      \strng{authornamehash}{052dd1f2e6bc050ffcd9409685da9f97}
+      \strng{authorfullhash}{f5111b7795d4c6f0ff668b68165db891}
+      \field{sortinit}{W}
+      \field{sortinithash}{4315d78024d0cea9b57a0c6f0e35ed0d}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{The Astrophysical Journal}
+      \field{month}{1}
+      \field{number}{2}
+      \field{title}{{WHEN} A {STANDARD} {CANDLE} {FLICKERS}}
+      \field{volume}{727}
+      \field{year}{2011}
+      \field{pages}{L40}
+      \range{pages}{1}
+      \verb{doi}
+      \verb 10.1088/2041-8205/727/2/l40
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.1088%2F2041-8205%2F727%2F2%2Fl40
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1088%2F2041-8205%2F727%2F2%2Fl40
+      \endverb
+    \endentry
+    \entry{Wunderer2002ImagingWT}{inproceedings}{}
+      \name{author}{1}{}{%
+        {{hash=19156b986b68dc773bc15cf8b6aca9b8}{%
+           family={Wunderer},
+           familyi={W\bibinitperiod},
+           given={Cornelia\bibnamedelima B.},
+           giveni={C\bibinitperiod\bibinitdelim B\bibinitperiod}}}%
+      }
+      \strng{namehash}{19156b986b68dc773bc15cf8b6aca9b8}
+      \strng{fullhash}{19156b986b68dc773bc15cf8b6aca9b8}
+      \strng{bibnamehash}{19156b986b68dc773bc15cf8b6aca9b8}
+      \strng{authorbibnamehash}{19156b986b68dc773bc15cf8b6aca9b8}
+      \strng{authornamehash}{19156b986b68dc773bc15cf8b6aca9b8}
+      \strng{authorfullhash}{19156b986b68dc773bc15cf8b6aca9b8}
+      \field{sortinit}{W}
+      \field{sortinithash}{4315d78024d0cea9b57a0c6f0e35ed0d}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Imaging with the test setup for the coded-mask INTEGRAL spectrometer SPI : performance of a coded aperture $\gamma$-ray telescope at 60 keV - 8MeV}
+      \field{year}{2002}
     \endentry
   \enddatalist
 \endrefsection

@@ -16,6 +16,7 @@ outliers_folder = "./main_files/SPI_data/low_energy_outliers.pickle"
 
 # fit_folder = "./main_files/crab_fits/general_tests"
 fit_folder = "./main_files/crab_fits/only_weak_pulsar"
+# fit_folder = "./main_files/crab_fits/strong_pulsar"
 
 
 if not os.path.exists(f"{fit_folder}"):
@@ -60,6 +61,14 @@ combined_fits_weak_pulsar = {
     "1921_5_7_30": ["1921", "1925", "1927", "1930"],
     "1996_9_2000": ["1996", "1999", "2000"],
     "2058_62_3_6": ["2058", "2062", "2063", "2066"],
+}
+
+combined_fits_repeat_w_residuals = {
+    "0043_4_5": ["0043", "0044", "0045"],
+}
+
+combined_fits_strong_pulsar_sm = {
+    "0966_7_70": ["0966", "0967", "0970"],
 }
 
 # combined_fits_repeats = {
@@ -226,7 +235,7 @@ def crab_pulsar_pl_ind_rev_fits(data_folder=data_folder, revolutions=revolutions
             pickle.dump((val, cov), f)
 
 
-def crab_pulsar_pl_comb_rev_fits(data_folder=data_folder, combined_fits=combined_fits_weak_pulsar, fit_folder=fit_folder):
+def crab_pulsar_pl_comb_rev_fits(data_folder=data_folder, combined_fits=combined_fits_repeat_w_residuals, fit_folder=fit_folder):
     source_model = define_sources((
         (crab_pl_fixed_pos, (100,)),
         (s_1A_0535_262_pl, (100,)),
@@ -264,10 +273,51 @@ def crab_pulsar_pl_comb_rev_fits(data_folder=data_folder, combined_fits=combined
         p = ["Crab K", "Crab index", "A 0535 262 K", "A 0535 262 index"]
         val = np.array([i[1] for i in multinest_fit._cc.analysis.get_summary(parameters=p).values()])
         cov = multinest_fit._cc.analysis.get_covariance(parameters=p)[1]
-
+        
         with open(f"{path_ff}/source_parameters.pickle", "wb") as f:
             pickle.dump((val, cov), f)
 
+def crab_pulsar_pl_comb_rev_fits_50_100(data_folder=data_folder, combined_fits=combined_fits_repeat_w_residuals, fit_folder=fit_folder):
+    source_model = define_sources((
+        (crab_pl_fixed_pos, (100,)),
+        (s_1A_0535_262_pl, (100,)),
+    ))
+    
+    
+    for folder_name, revs in combined_fits.items():
+        path_f = f"{fit_folder}/{folder_name}"
+        if not os.path.exists(f"{path_f}"):
+            os.mkdir(f"{path_f}")
+        path_ff = f"{fit_folder}/{folder_name}/pl_w_p_50_100"
+        if not os.path.exists(f"{path_ff}"):
+            os.mkdir(f"{path_ff}")
+        
+        pointings = ()
+        for rev in revs:
+            path_d = f"{data_folder}/{rev}"
+            r_pointings = load_clusters(path_d)
+            outliers = load_outliers(outliers_folder, rev)
+            pointings += remove_outlier_clusters(r_pointings, outliers)
+        
+        multinest_fit = MultinestClusterFit(
+            pointings,
+            source_model,
+            (50., 100.),
+            np.geomspace(40, 200, 35),
+            log_binning_function_for_x_number_of_bins(70),
+            # true_values=true_values(),
+            folder=path_ff,
+        )
+        multinest_fit.parameter_fit_distribution()
+        multinest_fit.text_summaries(pointing_combinations=True, reference_values=False, parameter_fit_constraints=False)
+        multinest_fit.ppc()
+        
+        p = ["Crab K", "Crab index", "A 0535 262 K", "A 0535 262 index"]
+        val = np.array([i[1] for i in multinest_fit._cc.analysis.get_summary(parameters=p).values()])
+        cov = multinest_fit._cc.analysis.get_covariance(parameters=p)[1]
+        
+        with open(f"{path_ff}/source_parameters.pickle", "wb") as f:
+            pickle.dump((val, cov), f)
 
 def crab_pulsar_sm_br_pl_comb_rev_fits(data_folder=data_folder, combined_fits=combined_fits_weak_pulsar, fit_folder=fit_folder):
     source_model = define_sources((
@@ -398,8 +448,11 @@ def crab_pulsar_br_pl_100_comb_rev_fits(data_folder=data_folder, combined_fits=c
             pickle.dump((val, cov), f)
 
 # crab_pulsar_sm_br_pl_ind_rev_fits(revolutions=["1664"])
-# crab_pulsar_pl_comb_rev_fits()
-crab_pulsar_br_pl_100_comb_rev_fits()
+# crab_pulsar_pl_comb_rev_fits(combined_fits=combined_fits_strong_pulsar_sm)
+# crab_pulsar_sm_br_pl_comb_rev_fits(combined_fits=combined_fits_repeat_w_residuals)
+# crab_pulsar_lower_band_comb_rev_fits(combined_fits=combined_fits_repeat_w_residuals)
+# crab_pulsar_br_pl_100_comb_rev_fits(combined_fits=combined_fits_repeat_w_residuals)
+crab_pulsar_pl_comb_rev_fits_50_100()
 
 def crab_pointing_clustering(data_folder=data_folder, revolutions=revolutions):
     bad_revs = []

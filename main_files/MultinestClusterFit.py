@@ -795,7 +795,7 @@ class MultinestClusterFit:
         qq_plots=False,
         rel_qq_plots=False,
         cdf_hists=True,
-        # outlier_hists=False,
+        energy_residual_plot=True,
     ):
         assert self._folder is not None, "folder is not set"
         
@@ -808,6 +808,9 @@ class MultinestClusterFit:
             cdf_counts = np.zeros(len(xs)-1)
             if not os.path.exists(f"{self._folder}/cdf"):
                 os.mkdir(f"{self._folder}/cdf")
+                
+        if energy_residual_plot:
+            self._energy_residual_plot(expected_counts)
                         
         for c_i, combination in enumerate(self._pointings):
             for p_i in range(len(combination)):
@@ -847,17 +850,6 @@ class MultinestClusterFit:
                     combination,
                     xs,
                 )
-            # if outlier_hists:
-            #     if not os.path.exists(f"{self._folder}/outlier_hists"):
-            #         os.mkdir(f"{self._folder}/outlier_hists")
-            #     self._outlier_hists(
-            #         self._counts[c_i],
-            #         expected_counts[c_i],
-            #         source_rate[c_i],
-            #         background_rate[c_i],
-            #         times[c_i],
-            #         combination
-            #     )
             
                     
         if cdf_hists:
@@ -868,7 +860,7 @@ class MultinestClusterFit:
             
     def _calc_expected_counts(self, max_posterior_samples):
         
-        # print("Calculating Count Rates")
+        print("Calculating Count Rates")
         
         source_rate = []
         background_rate = []
@@ -1260,184 +1252,74 @@ class MultinestClusterFit:
         fig.savefig(f"{self._folder}/cdf/{'_'.join(names)}_cdf.pdf")
         plt.close()
         
-    # def _outlier_hists(
-    #     self,
-    #     counts,
-    #     expected_counts,
-    #     source_rate,
-    #     background_rate,
-    #     times,
-    #     combination
-    # ):
-    #     assert len(combination) == 2, "Outlier hists only implemented for cluster size = 2"
-    #     argsort = np.argsort(expected_counts, axis=3)
-    #     expected_counts = np.take_along_axis(expected_counts, argsort, axis=3)
-    #     source_rate = np.take_along_axis(source_rate, argsort, axis=3)
-    #     background_rate = np.take_along_axis(background_rate, argsort, axis=3)
-    #     times = np.take_along_axis(times, argsort, axis=3)
+    def _energy_residual_plot(
+        self,
+        expected_counts,
+    ):
         
-    #     outlier_threshold = 0.1
-        
-        
-    #     num_samples = expected_counts.shape[3]
-    #     middle_index = int(num_samples/2)
-        
-    #     inner1_b = []
-    #     inner1_s1 = []
-    #     inner1_s2 = []
-    #     inner1_t1 = []
-    #     inner1_t2 = []
-    #     inner1_s1t1 = []
-    #     inner1_s2t2 = []
-    #     inner1_s_st = []
-    #     inner1_st_bt = []
-        
-    #     outer1_b = []
-    #     outer1_s1 = []
-    #     outer1_s2 = []
-    #     outer1_t1 = []
-    #     outer1_t2 = []
-    #     outer1_s1t1 = []
-    #     outer1_s2t2 = []
-    #     outer1_s_st = []
-    #     outer1_st_bt = []
-        
-    #     inner2_b = []
-    #     inner2_s1 = []
-    #     inner2_s2 = []
-    #     inner2_t1 = []
-    #     inner2_t2 = []
-    #     inner2_s1t1 = []
-    #     inner2_s2t2 = []
-    #     inner2_s_st = []
-    #     inner2_st_bt = []
-        
-    #     outer2_b = []
-    #     outer2_s1 = []
-    #     outer2_s2 = []
-    #     outer2_t1 = []
-    #     outer2_t2 = []
-    #     outer2_s1t1 = []
-    #     outer2_s2t2 = []
-    #     outer2_s_st = []
-    #     outer2_st_bt = []
-        
-    #     for d_i in range(expected_counts.shape[1]):
-    #         for e_i in range(expected_counts.shape[2]):
-    #             percentile1 = ((np.searchsorted(expected_counts[0,d_i,e_i], counts[0][d_i,e_i], "left")
-    #                             + np.searchsorted(expected_counts[0,d_i,e_i], counts[0][d_i,e_i], "right"))
-    #                             / (2 * num_samples))
-                
-    #             if percentile1 < outlier_threshold or percentile1 > 1 - outlier_threshold:
-    #                 inner1_b.append(background_rate[0,d_i,e_i,middle_index])
-    #                 inner1_s1.append(source_rate[0,d_i,e_i,middle_index])
-    #                 inner1_s2.append(source_rate[1,d_i,e_i,middle_index])
-    #                 inner1_t1.append(times[0,d_i,e_i,middle_index])
-    #                 inner1_t2.append(times[1,d_i,e_i,middle_index])
-    #                 inner1_s1t1.append(inner1_s1[-1] * inner1_t1[-1])
-    #                 inner1_s2t2.append(inner1_s2[-1] * inner1_t2[-1])
-    #                 inner1_s_st.append(inner1_s1t1[-1] / (inner1_s1t1[-1] + inner1_s2t2[-1]))
-    #                 inner1_st_bt.append((inner1_s1t1[-1] + inner1_s2t2[-1]) / (inner1_b[-1] * (inner1_t1[-1] + inner1_t2[-1])))
+        mean_expected_counts = np.zeros(self._counts[0][0][0,:].shape)
+        expected_totals = np.zeros((len(self._counts[0][0][0,:]), len(expected_counts[0][0][0,0,:])))
+        measured_totals = np.zeros(len(self._counts[0][0][0,:]))
+        for c_i, combination in enumerate(self._pointings):
+            assert len(self._counts[c_i][0][0, :]) == len(self._counts[0][0][0, :]), "PPC Residual: Energy Bins not constant in fit"
+            for p_i in range(len(combination)):
+                assert np.array_equal(self._dets[c_i], self._dets[0]), "PPC Residual: Active Detectors not constant in fit"
+                for d_i in range(len(self._dets[c_i])):
+                    expected_totals += expected_counts[c_i][p_i][d_i, :, :]
+                    # print(measured_totals.shape)
+                    # print(self._counts[c_i][p_i][d_i, :].shape)
+                    # print(self._counts[c_i][p_i][d_i, :])
+                    measured_totals += self._counts[c_i][p_i][d_i, :]
+                    mean_expected_counts += np.mean(expected_counts[c_i][p_i][d_i, :, :], axis=1)
                     
-    #             else:
-    #                 outer1_b.append(background_rate[0,d_i,e_i,middle_index])
-    #                 outer1_s1.append(source_rate[0,d_i,e_i,middle_index])
-    #                 outer1_s2.append(source_rate[1,d_i,e_i,middle_index])
-    #                 outer1_t1.append(times[0,d_i,e_i,middle_index])
-    #                 outer1_t2.append(times[1,d_i,e_i,middle_index])
-    #                 outer1_s1t1.append(outer1_s1[-1] * outer1_t1[-1])
-    #                 outer1_s2t2.append(outer1_s2[-1] * outer1_t2[-1])
-    #                 outer1_s_st.append(outer1_s1t1[-1] / (outer1_s1t1[-1] + outer1_s2t2[-1]))
-    #                 outer1_st_bt.append((outer1_s1t1[-1] + outer1_s2t2[-1]) / (outer1_b[-1] * (outer1_t1[-1] + outer1_t2[-1])))
-                    
-                    
-                
-    #             percentile2 = ((np.searchsorted(expected_counts[1,d_i,e_i], counts[1][d_i,e_i], "left")
-    #                             + np.searchsorted(expected_counts[1,d_i,e_i], counts[1][d_i,e_i], "right"))
-    #                             / (2 * num_samples))
-                                
-    #             if percentile2 < outlier_threshold or percentile2 > 1 - outlier_threshold:
-    #                 inner2_b.append(background_rate[0,d_i,e_i,middle_index])
-    #                 inner2_s1.append(source_rate[0,d_i,e_i,middle_index])
-    #                 inner2_s2.append(source_rate[1,d_i,e_i,middle_index])
-    #                 inner2_t1.append(times[0,d_i,e_i,middle_index])
-    #                 inner2_t2.append(times[1,d_i,e_i,middle_index])
-    #                 inner2_s1t1.append(inner2_s1[-1] * inner2_t1[-1])
-    #                 inner2_s2t2.append(inner2_s2[-1] * inner2_t2[-1])
-    #                 inner2_s_st.append(inner2_s2t2[-1] / (inner2_s1t1[-1] + inner2_s2t2[-1]))
-    #                 inner2_st_bt.append((inner2_s1t1[-1] + inner2_s2t2[-1]) / (inner2_b[-1] * (inner2_t1[-1] + inner2_t2[-1])))
-                    
-    #             else:
-    #                 outer2_b.append(background_rate[0,d_i,e_i,middle_index])
-    #                 outer2_s1.append(source_rate[0,d_i,e_i,middle_index])
-    #                 outer2_s2.append(source_rate[1,d_i,e_i,middle_index])
-    #                 outer2_t1.append(times[0,d_i,e_i,middle_index])
-    #                 outer2_t2.append(times[1,d_i,e_i,middle_index])
-    #                 outer2_s1t1.append(outer2_s1[-1] * outer2_t1[-1])
-    #                 outer2_s2t2.append(outer2_s2[-1] * outer2_t2[-1])
-    #                 outer2_s_st.append(outer2_s2t2[-1] / (outer2_s1t1[-1] + outer2_s2t2[-1]))
-    #                 outer2_st_bt.append((outer2_s1t1[-1] + outer2_s2t2[-1]) / (outer2_b[-1] * (outer2_t1[-1] + outer2_t2[-1])))
-                    
-    #     fig, axes = plt.subplots(nrows=10, ncols=4, figsize=(20,25))
+        variances = np.var(expected_totals, axis=1)
+        residual_devation = (measured_totals - mean_expected_counts) / np.sqrt(variances)
         
-    #     num_bins = 30
+        fig, axes = plt.subplots(nrows=3, figsize=(7,9))
         
-    #     def plot_loghist(ax, x):
-    #         logbins = np.geomspace(min(x), max(x), num_bins)
-    #         ax.hist(x, bins=logbins)
+        styles = (
+            {"label":"Posterior Predictive", "color":"#17becf","lw":0.1, "alpha":0.3},
+            {"label":"Posterior Predictive Mean", "color":"#1f77b4", "lw":3},
+            {"label":"Measured Counts", "color":"k"},
+        )
         
-    #     plot_loghist(axes[0,0], inner1_b)
-    #     plot_loghist(axes[0,2], outer1_b)
-        
-    #     plot_loghist(axes[1,0], inner1_s1)
-    #     plot_loghist(axes[1,1], inner1_s2)
-    #     plot_loghist(axes[1,2], outer1_s1)
-    #     plot_loghist(axes[1,3], outer1_s2)
-        
-    #     plot_loghist(axes[2,0], inner1_t1)
-    #     plot_loghist(axes[2,1], inner1_t2)
-    #     plot_loghist(axes[2,2], outer1_t1)
-    #     plot_loghist(axes[2,3], outer1_t2)
-        
-    #     plot_loghist(axes[3,0], inner1_s1t1)
-    #     plot_loghist(axes[3,1], inner1_s2t2)
-    #     plot_loghist(axes[3,2], outer1_s1t1)
-    #     plot_loghist(axes[3,3], outer1_s2t2)
-        
-    #     plot_loghist(axes[4,0], inner1_s_st)
-    #     plot_loghist(axes[4,1], inner1_st_bt)
-    #     plot_loghist(axes[4,2], outer1_s_st)
-    #     plot_loghist(axes[4,3], outer1_st_bt)
-        
-    #     plot_loghist(axes[5,0], inner2_b)
-    #     plot_loghist(axes[5,2], outer2_b)
-        
-    #     plot_loghist(axes[6,0], inner2_s1)
-    #     plot_loghist(axes[6,1], inner2_s2)
-    #     plot_loghist(axes[6,2], outer2_s1)
-    #     plot_loghist(axes[6,3], outer2_s2)
-        
-    #     plot_loghist(axes[7,0], inner2_t1)
-    #     plot_loghist(axes[7,1], inner2_t2)
-    #     plot_loghist(axes[7,2], outer2_t1)
-    #     plot_loghist(axes[7,3], outer2_t2)
-        
-    #     plot_loghist(axes[8,0], inner2_s1t1)
-    #     plot_loghist(axes[8,1], inner2_s2t2)
-    #     plot_loghist(axes[8,2], outer2_s1t1)
-    #     plot_loghist(axes[8,3], outer2_s2t2)
-        
-    #     plot_loghist(axes[9,0], inner2_s_st)
-    #     plot_loghist(axes[9,1], inner2_st_bt)
-    #     plot_loghist(axes[9,2], outer2_s_st)
-    #     plot_loghist(axes[9,3], outer2_st_bt)
-        
-    #     for ax in axes.flatten():
-    #         ax.set_xscale("log")
+        for i in range(len(expected_counts[0][0][0,0,:])):
+            axes[0].stairs(expected_totals[:,i], self._ebs[0], **styles[0])
             
-    #     fig.tight_layout()  
-    #     fig.savefig(f"{self._folder}/outlier_hists/{combination[0][0]}_{combination[1][0]}_outlier_hist.pdf")
-    #     plt.close()
+        axes[0].stairs(mean_expected_counts[:], self._ebs[0], **styles[1])
+        
+        axes[0].stairs(measured_totals[:], self._ebs[0], **styles[2])
+        
+        axes[1].axhline(y=0, ls="--", color="k")
+        for i in range(len(expected_counts[0][0][0,0,:])):
+            axes[1].stairs(expected_totals[:,i]/measured_totals[:]-1, self._ebs[0], **styles[0])
+            
+        axes[1].stairs(mean_expected_counts[:]/measured_totals[:]-1, self._ebs[0], **styles[1])
+        
+        # axes[0].stairs(measured_totals[:], self._ebs[0], **styles[2])
+        
+        axes[2].axhline(y=0, ls="--", color="k")
+        axes[2].stairs(residual_devation[:], self._ebs[0], color="#1f77b4")
+        
+        
+        axes[2].set_xlabel("Energy [keV]")
+        axes[0].set_ylabel("Total Counts")
+        axes[1].set_ylabel("$\\frac{\\mathrm{Posterior\;Predictive\;Counts}}{\\mathrm{Measured\;Counts}}-1$")
+        axes[2].set_ylabel("Residuals [$\sigma$]")
+        
+        axes[0].set_yscale("log")
+        axes[0].set_xscale("log")
+        axes[1].set_xscale("log")
+        axes[2].set_xscale("log")
+                    
+        
+        legend_elements = [Line2D([0],[0], c=i["color"], label=i["label"]) for i in (styles)]
+        # axes[0].legend(handles=legend_elements, loc='center left', bbox_to_anchor=(0.9, 0.5), fontsize='x-large')
+        axes[0].legend(handles=legend_elements)
+        
+        fig.savefig(f"{self._folder}/energy_residual_plot.pdf", bbox_inches='tight')
+        
+        
         
                 
 
